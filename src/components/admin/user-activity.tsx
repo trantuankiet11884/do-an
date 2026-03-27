@@ -70,7 +70,7 @@ export default function UserActivity({
         const weeks = Math.floor(diffInDays / 7);
         return `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
       } else {
-        return date.toLocaleDateString("en-US", {
+        return date.toLocaleDateString("vi-VN", {
           month: "short",
           day: "numeric",
         });
@@ -147,16 +147,16 @@ export default function UserActivity({
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-medium text-gray-900">
-              Recent User Activity
+              Người dùng mới
             </h3>
             <p className="text-sm text-gray-600">
-              New users who joined recently
+              Người dùng mới đăng ký gần đây
             </p>
           </div>
           {newUsersCount > 0 && (
             <div className="px-3 py-1 bg-blue-50 rounded-full">
               <span className="text-sm font-medium text-blue-700">
-                +{newUsersCount} new this week
+                +{newUsersCount} trong tuần này
               </span>
             </div>
           )}
@@ -167,16 +167,16 @@ export default function UserActivity({
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                User
+                Người dùng
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Email
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Role
+                Vai trò
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Joined
+                Tham gia
               </th>
             </tr>
           </thead>
@@ -203,8 +203,7 @@ export default function UserActivity({
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <Badge
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(user.role)}`}
-                  >
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(user.role)}`}>
                     {getRoleIcon(user.role)}
                     <span className="ml-1">{user.role}</span>
                   </Badge>
@@ -226,25 +225,25 @@ export default function UserActivity({
             <div className="flex items-center">
               <User className="h-3 w-3 mr-1" />
               <span>
-                {filteredUsers.length} user
-                {filteredUsers.length !== 1 ? "s" : ""}
+                {filteredUsers.length} người dùng
+                {filteredUsers.length !== 1 ? "" : ""}
                 {currentUserRole !== "SUPERADMIN" && (
-                  <span className="text-xs text-gray-500 ml-2">in total</span>
+                  <span className="text-xs text-gray-500 ml-2">tổng</span>
                 )}
               </span>
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center">
                 <div className="h-2 w-2 rounded-full bg-green-500 mr-1"></div>
-                <span className="text-xs">Today</span>
+                <span className="text-xs">Hôm nay</span>
               </div>
               <div className="flex items-center">
                 <div className="h-2 w-2 rounded-full bg-blue-500 mr-1"></div>
-                <span className="text-xs">Last 3 days</span>
+                <span className="text-xs">3 ngày trước</span>
               </div>
               <div className="flex items-center">
                 <Calendar className="h-3 w-3 mr-1" />
-                <span className="text-xs">Older</span>
+                <span className="text-xs">Cũ hơn</span>
               </div>
             </div>
           </div>

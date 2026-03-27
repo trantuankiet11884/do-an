@@ -34,19 +34,19 @@ export function ExpandableVisitorRow({
   const [deleting, setDeleting] = useState(false);
 
   const getBrowserInfo = (deviceInfo: string | null) => {
-    if (!deviceInfo) return "Unknown";
+    if (!deviceInfo) return "Không xác định";
     if (deviceInfo.includes("Chrome")) return "Chrome";
     if (deviceInfo.includes("Firefox")) return "Firefox";
     if (deviceInfo.includes("Safari")) return "Safari";
     if (deviceInfo.includes("Edge")) return "Edge";
-    return "Unknown";
+    return "Không xác định";
   };
 
   const getDeviceType = (deviceInfo: string | null) => {
-    if (!deviceInfo) return "Unknown";
-    if (/mobile|android|iphone/i.test(deviceInfo)) return "Mobile";
-    if (/tablet|ipad/i.test(deviceInfo)) return "Tablet";
-    return "Desktop";
+    if (!deviceInfo) return "Không xác định";
+    if (/mobile|android|iphone/i.test(deviceInfo)) return "Di động";
+    if (/tablet|ipad/i.test(deviceInfo)) return "Máy tính bảng";
+    return "Máy tính để bàn";
   };
 
   const formatDuration = (seconds: number | null) => {
@@ -54,7 +54,7 @@ export function ExpandableVisitorRow({
     if (seconds < 60) return `${seconds}s`;
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}m ${secs}s`;
+    return `${mins}p ${secs}s`;
   };
 
   const handleDeleteClick = () => {
@@ -103,7 +103,7 @@ export function ExpandableVisitorRow({
               </>
             ) : (
               <Badge variant="outline" className="text-gray-500">
-                Anonymous
+                Vô danh
               </Badge>
             )}
           </div>
@@ -113,7 +113,7 @@ export function ExpandableVisitorRow({
             <MapPin className="h-4 w-4 text-blue-600" />
             <div>
               <div className="font-medium text-sm">
-                {visitor.country || "Unknown"}
+                {visitor.country || "Không xác định"}
               </div>
               {visitor.city && (
                 <div className="text-xs text-gray-500">{visitor.city}</div>
@@ -138,7 +138,7 @@ export function ExpandableVisitorRow({
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-gray-600" />
             <div className="text-sm">
-              {new Date(visitor.visited_at).toLocaleDateString()}
+              {new Date(visitor.visited_at).toLocaleDateString("vi-VN")}
               <div className="text-xs text-gray-500">
                 {new Date(visitor.visited_at).toLocaleTimeString([], {
                   hour: "2-digit",
@@ -168,24 +168,24 @@ export function ExpandableVisitorRow({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <h4 className="font-semibold text-sm flex items-center gap-2">
-                    <MapPin className="h-4 w-4" /> Location
+                    <MapPin className="h-4 w-4" /> Vị trí
                   </h4>
                   <div className="text-sm space-y-1">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Country:</span>
-                      <span>{visitor.country || "Unknown"}</span>
+                      <span className="text-gray-600">Quốc gia:</span>
+                      <span>{visitor.country || "Không xác định"}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">City:</span>
-                      <span>{visitor.city || "Unknown"}</span>
+                      <span className="text-gray-600">Thành phố:</span>
+                      <span>{visitor.city || "Không xác định"}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Region:</span>
-                      <span>{visitor.region || "Unknown"}</span>
+                      <span className="text-gray-600">Vùng/Miền:</span>
+                      <span>{visitor.region || "Không xác định"}</span>
                     </div>
                     {visitor.latitude && visitor.longitude && (
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Coordinates:</span>
+                        <span className="text-gray-600">Tọa độ:</span>
                         <span className="font-mono text-xs">
                           {visitor.latitude.toFixed(2)},{" "}
                           {visitor.longitude.toFixed(2)}
@@ -196,35 +196,35 @@ export function ExpandableVisitorRow({
                 </div>
                 <div className="space-y-2">
                   <h4 className="font-semibold text-sm flex items-center gap-2">
-                    <FileText className="h-4 w-4" /> Session
+                    <FileText className="h-4 w-4" /> Phiên
                   </h4>
                   <div className="text-sm space-y-1">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Session ID:</span>
+                      <span className="text-gray-600">ID Phiên:</span>
                       <span className="font-mono text-xs">
                         {visitor.session_id.slice(0, 32)}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Duration:</span>
+                      <span className="text-gray-600">Thời lượng:</span>
                       <span>{formatDuration(visitor.duration)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Last Active:</span>
+                      <span className="text-gray-600">Hoạt động cuối:</span>
                       <span>
-                        {new Date(visitor.updated_at).toLocaleString()}
+                        {new Date(visitor.updated_at).toLocaleString("vi-VN")}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <h4 className="font-semibold text-sm flex items-center gap-2">
-                    <User className="h-4 w-4" /> User
+                    <User className="h-4 w-4" /> Người dùng
                   </h4>
                   {visitor.users ? (
                     <div className="text-sm space-y-1">
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Name:</span>
+                        <span className="text-gray-600">Tên:</span>
                         <span>{visitor.users.name}</span>
                       </div>
                       <div className="flex justify-between">
@@ -233,21 +233,21 @@ export function ExpandableVisitorRow({
                       </div>
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500">Guest user</p>
+                    <p className="text-sm text-gray-500">Khách</p>
                   )}
                 </div>
               </div>
 
               <div>
                 <h4 className="font-semibold text-sm flex items-center gap-2 mb-3">
-                  <Package className="h-4 w-4" /> Product Interactions
+                  <Package className="h-4 w-4" /> Tương tác sản phẩm
                 </h4>
                 {visitor.product_clicks && visitor.product_clicks.length > 0 ? (
                   <div className="space-y-3">
                     {viewClicks.length > 0 && (
                       <div>
                         <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-                          <Eye className="h-3 w-3" /> Views ({viewClicks.length}
+                          <Eye className="h-3 w-3" /> Lượt xem ({viewClicks.length}
                           )
                         </div>
                         <div className="flex flex-wrap gap-2">
@@ -258,9 +258,9 @@ export function ExpandableVisitorRow({
                               className="bg-blue-50 text-blue-700 border-blue-200"
                             >
                               {click.product_title ||
-                                `Product ${click.product_id.substring(0, 6)}...`}{" "}
-                              at{" "}
-                              {new Date(click.timestamp).toLocaleTimeString()}
+                                `Sản phẩm ${click.product_id.substring(0, 6)}...`}{" "}
+                              lúc{" "}
+                              {new Date(click.timestamp).toLocaleTimeString("vi-VN")}
                             </Badge>
                           ))}
                         </div>
@@ -269,7 +269,7 @@ export function ExpandableVisitorRow({
                     {cartClicks.length > 0 && (
                       <div>
                         <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-                          <ShoppingCart className="h-3 w-3" /> Added to Cart (
+                          <ShoppingCart className="h-3 w-3" /> Thêm vào giỏ hàng (
                           {cartClicks.length})
                         </div>
                         <div className="flex flex-wrap gap-2">
@@ -280,9 +280,9 @@ export function ExpandableVisitorRow({
                               className="bg-green-50 text-green-700 border-green-200"
                             >
                               {click.product_title ||
-                                `Product ${click.product_id.substring(0, 6)}...`}{" "}
-                              at{" "}
-                              {new Date(click.timestamp).toLocaleTimeString()}
+                                `Sản phẩm ${click.product_id.substring(0, 6)}...`}{" "}
+                              lúc{" "}
+                              {new Date(click.timestamp).toLocaleTimeString("vi-VN")}
                             </Badge>
                           ))}
                         </div>
@@ -291,7 +291,7 @@ export function ExpandableVisitorRow({
                     {wishlistClicks.length > 0 && (
                       <div>
                         <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-                          <Heart className="h-3 w-3" /> Added to Wishlist (
+                          <Heart className="h-3 w-3" /> Thêm vào yêu thích (
                           {wishlistClicks.length})
                         </div>
                         <div className="flex flex-wrap gap-2">
@@ -302,9 +302,9 @@ export function ExpandableVisitorRow({
                               className="bg-red-50 text-red-700 border-red-200"
                             >
                               {click.product_title ||
-                                `Product ${click.product_id.substring(0, 6)}...`}{" "}
-                              at{" "}
-                              {new Date(click.timestamp).toLocaleTimeString()}
+                                `Sản phẩm ${click.product_id.substring(0, 6)}...`}{" "}
+                              lúc{" "}
+                              {new Date(click.timestamp).toLocaleTimeString("vi-VN")}
                             </Badge>
                           ))}
                         </div>
@@ -313,7 +313,7 @@ export function ExpandableVisitorRow({
                   </div>
                 ) : (
                   <p className="text-sm text-gray-500">
-                    No product interactions
+                    Không có tương tác sản phẩm
                   </p>
                 )}
               </div>

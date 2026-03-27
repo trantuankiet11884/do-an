@@ -44,7 +44,7 @@ export default function ForgotPasswordForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Something went wrong");
+        throw new Error(data.error || "Đã có lỗi xảy ra");
       }
 
       sessionStorage.setItem(STORAGE_KEYS.RESET_EMAIL, email);
@@ -56,7 +56,7 @@ export default function ForgotPasswordForm() {
       localStorage.setItem(STORAGE_KEYS.COOLDOWN_END, cooldownEnd.toString());
       localStorage.setItem(STORAGE_KEYS.EXPIRY_END, expiryEnd.toString());
 
-      toast.success("OTP sent successfully");
+      toast.success("Mã OTP đã được gửi thành công");
       router.push("/verify-otp");
     } catch (err: any) {
       setError(err.message);
@@ -74,10 +74,10 @@ export default function ForgotPasswordForm() {
           </div>
         </div>
         <CardTitle className="text-3xl font-bold text-gray-900">
-          Forgot Password
+          Quên mật khẩu
         </CardTitle>
         <CardDescription className="text-gray-600">
-          Enter your email to receive a password reset OTP.
+          Nhập email của bạn để nhận mã OTP đặt lại mật khẩu.
         </CardDescription>
       </CardHeader>
 
@@ -95,7 +95,7 @@ export default function ForgotPasswordForm() {
             <Input
               id="email"
               type="email"
-              placeholder="name@company.com"
+              placeholder="example@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -106,7 +106,7 @@ export default function ForgotPasswordForm() {
             type="submit"
             className="w-full bg-[#f73a00] hover:bg-[#f73a00]/90 text-white"
             disabled={loading}>
-            {loading ? "Sending..." : "Send OTP"}
+            {loading ? "Đang gửi..." : "Gửi mã OTP"}
           </Button>
         </form>
       </CardContent>
@@ -115,7 +115,7 @@ export default function ForgotPasswordForm() {
         <Link
           href="/login"
           className="text-sm text-gray-600 hover:text-[#f73a00] transition-colors">
-          Back to Login
+          Quay lại Đăng nhập
         </Link>
       </CardFooter>
     </Card>

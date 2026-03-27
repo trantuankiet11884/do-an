@@ -41,12 +41,12 @@ export default function ResetPasswordForm() {
     setError("");
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("Mật khẩu không khớp");
       return;
     }
 
     if (password.length < 8) {
-      setError("Password must be at least 8 characters");
+      setError("Mật khẩu phải có ít nhất 8 ký tự");
       return;
     }
 
@@ -62,10 +62,10 @@ export default function ResetPasswordForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to reset password");
+        throw new Error(data.error || "Đặt lại mật khẩu thất bại");
       }
 
-      toast.success("Password reset successfully");
+      toast.success("Đặt lại mật khẩu thành công");
       router.push("/login");
     } catch (err: any) {
       setError(err.message);
@@ -85,10 +85,10 @@ export default function ResetPasswordForm() {
           </div>
         </div>
         <CardTitle className="text-3xl font-bold text-gray-900">
-          Reset Password
+          Đặt lại mật khẩu
         </CardTitle>
         <CardDescription className="text-gray-600">
-          Enter your new password below.
+          Nhập mật khẩu mới của bạn bên dưới.
         </CardDescription>
       </CardHeader>
 
@@ -102,7 +102,7 @@ export default function ResetPasswordForm() {
 
           <div className="space-y-2">
             <Label htmlFor="password" className="text-gray-700">
-              NEW PASSWORD
+              MẬT KHẨU MỚI
             </Label>
             <div className="relative">
               <Input
@@ -129,7 +129,7 @@ export default function ResetPasswordForm() {
 
           <div className="space-y-2 mb-3">
             <Label htmlFor="confirmPassword" className="text-gray-700">
-              CONFIRM PASSWORD
+              XÁC NHẬN MẬT KHẨU
             </Label>
             <div className="relative">
               <Input
@@ -158,7 +158,7 @@ export default function ResetPasswordForm() {
             type="submit"
             className="w-full bg-[#f73a00] hover:bg-[#f73a00]/90 text-white"
             disabled={loading}>
-            {loading ? "Resetting..." : "Reset Password"}
+            {loading ? "Đang đặt lại..." : "Đặt lại mật khẩu"}
           </Button>
         </form>
       </CardContent>
@@ -167,7 +167,7 @@ export default function ResetPasswordForm() {
         <Link
           href="/login"
           className="text-sm text-gray-600 hover:text-[#f73a00] transition-colors">
-          Back to Login
+          Quay lại Đăng nhập
         </Link>
       </CardFooter>
     </Card>

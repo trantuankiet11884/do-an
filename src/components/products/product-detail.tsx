@@ -186,10 +186,10 @@ export default function ProductDetailClient({
           setAverageRating(avg);
         }
       } else {
-        toast.error(data.error || "Failed to load ratings");
+        toast.error(data.error || "Không thể tải đánh giá");
       }
     } catch (error) {
-      toast.error("Failed to load ratings");
+      toast.error("Không thể tải đánh giá");
     } finally {
       setLoadingRatings(false);
     }
@@ -284,12 +284,12 @@ export default function ProductDetailClient({
 
   const handleAddToCart = async () => {
     if (!user) {
-      toast.error("Please login to add items to cart");
+      toast.error("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng");
       return;
     }
 
     if (!selectedVariant) {
-      toast.error("Please select a variant");
+      toast.error("Vui lòng chọn phiên bản sản phẩm");
       return;
     }
 
@@ -308,7 +308,7 @@ export default function ProductDetailClient({
         price: selectedVariant?.price || product.price,
       });
     } catch (error: any) {
-      toast.error(error.message || "Failed to add to cart");
+      toast.error(error.message || "Thêm vào giỏ hàng thất bại");
     }
   };
 
@@ -323,11 +323,11 @@ export default function ProductDetailClient({
 
   const handleSubmitRating = async () => {
     if (!user) {
-      toast.error("Please login to submit a review");
+      toast.error("Vui lòng đăng nhập để gửi đánh giá");
       return;
     }
     if (selectedRating === 0) {
-      toast.error("Please select a rating");
+      toast.error("Vui lòng chọn mức đánh giá");
       return;
     }
     setIsSubmitting(true);
@@ -347,7 +347,7 @@ export default function ProductDetailClient({
       await fetchRatings();
       setSelectedRating(0);
       setReviewText("");
-      toast.success("Review submitted! Thank you.");
+      toast.success("Đã gửi đánh giá! Cảm ơn bạn.");
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -378,7 +378,7 @@ export default function ProductDetailClient({
       setEditingRating(null);
       setSelectedRating(0);
       setReviewText("");
-      toast.success("Review updated! Thank you.");
+      toast.success("Đã cập nhật đánh giá! Cảm ơn bạn.");
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -401,7 +401,7 @@ export default function ProductDetailClient({
       }
       await fetchRatings();
       setDeletingRating(null);
-      toast.success("Review deleted successfully!");
+      toast.success("Đã xóa đánh giá thành công!");
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -442,8 +442,7 @@ export default function ProductDetailClient({
             onMouseEnter={interactive ? () => setHoverRating(star) : undefined}
             onMouseLeave={interactive ? () => setHoverRating(0) : undefined}
             disabled={!interactive}
-            className={`${interactive ? "cursor-pointer" : "cursor-default"} focus:outline-none transition-transform ${interactive && "hover:scale-110"}`}
-          >
+            className={`${interactive ? "cursor-pointer" : "cursor-default"} focus:outline-none transition-transform ${interactive && "hover:scale-110"}`}>
             <Star
               className={`${starSize} ${
                 star <= (interactive ? hoverRating || selectedRating : rating)
@@ -462,30 +461,27 @@ export default function ProductDetailClient({
     .filter((line) => line.trim() !== "");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Breadcrumb (unchanged) */}
         <nav className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 mb-4 sm:mb-8 overflow-x-auto pb-2">
           <Link
             href="/"
-            className="hover:text-[#f73a00] whitespace-nowrap transition-colors"
-          >
-            Home
+            className="hover:text-[#f73a00] whitespace-nowrap transition-colors">
+            Trang chủ
           </Link>
           <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 shrink-0" />
           <Link
             href="/products"
-            className="hover:text-[#f73a00] whitespace-nowrap transition-colors"
-          >
-            Products
+            className="hover:text-[#f73a00] whitespace-nowrap transition-colors">
+            Sản phẩm
           </Link>
           {product.categories && (
             <>
               <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 shrink-0" />
               <Link
                 href={`/products?category=${product.categories.id}`}
-                className="hover:text-[#f73a00] whitespace-nowrap transition-colors"
-              >
+                className="hover:text-[#f73a00] whitespace-nowrap transition-colors">
                 {product.categories.title}
               </Link>
             </>
@@ -509,8 +505,7 @@ export default function ProductDetailClient({
                     selectedImage === idx
                       ? "border-[#f73a00]"
                       : "border-transparent hover:border-gray-300"
-                  }`}
-                >
+                  }`}>
                   <img
                     src={img}
                     alt={`Thumbnail ${idx + 1}`}
@@ -523,8 +518,7 @@ export default function ProductDetailClient({
               <button
                 onClick={() => router.back()}
                 className="absolute top-3 left-3 z-10 p-2 rounded-full bg-white/90 hover:bg-white shadow-md backdrop-blur-sm transition-all group"
-                aria-label="Go back"
-              >
+                aria-label="Go back">
                 <ArrowLeft className="h-4 w-4 text-gray-700 group-hover:text-[#f73a00]" />
               </button>
               <div
@@ -532,8 +526,7 @@ export default function ProductDetailClient({
                 className="w-full h-full cursor-zoom-in"
                 onMouseEnter={() => setIsImageZoomed(true)}
                 onMouseLeave={() => setIsImageZoomed(false)}
-                onMouseMove={handleMouseMove}
-              >
+                onMouseMove={handleMouseMove}>
                 <img
                   src={product.images[selectedImage] || "/placeholder.jpg"}
                   alt={product.title}
@@ -575,8 +568,7 @@ export default function ProductDetailClient({
                       }
                       setIsWishlisted(!isWishlisted);
                     }}
-                    className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all"
-                  >
+                    className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all">
                     <Heart
                       className={`h-5 w-5 ${
                         isWishlisted
@@ -598,8 +590,7 @@ export default function ProductDetailClient({
                           toast.success("Link copied to clipboard!");
                         });
                     }}
-                    className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all"
-                  >
+                    className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all">
                     <Share2 className="h-5 w-5 text-gray-600" />
                   </button>
                 </div>
@@ -609,11 +600,11 @@ export default function ProductDetailClient({
             <div className="border-y border-gray-200 py-4">
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-                  Br{getDisplayPrice().toLocaleString("en-US")}
+                  {getDisplayPrice().toLocaleString("vi-VN")}
                 </span>
                 {product.product_variants.length > 0 && (
                   <span className="text-sm text-gray-500">
-                    {selectedVariant ? "Selected variant" : "From"}
+                    {selectedVariant ? "Phiên bản đã chọn" : "Từ"}
                   </span>
                 )}
               </div>
@@ -623,7 +614,7 @@ export default function ProductDetailClient({
             {product.colors && product.colors.length > 0 && (
               <div>
                 <h3 className="text-sm font-medium text-gray-900 mb-2">
-                  Color
+                  Màu sắc
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {product.colors.map((color) => (
@@ -644,8 +635,7 @@ export default function ProductDetailClient({
                         selectedColor === color
                           ? "border-[#f73a00] bg-orange-50 text-[#f73a00]"
                           : "border-gray-200 hover:border-orange-200 text-gray-800"
-                      }`}
-                    >
+                      }`}>
                       {color}
                     </button>
                   ))}
@@ -656,7 +646,9 @@ export default function ProductDetailClient({
             {/* Sizes */}
             {selectedColor && product.sizes && product.sizes.length > 0 && (
               <div>
-                <h3 className="text-sm font-medium text-gray-900 mb-2">Size</h3>
+                <h3 className="text-sm font-medium text-gray-900 mb-2">
+                  Kích thước
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {product.sizes.map((size) => {
                     const variant = product.product_variants.find(
@@ -671,11 +663,10 @@ export default function ProductDetailClient({
                           selectedVariant?.id === variant.id
                             ? "border-[#f73a00] bg-orange-50 text-[#f73a00]"
                             : "border-gray-200 hover:border-orange-200 text-gray-800"
-                        }`}
-                      >
+                        }`}>
                         <div className="font-medium">{size.name}</div>
                         <div className="text-sm">
-                          Br {size.price.toLocaleString("en-US")}
+                          {size.price.toLocaleString("vi-VN")}
                         </div>
                       </button>
                     );
@@ -687,14 +678,13 @@ export default function ProductDetailClient({
             {/* Quantity (unchanged) */}
             <div>
               <h3 className="text-sm font-medium text-gray-900 mb-2">
-                Quantity
+                Số lượng
               </h3>
               <div className="flex items-center gap-4">
                 <div className="flex items-center border-2 border-gray-200 rounded-lg">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-3 py-2 text-gray-600 hover:text-[#f73a00] transition-colors"
-                  >
+                    className="px-3 py-2 text-gray-600 hover:text-[#f73a00] transition-colors">
                     -
                   </button>
                   <span className="px-3 py-2 text-gray-900 font-medium min-w-[50px] text-center">
@@ -702,14 +692,12 @@ export default function ProductDetailClient({
                   </span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="px-3 py-2 text-gray-600 hover:text-[#f73a00] transition-colors"
-                  >
+                    className="px-3 py-2 text-gray-600 hover:text-[#f73a00] transition-colors">
                     +
                   </button>
                 </div>
                 <div className="text-sm text-gray-600">
-                  Total: Br
-                  {(quantity * getDisplayPrice()).toLocaleString("en-US")}
+                  Tổng: {(quantity * getDisplayPrice()).toLocaleString("vi-VN")}
                 </div>
               </div>
             </div>
@@ -719,14 +707,13 @@ export default function ProductDetailClient({
               <Button
                 id="add-to-cart-btn"
                 onClick={handleAddToCart}
-                className="w-full py-5 text-base sm:text-lg bg-gradient-to-r from-[#f73a00] to-[#f73a00] hover:from-[#f73a00] hover:to-orange-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all"
+                className="w-full py-5 text-base sm:text-lg bg-linear-to-r from-[#f73a00] to-[#f73a00] hover:from-[#f73a00] hover:to-orange-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all"
                 size="lg"
                 disabled={
                   product.product_variants.length > 0 && !selectedVariant
-                }
-              >
+                }>
                 <ShoppingCart className="mr-2 h-5 w-5" />
-                Add to Cart
+                Thêm vào giỏ hàng
               </Button>
             </div>
 
@@ -734,11 +721,11 @@ export default function ProductDetailClient({
             <div className="grid grid-cols-2 gap-2 pt-2">
               <div className="text-center p-2 bg-gray-50 rounded-lg">
                 <Truck className="h-5 w-5 mx-auto mb-1 text-[#f73a00]" />
-                <p className="text-xs text-gray-600">Free Shipping</p>
+                <p className="text-xs text-gray-600">Giao hàng miễn phí</p>
               </div>
               <div className="text-center p-2 bg-gray-50 rounded-lg">
                 <RotateCcw className="h-5 w-5 mx-auto mb-1 text-[#f73a00]" />
-                <p className="text-xs text-gray-600">Return Available</p>
+                <p className="text-xs text-gray-600">Hỗ trợ đổi trả</p>
               </div>
             </div>
           </div>
@@ -750,15 +737,13 @@ export default function ProductDetailClient({
             <TabsList className="grid w-full grid-cols-2 mb-4 bg-gray-100 p-1 rounded-lg">
               <TabsTrigger
                 value="description"
-                className="text-sm text-gray-800 data-[state=active]:bg-white data-[state=active]:text-[#f73a00] dark:data-[state=active]:text-[#f73a00] rounded-md"
-              >
-                <Info className="h-4 w-4 mr-2" /> Description
+                className="text-sm text-gray-800 data-[state=active]:bg-white data-[state=active]:text-[#f73a00] dark:data-[state=active]:text-[#f73a00] rounded-md">
+                <Info className="h-4 w-4 mr-2" /> Mô tả
               </TabsTrigger>
               <TabsTrigger
                 value="reviews"
-                className="text-sm text-gray-800 data-[state=active]:bg-white data-[state=active]:text-[#f73a00] dark:data-[state=active]:text-[#f73a00] rounded-md"
-              >
-                <MessageCircle className="h-4 w-4 mr-2" /> Reviews
+                className="text-sm text-gray-800 data-[state=active]:bg-white data-[state=active]:text-[#f73a00] dark:data-[state=active]:text-[#f73a00] rounded-md">
+                <MessageCircle className="h-4 w-4 mr-2" /> Đánh giá
               </TabsTrigger>
             </TabsList>
             <TabsContent value="description" className="space-y-4">
@@ -768,8 +753,7 @@ export default function ProductDetailClient({
                     {descriptionItems.map((item, idx) => (
                       <li
                         key={idx}
-                        className="text-sm sm:text-base leading-relaxed"
-                      >
+                        className="text-sm sm:text-base leading-relaxed">
                         {item}
                       </li>
                     ))}
@@ -799,29 +783,26 @@ export default function ProductDetailClient({
                   <Button
                     size="sm"
                     onClick={() => setRatingFilter("recent")}
-                    className={`text-xs ${ratingFilter === "recent" ? "bg-[#f73a00] hover:bg-[#f73a00]/90 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}
-                  >
-                    Recent
+                    className={`text-xs ${ratingFilter === "recent" ? "bg-[#f73a00] hover:bg-[#f73a00]/90 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>
+                    Mới nhất
                   </Button>
                   <Button
                     size="sm"
                     onClick={() => setRatingFilter("highest")}
-                    className={`text-xs ${ratingFilter === "highest" ? "bg-[#f73a00] hover:bg-[#f73a00]/90 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}
-                  >
-                    Highest Rated
+                    className={`text-xs ${ratingFilter === "highest" ? "bg-[#f73a00] hover:bg-[#f73a00]/90 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}>
+                    Đánh giá cao nhất
                   </Button>
                 </div>
               </div>
               {!user ? (
                 <div className="bg-white rounded-lg p-4 border border-gray-200 text-center">
                   <p className="text-gray-600 text-sm mb-2">
-                    Sign in to write a review
+                    Đăng nhập để viết đánh giá
                   </p>
                   <Link
-                    href={`/login?redirectTo=${encodeURIComponent(pathname)}`}
-                  >
+                    href={`/login?redirectTo=${encodeURIComponent(pathname)}`}>
                     <Button size="sm" className="bg-[#f73a00] text-white">
-                      Sign In
+                      Đăng nhập
                     </Button>
                   </Link>
                 </div>
@@ -829,23 +810,23 @@ export default function ProductDetailClient({
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button className="w-full text-white bg-[#f73a00] hover:bg-[#f73a00]/90 text-sm">
-                      Write a Review
+                      Viết đánh giá
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                      <DialogTitle>Write a Review</DialogTitle>
+                      <DialogTitle>Viết đánh giá</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 py-2">
                       <div>
                         <label className="block text-sm font-medium mb-2">
-                          Your Rating *
+                          Đánh giá của bạn *
                         </label>
                         {renderStars(selectedRating, true, "lg")}
                       </div>
                       <div>
                         <label className="block text-sm font-medium mb-2">
-                          Your Review (Optional)
+                          Đánh giá của bạn (Tùy chọn)
                         </label>
                         <Textarea
                           value={reviewText}
@@ -861,16 +842,15 @@ export default function ProductDetailClient({
                       <div className="flex justify-end gap-2">
                         <DialogTrigger asChild>
                           <Button variant="outline" size="sm">
-                            Cancel
+                            Hủy
                           </Button>
                         </DialogTrigger>
                         <Button
                           onClick={handleSubmitRating}
                           disabled={isSubmitting || selectedRating === 0}
                           size="sm"
-                          className="bg-[#f73a00]"
-                        >
-                          {isSubmitting ? "Submitting..." : "Submit"}
+                          className="bg-[#f73a00]">
+                          {isSubmitting ? "Đang gửi..." : "Gửi"}
                         </Button>
                       </div>
                     </div>
@@ -880,32 +860,33 @@ export default function ProductDetailClient({
               {userRating && (
                 <div className="p-4 bg-orange-50 rounded-lg border border-orange-100">
                   <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-semibold text-gray-900">Your Review</h4>
+                    <h4 className="font-semibold text-gray-900">
+                      Đánh giá của bạn
+                    </h4>
                     <div className="flex gap-1">
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="h-8 px-2"
-                          >
+                            className="h-8 px-2">
                             <Edit2 className="h-3 w-3" />
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-md">
                           <DialogHeader>
-                            <DialogTitle>Edit Your Review</DialogTitle>
+                            <DialogTitle>Chỉnh sửa đánh giá</DialogTitle>
                           </DialogHeader>
                           <div className="space-y-4 py-2">
                             <div>
                               <label className="block text-sm font-medium mb-2">
-                                Your Rating *
+                                Đánh giá của bạn *
                               </label>
                               {renderStars(selectedRating, true, "lg")}
                             </div>
                             <div>
                               <label className="block text-sm font-medium mb-2">
-                                Your Review
+                                Đánh giá của bạn
                               </label>
                               <Textarea
                                 value={reviewText}
@@ -919,17 +900,15 @@ export default function ProductDetailClient({
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => setEditingRating(null)}
-                              >
-                                Cancel
+                                onClick={() => setEditingRating(null)}>
+                                Hủy
                               </Button>
                               <Button
                                 onClick={handleUpdateRating}
                                 disabled={isSubmitting || selectedRating === 0}
                                 size="sm"
-                                className="bg-[#f73a00]"
-                              >
-                                {isSubmitting ? "Updating..." : "Update"}
+                                className="bg-[#f73a00]">
+                                {isSubmitting ? "Đang cập nhật..." : "Cập nhật"}
                               </Button>
                             </div>
                           </div>
@@ -939,8 +918,7 @@ export default function ProductDetailClient({
                         size="sm"
                         variant="ghost"
                         onClick={() => setDeletingRating(userRating)}
-                        className="h-8 px-2 text-red-600"
-                      >
+                        className="h-8 px-2 text-red-600">
                         <Trash2 className="h-3 w-3" />
                       </Button>
                     </div>
@@ -950,9 +928,8 @@ export default function ProductDetailClient({
                     {!userRating.moderated && (
                       <Badge
                         variant="outline"
-                        className="text-[#f73a00] border-[#f73a00] text-xs"
-                      >
-                        Pending
+                        className="text-[#f73a00] border-[#f73a00] text-xs">
+                        Đang chờ
                       </Badge>
                     )}
                   </div>
@@ -970,8 +947,7 @@ export default function ProductDetailClient({
                   {sortedRatings.map((rating) => (
                     <div
                       key={rating.id}
-                      className="p-4 border border-gray-200 rounded-lg"
-                    >
+                      className="p-4 border border-gray-200 rounded-lg">
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-2">
                           <Avatar className="h-8 w-8">
@@ -1006,7 +982,7 @@ export default function ProductDetailClient({
                 </div>
               ) : (
                 <p className="text-center text-gray-500 py-4">
-                  No reviews yet. Be the first to review!
+                  Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá!
                 </p>
               )}
             </TabsContent>
@@ -1016,7 +992,7 @@ export default function ProductDetailClient({
         {/* You May Also Like (unchanged) */}
         <div className="mt-12">
           <h2 className="text-xl font-bold text-gray-900 mb-4">
-            You May Also Like
+            Bạn cũng có thể thích
           </h2>
           {loadingRecommended ? (
             <div className="flex justify-center py-8">
@@ -1028,8 +1004,7 @@ export default function ProductDetailClient({
                 <Link
                   key={rec.id}
                   href={`/products/${rec.slug}`}
-                  className="group"
-                >
+                  className="group">
                   <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all h-full">
                     <div className="aspect-square bg-gray-100">
                       <img
@@ -1044,7 +1019,7 @@ export default function ProductDetailClient({
                       </h3>
                       <div className="flex items-center justify-between mt-1">
                         <span className="text-sm font-bold text-[#f73a00]">
-                          Br{rec.price.toLocaleString("en-US")}
+                          {rec.price.toLocaleString("vi-VN")} ₫
                         </span>
                         <div className="flex items-center gap-1">
                           <Star className="h-3 w-3 fill-[#f73a00] text-[#f73a00]" />
@@ -1059,31 +1034,27 @@ export default function ProductDetailClient({
               ))}
             </div>
           ) : (
-            <p className="text-gray-500 text-sm">
-              No recommendations available.
-            </p>
+            <p className="text-gray-500 text-sm">Không có đề xuất nào.</p>
           )}
         </div>
 
         {/* Delete Confirmation Dialog (unchanged) */}
         <AlertDialog
           open={!!deletingRating}
-          onOpenChange={() => setDeletingRating(null)}
-        >
+          onOpenChange={() => setDeletingRating(null)}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete Review?</AlertDialogTitle>
+              <AlertDialogTitle>Xóa đánh giá?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone.
+                Hành động này không thể hoàn tác.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>Hủy</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDeleteRating}
-                className="bg-red-600"
-              >
-                Delete
+                className="bg-red-600">
+                Xóa
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -1091,7 +1062,7 @@ export default function ProductDetailClient({
 
         <div
           id="cart-animation-element"
-          className="fixed z-[100] pointer-events-none"
+          className="fixed z-100 pointer-events-none"
         />
       </div>
     </div>

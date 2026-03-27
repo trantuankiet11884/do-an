@@ -76,7 +76,7 @@ export default function RegisterForm() {
       router.push("/");
       router.refresh();
     } catch (err: any) {
-      setGeneralError(err.message || "Registration failed. Please try again.");
+      setGeneralError(err.message || "Đăng ký thất bại. Vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
@@ -91,10 +91,10 @@ export default function RegisterForm() {
           </div>
         </div>
         <CardTitle className="text-3xl text-gray-900 font-bold">
-          Create account
+          Tạo tài khoản
         </CardTitle>
         <CardDescription className="text-base text-gray-600">
-          Join KDS to start shopping.
+          Hãy gia nhập KDS để bắt đầu mua sắm ngay hôm nay.
         </CardDescription>
       </CardHeader>
 
@@ -108,13 +108,13 @@ export default function RegisterForm() {
 
           <div className="space-y-2">
             <Label htmlFor="name" className="text-gray-700">
-              FULL NAME
+              HỌ VÀ TÊN
             </Label>
             <Input
               id="name"
               name="name"
               type="text"
-              placeholder="John Doe"
+              placeholder="Nguyễn Văn A"
               value={formData.name}
               onChange={handleChange}
               className={
@@ -128,13 +128,13 @@ export default function RegisterForm() {
 
           <div className="space-y-2">
             <Label htmlFor="email" className="text-gray-700">
-              EMAIL ADDRESS
+              ĐỊA CHỈ EMAIL
             </Label>
             <Input
               id="email"
               name="email"
               type="email"
-              placeholder="name@company.com"
+              placeholder="example@company.com"
               value={formData.email}
               onChange={handleChange}
               className={
@@ -150,7 +150,7 @@ export default function RegisterForm() {
 
           <div className="space-y-2">
             <Label htmlFor="password" className="text-gray-700">
-              PASSWORD
+              MẬT KHẨU
             </Label>
             <div className="relative">
               <Input
@@ -184,7 +184,7 @@ export default function RegisterForm() {
 
           <div className="space-y-2">
             <Label htmlFor="confirmPassword" className="text-gray-700">
-              CONFIRM PASSWORD
+              XÁC NHẬN MẬT KHẨU
             </Label>
             <div className="relative">
               <Input
@@ -217,8 +217,8 @@ export default function RegisterForm() {
               </p>
             )}
             <p className="text-xs text-gray-500">
-              Must be 8+ chars with uppercase, lowercase, number & special
-              character
+              Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số
+              và ký tự đặc biệt
             </p>
           </div>
         </CardContent>
@@ -228,15 +228,15 @@ export default function RegisterForm() {
             type="submit"
             className="w-full bg-[#f73a00] hover:bg-[#f73a00]/90 text-white rounded-xl py-6"
             disabled={loading}>
-            {loading ? "Creating account..." : "Sign Up to KDS"}
+            {loading ? "Đang tạo tài khoản..." : "Đăng ký KDS"}
           </Button>
 
           <div className="text-center text-sm text-gray-600">
-            Already have an account?{" "}
+            Đã có tài khoản?{" "}
             <Link
               href="/login"
               className="text-[#f73a00] hover:underline font-medium">
-              Login
+              Đăng nhập ngay
             </Link>
           </div>
         </CardFooter>

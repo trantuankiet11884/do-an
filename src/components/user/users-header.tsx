@@ -284,8 +284,7 @@ export default function UserHeader({
           scrolled
             ? "border-b border-gray-200 shadow-sm"
             : "border-b border-gray-100"
-        }`}
-      >
+        }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo + Brand - text hidden on mobile */}
@@ -299,20 +298,17 @@ export default function UserHeader({
             {/* Desktop Search Bar */}
             <div
               className="hidden lg:flex flex-1 max-w-2xl mx-4 relative"
-              ref={desktopSearchRef}
-            >
+              ref={desktopSearchRef}>
               <div className="flex w-full items-center bg-white border border-gray-200 rounded-full shadow-sm">
                 {/* All Categories Trigger */}
                 <div
                   className="relative"
                   onMouseEnter={handleCatDropdownMouseEnter}
-                  onMouseLeave={handleCatDropdownMouseLeave}
-                >
+                  onMouseLeave={handleCatDropdownMouseLeave}>
                   <button
                     className="flex items-center gap-1 h-10 px-4 text-sm font-medium text-[#00014a] hover:text-[#f73a00] border-r border-gray-200 whitespace-nowrap rounded-l-full"
-                    onClick={() => setCatDropdownOpen(!catDropdownOpen)}
-                  >
-                    All Categories
+                    onClick={() => setCatDropdownOpen(!catDropdownOpen)}>
+                    Tất cả danh mục
                     <ChevronDown
                       className={`h-4 w-4 transition-transform ${catDropdownOpen ? "rotate-180" : ""}`}
                     />
@@ -323,7 +319,7 @@ export default function UserHeader({
                       {/* Left column – main categories */}
                       <div className="w-[220px] border-r border-gray-200 pr-4">
                         <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                          All Categories
+                          Tất cả danh mục
                         </h4>
                         {loadingCategories ? (
                           <div className="space-y-2">
@@ -346,12 +342,10 @@ export default function UserHeader({
                                   activeMainCategory?.id === cat.id
                                     ? "bg-[#f73a00]/10 text-[#f73a00] font-medium"
                                     : "text-gray-700 hover:bg-gray-100"
-                                }`}
-                              >
+                                }`}>
                                 <span
                                   onClick={() => handleCategoryClick(cat.id)}
-                                  className="flex-1"
-                                >
+                                  className="flex-1">
                                   {cat.title}
                                 </span>
                                 {cat.children && cat.children.length > 0 && (
@@ -375,8 +369,7 @@ export default function UserHeader({
                                 <li key={sub.id}>
                                   <span
                                     onClick={() => handleCategoryClick(sub.id)}
-                                    className="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100 hover:text-[#f73a00] transition-colors cursor-pointer"
-                                  >
+                                    className="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100 hover:text-[#f73a00] transition-colors cursor-pointer">
                                     {sub.title}
                                   </span>
                                 </li>
@@ -392,7 +385,7 @@ export default function UserHeader({
                 <form onSubmit={handleSearch} className="flex-1 flex">
                   <Input
                     type="text"
-                    placeholder="Search for products..."
+                    placeholder="Tìm kiếm sản phẩm..."
                     className="flex-1 border-0 rounded-none focus-visible:ring-0 focus-visible:ring-offset-0 px-4 h-10 bg-transparent text-gray-900 placeholder:text-gray-400"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -406,8 +399,7 @@ export default function UserHeader({
                   />
                   <button
                     type="submit"
-                    className="px-4 text-[#f73a00] hover:text-[#f73a00]/80 font-medium rounded-r-full"
-                  >
+                    className="px-4 text-[#f73a00] hover:text-[#f73a00]/80 font-medium rounded-r-full">
                     <Search className="h-5 w-5" />
                   </button>
                 </form>
@@ -421,8 +413,7 @@ export default function UserHeader({
                       <div
                         key={product.id}
                         onClick={() => handleSuggestionClick(product.slug)}
-                        className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors"
-                      >
+                        className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors">
                         <div className="h-10 w-10 rounded bg-gray-100 overflow-hidden shrink-0">
                           {product.images?.[0] ? (
                             <img
@@ -441,14 +432,14 @@ export default function UserHeader({
                             {product.title}
                           </div>
                           <div className="text-xs text-gray-500">
-                            ETB {product.price.toLocaleString()}
+                            {product.price.toLocaleString("vi-VN")}
                           </div>
                         </div>
                       </div>
                     ))
                   ) : (
                     <div className="py-6 text-center text-gray-500">
-                      No products found for "{debouncedSearch}"
+                      Không tìm thấy sản phẩm cho "{debouncedSearch}"
                     </div>
                   )}
                 </div>
@@ -460,14 +451,13 @@ export default function UserHeader({
               {/* Mobile Search Bar - centered */}
               <div
                 className="flex-1 max-w-[60%] mx-auto relative"
-                ref={mobileSearchRef}
-              >
+                ref={mobileSearchRef}>
                 <form onSubmit={handleSearch} className="w-full">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input
                       type="text"
-                      placeholder="Search..."
+                      placeholder="Tìm kiếm..."
                       className="pl-9 pr-4 py-2 w-full rounded-full bg-white border-gray-200 text-gray-900 placeholder:text-gray-400 text-sm"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
@@ -490,8 +480,7 @@ export default function UserHeader({
                         <div
                           key={product.id}
                           onClick={() => handleSuggestionClick(product.slug)}
-                          className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors"
-                        >
+                          className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors">
                           <div className="h-10 w-10 rounded bg-gray-100 overflow-hidden shrink-0">
                             {product.images?.[0] ? (
                               <img
@@ -510,14 +499,14 @@ export default function UserHeader({
                               {product.title}
                             </div>
                             <div className="text-xs text-gray-500">
-                              ETB {product.price.toLocaleString()}
+                              {product.price.toLocaleString()}
                             </div>
                           </div>
                         </div>
                       ))
                     ) : (
                       <div className="py-4 text-center text-gray-500">
-                        No products found
+                        Không tìm thấy sản phẩm
                       </div>
                     )}
                   </div>
@@ -539,8 +528,7 @@ export default function UserHeader({
                 variant="ghost"
                 size="icon"
                 className="shrink-0 text-[#00014a] hover:bg-gray-100"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
                 {mobileMenuOpen ? (
                   <X className="h-6 w-6" />
                 ) : (
@@ -565,8 +553,7 @@ export default function UserHeader({
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="relative h-10 px-2 gap-2 hover:bg-gray-100"
-                    >
+                      className="relative h-10 px-2 gap-2 hover:bg-gray-100">
                       <Avatar className="h-9 w-9">
                         <AvatarFallback className="bg-[#f73a00] text-white">
                           {getUserInitials()}
@@ -579,8 +566,7 @@ export default function UserHeader({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     className="w-64 bg-white border-gray-200 shadow-xl z-[9999]"
-                    align="end"
-                  >
+                    align="end">
                     <DropdownMenuLabel>
                       <div className="flex flex-col space-y-2">
                         <div className="flex items-center gap-3">
@@ -599,8 +585,7 @@ export default function UserHeader({
                           </div>
                         </div>
                         <span
-                          className={`inline-block px-2 py-1 rounded-full text-xs font-medium text-center ${getRoleColor(user.role)}`}
-                        >
+                          className={`inline-block px-2 py-1 rounded-full text-xs font-medium text-center ${getRoleColor(user.role)}`}>
                           {user.role === "CUSTOMER" ? "CUSTOMER" : user.role}
                         </span>
                       </div>
@@ -609,31 +594,28 @@ export default function UserHeader({
 
                     <DropdownMenuItem
                       asChild
-                      className="cursor-pointer hover:bg-gray-100 focus:bg-gray-100"
-                    >
+                      className="cursor-pointer hover:bg-gray-100 focus:bg-gray-100">
                       <Link href="/profile" className="text-gray-700">
                         <User className="mr-2 h-4 w-4" />
-                        Profile
+                        Hồ sơ
                       </Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuItem
                       asChild
-                      className="cursor-pointer hover:bg-gray-100 focus:bg-gray-100"
-                    >
+                      className="cursor-pointer hover:bg-gray-100 focus:bg-gray-100">
                       <Link href="/orders" className="text-gray-700">
                         <Package className="mr-2 h-4 w-4" />
-                        My Orders
+                        Đơn hàng của tôi
                       </Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuItem
                       asChild
-                      className="cursor-pointer hover:bg-gray-100 focus:bg-gray-100"
-                    >
+                      className="cursor-pointer hover:bg-gray-100 focus:bg-gray-100">
                       <Link href="/favorites" className="text-gray-700">
                         <Heart className="mr-2 h-4 w-4" />
-                        Favorites
+                        Yêu thích
                       </Link>
                     </DropdownMenuItem>
 
@@ -642,14 +624,12 @@ export default function UserHeader({
                         <DropdownMenuSeparator className="bg-gray-200" />
                         <DropdownMenuItem
                           asChild
-                          className="cursor-pointer hover:bg-gray-100 focus:bg-gray-100"
-                        >
+                          className="cursor-pointer hover:bg-gray-100 focus:bg-gray-100">
                           <Link
                             href="/admin"
-                            className="text-[#f73a00] font-medium"
-                          >
+                            className="text-[#f73a00] font-medium">
                             <Home className="mr-2 h-4 w-4" />
-                            Admin Dashboard
+                            Bảng điều khiển Admin
                           </Link>
                         </DropdownMenuItem>
                       </>
@@ -659,10 +639,9 @@ export default function UserHeader({
 
                     <DropdownMenuItem
                       onClick={handleLogout}
-                      className="text-red-600 cursor-pointer hover:bg-red-50 focus:bg-red-50"
-                    >
+                      className="text-red-600 cursor-pointer hover:bg-red-50 focus:bg-red-50">
                       <LogOut className="mr-2 h-4 w-4" />
-                      Log out
+                      Đăng xuất
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -672,17 +651,15 @@ export default function UserHeader({
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-[#00014a] hover:text-[#f73a00] hover:bg-gray-100"
-                    >
-                      Sign In
+                      className="text-[#00014a] hover:text-[#f73a00] hover:bg-gray-100">
+                      Đăng nhập
                     </Button>
                   </Link>
                   <Link href="/register">
                     <Button
                       size="sm"
-                      className="bg-[#f73a00] hover:bg-[#f73a00]/90 text-white"
-                    >
-                      Sign Up
+                      className="bg-[#f73a00] hover:bg-[#f73a00]/90 text-white">
+                      Đăng ký
                     </Button>
                   </Link>
                 </div>
@@ -696,8 +673,7 @@ export default function UserHeader({
           className={cn(
             "fixed inset-0 z-[9999] lg:hidden",
             mobileMenuOpen ? "pointer-events-auto" : "pointer-events-none",
-          )}
-        >
+          )}>
           {/* Overlay with fade */}
           <div
             className={cn(
@@ -712,15 +688,13 @@ export default function UserHeader({
             className={cn(
               "absolute top-0 right-0 h-screen w-4/5 max-w-sm bg-white shadow-2xl transform transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto",
               mobileMenuOpen ? "translate-x-0" : "translate-x-full",
-            )}
-          >
+            )}>
             {/* Sticky header with X button on top-left */}
             <div className="sticky top-0 flex justify-start p-4 bg-white border-b border-gray-200 z-10">
               <button
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                aria-label="Close menu"
-              >
+                aria-label="Close menu">
                 <X className="h-5 w-5 text-gray-600" />
               </button>
             </div>
@@ -729,7 +703,7 @@ export default function UserHeader({
               {/* All Categories Section */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-[#00014a] mb-3">
-                  Categories
+                  Danh mục
                 </h3>
                 <div className="space-y-2">
                   {loadingCategories ? (
@@ -747,8 +721,7 @@ export default function UserHeader({
                         key={cat.id}
                         href={`/products?category=${cat.id}`}
                         className="block py-2 text-gray-700 hover:text-[#f73a00] font-medium"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
+                        onClick={() => setMobileMenuOpen(false)}>
                         {cat.title}
                       </Link>
                     ))
@@ -759,7 +732,7 @@ export default function UserHeader({
               {/* Auth / User Section */}
               <div className="border-t border-gray-200 pt-4">
                 <h3 className="text-lg font-semibold text-[#00014a] mb-3">
-                  {user ? "Account" : "Account Access"}
+                  {user ? "Tài khoản" : "Truy cập tài khoản"}
                 </h3>
 
                 {user ? (
@@ -779,38 +752,34 @@ export default function UserHeader({
                     <Link
                       href="/profile"
                       className="flex items-center gap-3 py-2 text-gray-700 hover:text-[#f73a00]"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
+                      onClick={() => setMobileMenuOpen(false)}>
                       <User className="h-5 w-5" />
-                      <span>Profile</span>
+                      <span>Hồ sơ</span>
                     </Link>
 
                     <Link
                       href="/orders"
                       className="flex items-center gap-3 py-2 text-gray-700 hover:text-[#f73a00]"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
+                      onClick={() => setMobileMenuOpen(false)}>
                       <Package className="h-5 w-5" />
-                      <span>My Orders</span>
+                      <span>Đơn hàng của tôi</span>
                     </Link>
 
                     <Link
                       href="/favorites"
                       className="flex items-center gap-3 py-2 text-gray-700 hover:text-[#f73a00]"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
+                      onClick={() => setMobileMenuOpen(false)}>
                       <Heart className="h-5 w-5" />
-                      <span>Favorites</span>
+                      <span>Yêu thích</span>
                     </Link>
 
                     {["ADMIN", "SUPERADMIN"].includes(user.role) && (
                       <Link
                         href="/admin"
                         className="flex items-center gap-3 py-2 text-[#f73a00] font-medium"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
+                        onClick={() => setMobileMenuOpen(false)}>
                         <Home className="h-5 w-5" />
-                        <span>Admin Dashboard</span>
+                        <span>Bảng điều khiển Admin</span>
                       </Link>
                     )}
 
@@ -819,10 +788,9 @@ export default function UserHeader({
                         handleLogout();
                         setMobileMenuOpen(false);
                       }}
-                      className="flex items-center gap-3 py-2 text-red-600 hover:text-red-700 w-full"
-                    >
+                      className="flex items-center gap-3 py-2 text-red-600 hover:text-red-700 w-full">
                       <LogOut className="h-5 w-5" />
-                      <span>Log out</span>
+                      <span>Đăng xuất</span>
                     </button>
                   </div>
                 ) : (
@@ -830,8 +798,7 @@ export default function UserHeader({
                     <Link
                       href="/login"
                       className="flex items-center gap-3 py-2 text-gray-700 hover:text-[#f73a00]"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
+                      onClick={() => setMobileMenuOpen(false)}>
                       <LogIn className="h-5 w-5" />
                       <span>Sign In</span>
                     </Link>
@@ -839,8 +806,7 @@ export default function UserHeader({
                     <Link
                       href="/register"
                       className="flex items-center gap-3 py-2 text-gray-700 hover:text-[#f73a00]"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
+                      onClick={() => setMobileMenuOpen(false)}>
                       <UserPlus className="h-5 w-5" />
                       <span>Sign Up</span>
                     </Link>

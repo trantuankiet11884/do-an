@@ -66,7 +66,7 @@ export default function ProfilePage() {
         address: formData.address,
         updated_at: new Date().toISOString(),
       });
-      toast.success("Profile updated successfully!");
+      toast.success("Cập nhật hồ sơ thành công!");
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -79,7 +79,7 @@ export default function ProfilePage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-[#f73a00] mx-auto mb-4" />
-          <p className="text-gray-600">Loading profile...</p>
+          <p className="text-gray-600">Đang tải hồ sơ...</p>
         </div>
       </div>
     );
@@ -89,9 +89,9 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Hồ sơ của tôi</h1>
           <p className="text-gray-600">
-            Manage your account information and preferences
+            Quản lý thông tin tài khoản và tùy chọn của bạn
           </p>
         </div>
 
@@ -100,10 +100,10 @@ export default function ProfilePage() {
           <Card className="lg:col-span-2 bg-white border-gray-200">
             <CardHeader>
               <CardTitle className="text-gray-900">
-                Personal Information
+                Thông tin cá nhân
               </CardTitle>
               <CardDescription className="text-gray-600">
-                Update your personal details
+                Cập nhật thông tin chi tiết của bạn
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -111,7 +111,7 @@ export default function ProfilePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="name" className="text-gray-700">
-                      Full Name
+                      Họ và tên
                     </Label>
                     <Input
                       id="name"
@@ -124,7 +124,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email" className="text-gray-700">
-                      Email Address
+                      Địa chỉ Email
                     </Label>
                     <Input
                       id="email"
@@ -137,19 +137,19 @@ export default function ProfilePage() {
                       className="bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed"
                     />
                     <p className="text-xs text-gray-500">
-                      Email cannot be changed
+                      Email không thể thay đổi
                     </p>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone" className="text-gray-700">
-                    Phone Number
+                    Số điện thoại
                   </Label>
                   <Input
                     id="phone"
                     name="phone"
                     type="tel"
-                    placeholder="+251 912 345 678"
+                    placeholder="Nhập số điện thoại của bạn"
                     value={formData.phone}
                     onChange={handleChange}
                     className="bg-white border-gray-300 focus:ring-[#f73a00] focus:border-[#f73a00] text-gray-700"
@@ -157,12 +157,12 @@ export default function ProfilePage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="address" className="text-gray-700">
-                    Shipping Address
+                    Địa chỉ giao hàng
                   </Label>
                   <Input
                     id="address"
                     name="address"
-                    placeholder="Addis Ababa, Ethiopia"
+                    placeholder="Nhập địa chỉ giao hàng của bạn"
                     value={formData.address}
                     onChange={handleChange}
                     className="bg-white border-gray-300 focus:ring-[#f73a00] focus:border-[#f73a00] text-gray-700"
@@ -174,7 +174,7 @@ export default function ProfilePage() {
                     disabled={loading}
                     className="bg-[#f73a00] hover:bg-[#f73a00]/90 text-white"
                   >
-                    {loading ? "Saving..." : "Save Changes"}
+                    {loading ? "Đang lưu..." : "Lưu thay đổi"}
                   </Button>
                 </div>
               </form>
@@ -185,16 +185,16 @@ export default function ProfilePage() {
           <Card className="bg-white border-gray-200">
             <CardHeader>
               <CardTitle className="text-gray-900">
-                Account Information
+                Thông tin tài khoản
               </CardTitle>
               <CardDescription className="text-gray-600">
-                Your account details
+                Chi tiết tài khoản của bạn
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
                 <Label className="text-sm font-medium text-gray-500">
-                  Account
+                  Tài khoản
                 </Label>
                 <div className="mt-1">
                   <span
@@ -206,13 +206,17 @@ export default function ProfilePage() {
                           : "bg-green-100 text-green-800"
                     }`}
                   >
-                    {user.role}
+                    {user.role === "SUPERADMIN"
+                      ? "QUẢN TRỊ VIÊN CẤP CAO"
+                      : user.role === "ADMIN"
+                        ? "QUẢN TRỊ VIÊN"
+                        : "KHÁCH HÀNG"}
                   </span>
                 </div>
               </div>
               <div>
                 <Label className="text-sm font-medium text-gray-500">
-                  Account Status
+                  Trạng thái tài khoản
                 </Label>
                 <div className="mt-1">
                   <span
@@ -224,40 +228,44 @@ export default function ProfilePage() {
                           : "bg-red-100 text-red-800"
                     }`}
                   >
-                    {user.status}
+                    {user.status === "ACTIVE"
+                      ? "ĐANG HOẠT ĐỘNG"
+                      : user.status === "INACTIVE"
+                        ? "KHÔNG HOẠT ĐỘNG"
+                        : "BỊ KHÓA"}
                   </span>
                 </div>
               </div>
               <div>
                 <Label className="text-sm font-medium text-gray-500">
-                  Member Since
+                  Thành viên từ
                 </Label>
                 <p className="mt-1 text-sm text-gray-900">
                   {user.created_at
-                    ? new Date(user.created_at).toLocaleDateString("en-US", {
+                    ? new Date(user.created_at).toLocaleDateString("vi-VN", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                         hour: "2-digit",
                         minute: "2-digit",
                       })
-                    : "N/A"}
+                    : "Không khả dụng"}
                 </p>
               </div>
               <div>
                 <Label className="text-sm font-medium text-gray-500">
-                  Last Updated
+                  Cập nhật lần cuối
                 </Label>
                 <p className="mt-1 text-sm text-gray-900">
                   {user.updated_at
-                    ? new Date(user.updated_at).toLocaleDateString("en-US", {
+                    ? new Date(user.updated_at).toLocaleDateString("vi-VN", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                         hour: "2-digit",
                         minute: "2-digit",
                       })
-                    : "N/A"}
+                    : "Không khả dụng"}
                 </p>
               </div>
               <div className="pt-4">
@@ -266,7 +274,7 @@ export default function ProfilePage() {
                   className="w-full border-gray-300 hover:bg-gray-50 text-gray-700"
                   asChild
                 >
-                  <a href="/change-password">Change Password</a>
+                  <a href="/change-password">Đổi mật khẩu</a>
                 </Button>
               </div>
             </CardContent>

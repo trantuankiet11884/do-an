@@ -23,7 +23,7 @@ export async function generateMetadata({
   if (error || !product) {
     // If product not found, you can still return default metadata
     return {
-      title: "Product Not Found",
+      title: "Không tìm thấy sản phẩm",
     };
   }
 

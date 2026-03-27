@@ -220,13 +220,13 @@ export default function CategoryMenu({
       {/* Desktop category menu - added z-10 to ensure it stacks above product grid */}
       <div className="hidden lg:block bg-white rounded-xl shadow-sm border border-gray-200 p-4 sticky top-24 z-10">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-gray-900">Categories</h3>
+          <h3 className="text-lg font-semibold text-gray-900">Danh mục</h3>
           {selectedCategoryId && (
             <button
               onClick={clearCategory}
               className="text-sm text-gray-500 hover:text-[#f73a00]"
             >
-              Clear
+              Xóa
             </button>
           )}
         </div>
@@ -247,7 +247,7 @@ export default function CategoryMenu({
           <div className="absolute left-0 top-0 h-full w-auto min-w-48 max-w-xs bg-white shadow-xl overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
-                Categories
+                Danh mục
               </h3>
               <button
                 onClick={() => setMobileDrawerOpen(false)}
@@ -263,7 +263,7 @@ export default function CategoryMenu({
                   onClick={clearCategory}
                   className="mb-4 text-sm text-gray-500 hover:text-[#f73a00]"
                 >
-                  Clear filter
+                  Xóa bộ lọc
                 </button>
               )}
               <div className="space-y-1">

@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import FavoritesClient from "./favorites-client";
 
 export const metadata: Metadata = {
-  title: "My Favorites | KDS",
-  description: "View and manage your favorite items",
+  title: "Sản phẩm yêu thích | KDS",
+  description: "Xem và quản lý các sản phẩm yêu thích của bạn",
 };
 
 export default function FavoritesPage() {

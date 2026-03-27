@@ -16,8 +16,8 @@ import { createClient } from "@/lib/supabase/supabaseServer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "KDS - Premium E-commerce",
-  description: "Your one-stop shop for premium products",
+  title: "KDS - Thương mại điện tử cao cấp",
+  description: "Cửa hàng một điểm đến cho các sản phẩm cao cấp của bạn",
 };
 
 // Simple loading component for header
@@ -96,7 +96,7 @@ export default async function RootLayout({
   const categoryTree = categoriesData ? buildCategoryTree(categoriesData) : [];
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"

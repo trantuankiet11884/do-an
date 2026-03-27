@@ -224,7 +224,7 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
       date.setMonth(currentDate.getMonth() - i);
       const year = date.getFullYear();
       const month = date.getMonth();
-      const monthName = date.toLocaleDateString("en-US", { month: "short" });
+      const monthName = date.toLocaleDateString("vi-VN", { month: "short" });
 
       const startDate = new Date(year, month, 1);
       const endDate = new Date(year, month + 1, 0, 23, 59, 59);
@@ -242,7 +242,7 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
 
       monthsData.push({
         month: monthName,
-        fullMonth: date.toLocaleDateString("en-US", {
+        fullMonth: date.toLocaleDateString("vi-VN", {
           month: "long",
           year: "numeric",
         }),
@@ -258,7 +258,7 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
     labels: revenueChartData.map((d) => d.month),
     datasets: [
       {
-        label: "Revenue (ETB)",
+        label: "Doanh thu (₫)",
         data: revenueChartData.map((d) => d.revenue),
         backgroundColor: "#f73a00",
         borderColor: "rgba(247, 58, 0, 0.7)",
@@ -272,25 +272,24 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      tooltip: { callbacks: { label: (ctx: any) => `$${ctx.raw.toFixed(2)}` } },
+      tooltip: { callbacks: { label: (ctx: any) => `${ctx.raw.toLocaleString("vi-VN")} ₫` } },
     },
     scales: {
       y: {
         beginAtZero: true,
-        ticks: { callback: (value: any) => `$${value}` },
+        ticks: { callback: (value: any) => `${value.toLocaleString("vi-VN")} ₫` },
       },
     },
   };
 
   const formatCurrency = (amount: number) =>
-    new Intl.NumberFormat("en-US", {
+    new Intl.NumberFormat("vi-VN", {
       style: "currency",
-      currency: "ETB",
-      minimumFractionDigits: 2,
+      currency: "VND",
     }).format(amount);
 
   const formatNumber = (num: number) =>
-    new Intl.NumberFormat("en-US").format(num);
+    new Intl.NumberFormat("vi-VN").format(num);
 
   const formatPercent = (value: number) => {
     const sign = value > 0 ? "+" : "";
@@ -323,8 +322,7 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
                 timeRange === range
                   ? "bg-blue-600 text-white"
                   : "text-gray-700 hover:bg-gray-100"
-              }`}
-            >
+              }`}>
               {range}
             </button>
           ))}
@@ -344,11 +342,10 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
           <h3 className="text-2xl font-bold text-gray-900">
             {formatCurrency(metrics.revenue)}
           </h3>
-          <p className="text-sm text-gray-600 mt-1">Revenue</p>
+          <p className="text-sm text-gray-600 mt-1">Doanh thu</p>
           <div
-            className={`mt-2 text-sm ${getTrendColor(metrics.revenueChange)}`}
-          >
-            {formatPercent(metrics.revenueChange)} from previous period
+            className={`mt-2 text-sm ${getTrendColor(metrics.revenueChange)}`}>
+            {formatPercent(metrics.revenueChange)} so với kỳ trước
           </div>
         </div>
 
@@ -363,14 +360,13 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
           <h3 className="text-2xl font-bold text-gray-900">
             {formatNumber(metrics.completedOrders)}
           </h3>
-          <p className="text-sm text-gray-600 mt-1">Completed Orders</p>
+          <p className="text-sm text-gray-600 mt-1">Đơn hàng hoàn thành</p>
           <div className="mt-2 text-sm text-gray-600">
-            {formatNumber(metrics.totalOrders)} total orders
+            {formatNumber(metrics.totalOrders)} tổng số đơn hàng
           </div>
           <div
-            className={`mt-1 text-xs ${getTrendColor(metrics.ordersChange)}`}
-          >
-            {formatPercent(metrics.ordersChange)} from previous
+            className={`mt-1 text-xs ${getTrendColor(metrics.ordersChange)}`}>
+            {formatPercent(metrics.ordersChange)} so với kỳ trước
           </div>
         </div>
 
@@ -385,14 +381,13 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
           <h3 className="text-2xl font-bold text-gray-900">
             {formatNumber(metrics.newCustomers)}
           </h3>
-          <p className="text-sm text-gray-600 mt-1">New Customers</p>
+          <p className="text-sm text-gray-600 mt-1">Khách hàng mới</p>
           <div className="mt-2 text-sm text-gray-600">
-            {formatNumber(metrics.totalCustomers)} total
+            {formatNumber(metrics.totalCustomers)} tổng cộng
           </div>
           <div
-            className={`mt-1 text-xs ${getTrendColor(metrics.customersChange)}`}
-          >
-            {formatPercent(metrics.customersChange)} from previous
+            className={`mt-1 text-xs ${getTrendColor(metrics.customersChange)}`}>
+            {formatPercent(metrics.customersChange)} so với kỳ trước
           </div>
         </div>
 
@@ -407,9 +402,9 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
           <h3 className="text-2xl font-bold text-gray-900">
             {formatCurrency(metrics.avgOrderValue)}
           </h3>
-          <p className="text-sm text-gray-600 mt-1">Avg. Order Value</p>
+          <p className="text-sm text-gray-600 mt-1">Giá trị đơn hàng trung bình</p>
           <div className={`mt-2 text-sm ${getTrendColor(metrics.aovChange)}`}>
-            {formatPercent(metrics.aovChange)} from previous
+            {formatPercent(metrics.aovChange)} so với kỳ trước
           </div>
         </div>
       </div>
@@ -420,7 +415,7 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900">
-              6-Month Revenue Trend
+              Xu hướng doanh thu 6 tháng
             </h3>
             <Calendar className="h-5 w-5 text-gray-400" />
           </div>
@@ -432,14 +427,13 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
         {/* Top Products */}
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-6">
-            Top Rated Products
+            Sản phẩm được đánh giá cao nhất
           </h3>
           <div className="space-y-4">
             {data.topProducts.slice(0, 5).map((product, index) => (
               <div
                 key={`product-${product.id || index}`}
-                className="flex items-center"
-              >
+                className="flex items-center">
                 <div className="shrink-0 h-10 w-10 bg-gray-100 rounded-lg flex items-center justify-center mr-3 overflow-hidden">
                   {product.images && product.images.length > 0 ? (
                     <img
@@ -476,24 +470,24 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
           <div className="flex items-center mb-4">
             <Package className="h-5 w-5 text-gray-400 mr-2" />
             <h3 className="text-lg font-semibold text-gray-900">
-              Product Statistics
+              Thống kê sản phẩm
             </h3>
           </div>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Total Products</span>
+              <span className="text-sm text-gray-600">Tổng số sản phẩm</span>
               <span className="text-sm font-medium text-gray-900">
                 {formatNumber(metrics.totalProducts)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Avg. Rating</span>
+              <span className="text-sm text-gray-600">Đánh giá trung bình</span>
               <span className="text-sm font-medium text-gray-900">
                 {metrics.avgProductRating.toFixed(1)}/5.0
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Categories</span>
+              <span className="text-sm text-gray-600">Danh mục</span>
               <span className="text-sm font-medium text-gray-900">12</span>
             </div>
           </div>
@@ -504,24 +498,24 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
           <div className="flex items-center mb-4">
             <Eye className="h-5 w-5 text-gray-400 mr-2" />
             <h3 className="text-lg font-semibold text-gray-900">
-              Visitor Insights
+              Thông tin khách truy cập
             </h3>
           </div>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Total Visitors</span>
+              <span className="text-sm text-gray-600">Tổng số khách truy cập</span>
               <span className="text-sm font-medium text-gray-900">
                 {formatNumber(metrics.totalVisitors)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Page Views</span>
+              <span className="text-sm text-gray-600">Lượt xem trang</span>
               <span className="text-sm font-medium text-gray-900">
                 {formatNumber(metrics.totalPageViews)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Product Clicks</span>
+              <span className="text-sm text-gray-600">Lượt click sản phẩm</span>
               <span className="text-sm font-medium text-gray-900">
                 {formatNumber(metrics.totalProductClicks)}
               </span>
@@ -534,24 +528,24 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
           <div className="flex items-center mb-4">
             <ShoppingCart className="h-5 w-5 text-gray-400 mr-2" />
             <h3 className="text-lg font-semibold text-gray-900">
-              Conversion Metrics
+              Chỉ số chuyển đổi
             </h3>
           </div>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Conversion Rate</span>
+              <span className="text-sm text-gray-600">Tỷ lệ chuyển đổi</span>
               <span className="text-sm font-medium text-gray-900">
                 {metrics.conversionRate.toFixed(1)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Completed Orders</span>
+              <span className="text-sm text-gray-600">Đơn hàng hoàn thành</span>
               <span className="text-sm font-medium text-gray-900">
                 {formatNumber(metrics.completedOrders)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Pending Orders</span>
+              <span className="text-sm text-gray-600">Đơn hàng đang chờ</span>
               <span className="text-sm font-medium text-gray-900">
                 {formatNumber(metrics.pendingOrders)}
               </span>

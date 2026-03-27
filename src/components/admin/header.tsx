@@ -113,7 +113,7 @@ export default function AdminHeader({
           <button
             onClick={onMenuClick}
             className="lg:hidden p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-            aria-label="Toggle menu"
+            aria-label="Mở/Đóng menu"
           >
             <Menu className="h-6 w-6" />
           </button>
@@ -128,7 +128,7 @@ export default function AdminHeader({
                 className="hidden md:flex items-center gap-2 border-gray-200"
               >
                 <Home className="h-4 w-4" />
-                <span>View Site</span>
+                <span>Xem trang web</span>
               </Button>
             </Link>
 
@@ -146,7 +146,7 @@ export default function AdminHeader({
                   className="relative h-10 px-2 gap-2 hover:bg-gray-100"
                 >
                   <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+                    <AvatarFallback className="bg-linear-to-br from-purple-500 to-pink-500 text-white">
                       {getUserInitials()}
                     </AvatarFallback>
                   </Avatar>
@@ -170,7 +170,7 @@ export default function AdminHeader({
                   <div className="flex flex-col space-y-1">
                     <div className="flex items-center gap-2">
                       <Avatar className="h-10 w-10">
-                        <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+                        <AvatarFallback className="bg-linear-to-br from-purple-500 to-pink-500 text-white">
                           {getUserInitials()}
                         </AvatarFallback>
                       </Avatar>
@@ -198,7 +198,7 @@ export default function AdminHeader({
                     className="cursor-pointer text-gray-800"
                   >
                     <User className="mr-2 h-4 w-4" />
-                    Profile Settings
+                    Cài đặt cá nhân
                   </Link>
                 </DropdownMenuItem>
 
@@ -208,7 +208,7 @@ export default function AdminHeader({
                     className="cursor-pointer text-gray-800"
                   >
                     <Settings className="mr-2 h-4 w-4" />
-                    Admin Settings
+                    Cài đặt quản trị
                   </Link>
                 </DropdownMenuItem>
 
@@ -221,7 +221,7 @@ export default function AdminHeader({
                     className="cursor-pointer text-gray-800 md:hidden"
                   >
                     <Home className="mr-2 h-4 w-4" />
-                    View Site
+                    Xem trang web
                   </Link>
                 </DropdownMenuItem>
 
@@ -230,7 +230,7 @@ export default function AdminHeader({
                   className="text-red-600 cursor-pointer focus:text-red-600"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  Log out
+                  Đăng xuất
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

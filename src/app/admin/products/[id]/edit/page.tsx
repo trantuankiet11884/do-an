@@ -478,7 +478,7 @@ export default function EditProductPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="price" className="text-gray-900">
-                    Base Price (Br) *
+                    Giá cơ bản (₫) *
                   </Label>
                   <Input
                     id="price"

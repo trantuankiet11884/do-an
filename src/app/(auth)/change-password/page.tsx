@@ -5,8 +5,8 @@ import { verifyToken } from "@/lib/auth/jwt";
 import ChangePasswordForm from "@/components/auth/change-password-form";
 
 export const metadata: Metadata = {
-  title: "Change Password",
-  description: "Update your account password",
+  title: "Đổi mật khẩu",
+  description: "Cập nhật mật khẩu tài khoản của bạn",
 };
 
 export default async function ChangePasswordPage() {

@@ -26,13 +26,13 @@ export default function NewsletterSection() {
 
       if (response.ok) {
         setSubscribed(true);
-        toast.success("Successfully subscribed!");
+        toast.success("Đăng ký thành công!");
         setEmail("");
       } else {
-        throw new Error("Failed to subscribe");
+        throw new Error("Đăng ký thất bại");
       }
     } catch (error) {
-      toast.error("Failed to subscribe. Please try again.");
+      toast.error("Đăng ký thất bại. Vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
@@ -46,18 +46,18 @@ export default function NewsletterSection() {
             <CheckCircle className="h-8 w-8 text-[#fa6400]" />
           </div>
           <h3 className="text-2xl md:text-3xl font-bold mb-4">
-            You're All Set! 🎉
+            Tất cả đã sẵn sàng! 🎉
           </h3>
           <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
-            Thank you for subscribing! Check your inbox for a special welcome
-            offer.
+            Cảm ơn bạn đã đăng ký! Hãy kiểm tra hộp thư đến để nhận ưu đãi chào
+            mừng đặc biệt.
           </p>
           <Button
             variant="outline"
             onClick={() => setSubscribed(false)}
             className="mt-4"
           >
-            Subscribe Another Email
+            Đăng ký bằng email khác
           </Button>
         </div>
       </section>
@@ -97,12 +97,12 @@ export default function NewsletterSection() {
           </div>
 
           <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Stay in the Loop
+            Cập nhật thông tin mới nhất
           </h3>
 
           <p className="text-white/70 mb-10 text-lg">
-            Get early access to new collections and exclusive offers delivered
-            straight to your inbox.
+            Nhận quyền truy cập sớm vào các bộ sưu tập mới và ưu đãi độc quyền
+            được gửi thẳng đến hộp thư của bạn.
           </p>
 
           <form
@@ -113,7 +113,7 @@ export default function NewsletterSection() {
               <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/40" />
               <Input
                 type="email"
-                placeholder="Enter your email address"
+                placeholder="Nhập địa chỉ email của bạn"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-12 pr-4 py-6 w-full bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl focus:border-[#fa6400] focus:ring-[#fa6400]"
@@ -126,10 +126,10 @@ export default function NewsletterSection() {
               className="bg-[#fa6400] hover:bg-[#fa6400]/90 text-white px-8 py-6 text-base font-semibold rounded-xl shadow-lg hover:shadow-[#fa6400]/25 transition-all group"
             >
               {loading ? (
-                "Subscribing..."
+                "Đang đăng ký..."
               ) : (
                 <>
-                  Subscribe
+                  Đăng ký
                   <Send className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </>
               )}
@@ -137,14 +137,16 @@ export default function NewsletterSection() {
           </form>
 
           <p className="text-white/50 text-xs mt-6">
-            By subscribing, you agree to our Privacy Policy and Terms of
-            Service. No spam, unsubscribe anytime.
+            Bằng cách đăng ký, bạn đồng ý với Chính sách Bảo mật và Điều khoản
+            Dịch vụ của chúng tôi. Không spam, hủy đăng ký bất cứ lúc nào.
           </p>
 
           <div className="flex items-center justify-center gap-6 mt-10 pt-6 border-t border-white/10">
-            <span className="text-white/40 text-sm">✓ 100% Secure</span>
-            <span className="text-white/40 text-sm">✓ No Spam</span>
-            <span className="text-white/40 text-sm">✓ Unsubscribe Anytime</span>
+            <span className="text-white/40 text-sm">✓ 100% Bảo mật</span>
+            <span className="text-white/40 text-sm">✓ Không Spam</span>
+            <span className="text-white/40 text-sm">
+              ✓ Hủy đăng ký bất cứ lúc nào
+            </span>
           </div>
         </div>
       </div>

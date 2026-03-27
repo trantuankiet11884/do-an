@@ -3,7 +3,7 @@ import { render } from "@react-email/render";
 import { OrderConfirmedEmail } from "@/emails/order-confirmed";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const fromEmail = "KDS <orders@order.ambaastore.com>";
+const fromEmail = "KDS <orders@order.kds.com>";
 
 export async function sendOrderConfirmedEmail({
   to,

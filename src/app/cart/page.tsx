@@ -39,7 +39,7 @@ export default function CartPage() {
   // Redirect if not logged in
   useEffect(() => {
     if (!isLoading && !user) {
-      toast.error("Please login to view your cart");
+      toast.error("Vui lòng đăng nhập để xem giỏ hàng");
       const returnUrl = encodeURIComponent(window.location.pathname);
       router.push(`/login?redirectTo=${returnUrl}`);
     }
@@ -50,7 +50,7 @@ export default function CartPage() {
       <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-[#f73a00] mx-auto mb-4" />
-          <p className="text-gray-600">Loading cart...</p>
+          <p className="text-gray-600">Đang tải giỏ hàng...</p>
         </div>
       </div>
     );
@@ -70,16 +70,15 @@ export default function CartPage() {
               <ShoppingCart className="h-16 w-16 text-[#f73a00] mx-auto" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-3">
-              Your cart is empty
+              Giỏ hàng của bạn đang trống
             </h1>
             <p className="text-gray-600 mb-8">
-              Add some products to your cart and they will appear here.
+              Thêm một số sản phẩm vào giỏ hàng của bạn và chúng sẽ xuất hiện ở đây.
             </p>
             <Button
               onClick={() => router.push("/products")}
-              className="bg-gradient-to-r from-[#f73a00] to-[#f73a00] hover:from-[#f73a00] hover:to-[#f73a00] text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all"
-            >
-              Browse Products
+              className="bg-gradient-to-r from-[#f73a00] to-[#f73a00] hover:from-[#f73a00] hover:to-[#f73a00] text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all">
+              Xem sản phẩm
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
@@ -96,10 +95,10 @@ export default function CartPage() {
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-            Shopping Cart
+            Giỏ hàng
           </h1>
           <p className="text-sm sm:text-base text-gray-600">
-            Review and manage your items before checkout
+            Kiểm tra và quản lý các mặt hàng của bạn trước khi thanh toán
           </p>
         </div>
 
@@ -110,16 +109,15 @@ export default function CartPage() {
               <div className="p-4 sm:p-6 border-b border-gray-100">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                   <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
-                    Cart Items (
+                    Sản phẩm trong giỏ (
                     {items.reduce((sum, item) => sum + item.quantity, 0)})
                   </h2>
                   <Button
                     variant="ghost"
                     onClick={clearCart}
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-xl self-start sm:self-auto"
-                  >
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-xl self-start sm:self-auto">
                     <Trash2 className="h-4 w-4 mr-2" />
-                    Clear Cart
+                    Xóa giỏ hàng
                   </Button>
                 </div>
               </div>
@@ -129,11 +127,11 @@ export default function CartPage() {
                   // Build variant display string
                   const variantParts = [];
                   if (item.variant?.color)
-                    variantParts.push(`Color: ${item.variant.color}`);
+                    variantParts.push(`Màu sắc: ${item.variant.color}`);
                   if (item.variant?.size)
-                    variantParts.push(`Size: ${item.variant.size}`);
+                    variantParts.push(`Kích thước: ${item.variant.size}`);
                   if (item.variant?.unit)
-                    variantParts.push(`Unit: ${item.variant.unit}`);
+                    variantParts.push(`Đơn vị: ${item.variant.unit}`);
                   const variantDisplay = variantParts.join(" • ");
 
                   // Get product slug - MUST exist in database
@@ -142,8 +140,7 @@ export default function CartPage() {
                   return (
                     <div
                       key={item.id}
-                      className="p-4 sm:p-6 hover:bg-gray-50/80 transition-colors"
-                    >
+                      className="p-4 sm:p-6 hover:bg-gray-50/80 transition-colors">
                       <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                         {/* Product Image - Link uses slug only */}
                         <div className="sm:w-28 lg:w-32 h-28 sm:h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden flex-shrink-0 shadow-sm">
@@ -178,21 +175,19 @@ export default function CartPage() {
                               {variantDisplay && (
                                 <Badge
                                   variant="outline"
-                                  className="mb-2 bg-[#f73a00]/5 text-[#f73a00] border-[#f73a00]/20 text-xs"
-                                >
+                                  className="mb-2 bg-[#f73a00]/5 text-[#f73a00] border-[#f73a00]/20 text-xs">
                                   {variantDisplay}
                                 </Badge>
                               )}
                               <div className="text-sm text-gray-500 mb-3">
-                                Unit Price: Br
-                                {item.price.toLocaleString("en-US")}
+                                Đơn giá: 
+                                {item.price.toLocaleString("vi-VN")}
                               </div>
                             </div>
                             <div className="text-left sm:text-right">
                               <div className="text-lg font-bold text-gray-900">
-                                Br
                                 {(item.price * item.quantity).toLocaleString(
-                                  "en-US",
+                                  "vi-VN",
                                 )}
                               </div>
                             </div>
@@ -203,12 +198,11 @@ export default function CartPage() {
                             <div className="flex items-center gap-3">
                               <div className="flex items-center border border-gray-200 rounded-lg bg-white shadow-sm">
                                 <button
-                                  onClick={() =>
+                                    onClick={() =>
                                     updateQuantity(item.id, item.quantity - 1)
                                   }
                                   className="px-2 py-1 text-gray-600 hover:text-[#f73a00] transition-colors disabled:opacity-50 rounded-l-lg"
-                                  disabled={item.quantity <= 1}
-                                >
+                                  disabled={item.quantity <= 1}>
                                   <Minus className="h-4 w-4" />
                                 </button>
                                 <span className="px-3 py-1 text-gray-900 font-medium min-w-[36px] text-center text-sm">
@@ -218,8 +212,7 @@ export default function CartPage() {
                                   onClick={() =>
                                     updateQuantity(item.id, item.quantity + 1)
                                   }
-                                  className="px-2 py-1 text-gray-600 hover:text-[#f73a00] transition-colors rounded-r-lg"
-                                >
+                                  className="px-2 py-1 text-gray-600 hover:text-[#f73a00] transition-colors rounded-r-lg">
                                   <Plus className="h-4 w-4" />
                                 </button>
                               </div>
@@ -227,11 +220,10 @@ export default function CartPage() {
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => removeItem(item.id)}
-                                className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg h-8 px-2 text-xs sm:text-sm"
-                              >
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg h-8 px-2 text-xs sm:text-sm">
                                 <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                                <span className="hidden sm:inline">Remove</span>
-                                <span className="sm:hidden">Remove</span>
+                                <span className="hidden sm:inline">Xóa</span>
+                                <span className="sm:hidden">Xóa</span>
                               </Button>
                             </div>
                           </div>
@@ -248,51 +240,49 @@ export default function CartPage() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-5 sm:p-6 sticky top-24 hover:shadow-lg transition-shadow">
               <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-5">
-                Order Summary
+                Tóm tắt đơn hàng
               </h2>
 
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm sm:text-base text-gray-600">
-                  <span>Subtotal</span>
+                  <span>Tạm tính</span>
                   <span className="font-medium text-gray-900">
-                    ETB {total.toLocaleString("en-US")}
+                    {total.toLocaleString("vi-VN")}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm sm:text-base text-gray-600">
-                  <span>Shipping</span>
+                  <span>Phí vận chuyển</span>
                   <span className="text-sm text-green-600 font-medium">
-                    {total > 0 ? "Free (Addis)" : "ETB 0.00"}
+                    {total > 0 ? "Miễn phí" : " 0"}
                   </span>
                 </div>
                 <Separator className="bg-gray-200" />
                 <div className="flex justify-between">
                   <span className="text-base sm:text-lg font-semibold text-gray-900">
-                    Total
+                    Tổng cộng
                   </span>
                   <span className="text-xl sm:text-2xl font-bold text-[#f73a00]">
-                    ETB {total.toLocaleString("en-US")}
+                    {total.toLocaleString("vi-VN")}
                   </span>
                 </div>
                 <p className="text-gray-600 text-sm text-right">
-                  You pay: {half.toLocaleString("en-US")}
+                  Bạn thanh toán: {half.toLocaleString("vi-VN")}
                 </p>
               </div>
 
               <Button
                 className="w-full bg-[#f73a00] hover:bg-[#f73a00]/90 text-white py-5 sm:py-6 text-base sm:text-lg rounded-xl shadow-lg hover:shadow-xl transition-all mb-3"
                 onClick={() => router.push("/checkout")}
-                disabled={items.length === 0}
-              >
-                Proceed to Checkout
+                disabled={items.length === 0}>
+                Tiến hành thanh toán
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
 
               <Button
                 variant="outline"
                 className="w-full border-2 border-gray-200 hover:bg-gray-50 rounded-xl py-4 sm:py-5 text-sm sm:text-base"
-                onClick={() => router.push("/products")}
-              >
-                Continue Shopping
+                onClick={() => router.push("/products")}>
+                Tiếp tục mua sắm
               </Button>
 
               {/* Features */}
@@ -300,15 +290,15 @@ export default function CartPage() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-xs sm:text-sm text-gray-600">
                     <Truck className="h-4 w-4 sm:h-5 sm:w-5 text-[#f73a00] flex-shrink-0" />
-                    <span>Free delivery within Addis Ababa</span>
+                    <span>Giao hàng miễn phí trong khu vực</span>
                   </div>
                   <div className="flex items-center gap-3 text-xs sm:text-sm text-gray-600">
                     <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-[#f73a00] flex-shrink-0" />
-                    <span>Secure checkout</span>
+                    <span>Thanh toán bảo mật</span>
                   </div>
                   <div className="flex items-center gap-3 text-xs sm:text-sm text-gray-600">
                     <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 text-[#f73a00] flex-shrink-0" />
-                    <span>Pay half now, half on delivery</span>
+                    <span>Thanh toán một nửa ngay, một nửa khi nhận hàng</span>
                   </div>
                 </div>
               </div>

@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import ForgotPasswordForm from "@/components/auth/forgot-password-form";
 
 export const metadata: Metadata = {
-  title: "Forgot Password",
-  description: "Reset your KDS password",
+  title: "Quên mật khẩu",
+  description: "Đặt lại mật khẩu KDS của bạn",
 };
 
 export default function ForgotPasswordPage() {

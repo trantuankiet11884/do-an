@@ -186,7 +186,7 @@ export default function ProductsTable({
   // Get full category path for display
   const getCategoryPath = useCallback(
     (catId: string | null): string => {
-      if (!catId) return "Uncategorized";
+      if (!catId) return "Chưa phân loại";
       const path: string[] = [];
       let current: Category | undefined = categoryMap.get(catId);
       while (current) {
@@ -286,7 +286,7 @@ export default function ProductsTable({
 
       if (!res.ok) {
         // Handle non-200 responses (like 500, 404)
-        toast.error(data.error || "Failed to delete product");
+        toast.error(data.error || "Xóa sản phẩm thất bại");
         return;
       }
 
@@ -296,16 +296,16 @@ export default function ProductsTable({
       // Show appropriate message based on whether it was soft or hard deleted
       if (data.softDelete) {
         toast.success(
-          "Product has been hidden (soft deleted) because it has orders.",
+          "Sản phẩm đã được ẩn (xóa mềm) vì đã có đơn hàng.",
         );
       } else {
-        toast.success("Product deleted permanently.");
+        toast.success("Sản phẩm đã được xóa vĩnh viễn.");
       }
 
       setProductToDelete(null);
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("Failed to delete product");
+      toast.error("Xóa sản phẩm thất bại");
     } finally {
       setIsDeleting(false);
     }
@@ -350,10 +350,10 @@ export default function ProductsTable({
           );
         }
         const data = await res.json();
-        toast.error(data.error || "Failed to update status");
+        toast.error(data.error || "Cập nhật trạng thái thất bại");
       } else {
         toast.success(
-          `Product ${newStatus === "approved" ? "approved" : newStatus === "rejected" ? "rejected" : "set to pending"} successfully`,
+          `Sản phẩm đã được ${newStatus === "approved" ? "duyệt" : newStatus === "rejected" ? "từ chối" : "đưa về trạng thái chờ"} thành công`,
         );
       }
     } catch (error) {
@@ -365,7 +365,7 @@ export default function ProductsTable({
         );
       }
       console.error("Status update error:", error);
-      toast.error("Failed to update status");
+      toast.error("Cập nhật trạng thái thất bại");
     } finally {
       setStatusUpdating(null);
     }
@@ -376,19 +376,19 @@ export default function ProductsTable({
       case "approved":
         return (
           <Badge className="bg-green-100 text-green-800 border-green-200">
-            Approved
+            Đã duyệt
           </Badge>
         );
       case "rejected":
         return (
           <Badge className="bg-red-100 text-red-800 border-red-200">
-            Rejected
+            Đã từ chối
           </Badge>
         );
       default:
         return (
           <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">
-            Pending
+            Chờ duyệt
           </Badge>
         );
     }
@@ -405,7 +405,7 @@ export default function ProductsTable({
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
                   type="search"
-                  placeholder="Search products..."
+                  placeholder="Tìm kiếm sản phẩm..."
                   className="pl-10 py-1.5 text-sm"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -420,10 +420,10 @@ export default function ProductsTable({
                   onValueChange={setSelectedCategory}
                 >
                   <SelectTrigger className="w-36 h-8 text-sm">
-                    <SelectValue placeholder="Category" />
+                    <SelectValue placeholder="Danh mục" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
+                    <SelectItem value="all">Tất cả danh mục</SelectItem>
                     {categoryOptions.map((option) => (
                       <SelectItem
                         key={option.id}
@@ -439,25 +439,25 @@ export default function ProductsTable({
 
               <Select value={selectedStatus} onValueChange={setSelectedStatus}>
                 <SelectTrigger className="w-32 h-8 text-sm">
-                  <SelectValue placeholder="Status" />
+                  <SelectValue placeholder="Trạng thái" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="approved">Approved</SelectItem>
-                  <SelectItem value="rejected">Rejected</SelectItem>
+                  <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                  <SelectItem value="pending">Chờ duyệt</SelectItem>
+                  <SelectItem value="approved">Đã duyệt</SelectItem>
+                  <SelectItem value="rejected">Đã từ chối</SelectItem>
                 </SelectContent>
               </Select>
 
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-32 h-8 text-sm">
-                  <SelectValue placeholder="Sort by" />
+                  <SelectValue placeholder="Sắp xếp" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="newest">Newest</SelectItem>
-                  <SelectItem value="price-low">Price ↑</SelectItem>
-                  <SelectItem value="price-high">Price ↓</SelectItem>
-                  <SelectItem value="rating">Rating</SelectItem>
+                  <SelectItem value="newest">Mới nhất</SelectItem>
+                  <SelectItem value="price-low">Giá ↑</SelectItem>
+                  <SelectItem value="price-high">Giá ↓</SelectItem>
+                  <SelectItem value="rating">Đánh giá</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -470,22 +470,22 @@ export default function ProductsTable({
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Product
+                  Sản phẩm
                 </th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
-                  Category
+                  Danh mục
                 </th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Price
+                  Giá
                 </th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
-                  Rating
+                  Đánh giá
                 </th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
+                  Trạng thái
                 </th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
+                  Thao tác
                 </th>
               </tr>
             </thead>
@@ -533,7 +533,7 @@ export default function ProductsTable({
                       </Badge>
                     </td>
                     <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
-                      Br {product.price.toLocaleString()}
+                      {product.price.toLocaleString("vi-VN")} ₫
                     </td>
                     <td className="px-4 py-2 whitespace-nowrap hidden sm:table-cell">
                       <div className="flex items-center">
@@ -552,7 +552,7 @@ export default function ProductsTable({
                           href={`/admin/products/${product.id}/edit`}
                           onClick={(e) => e.stopPropagation()}
                           className="p-1 text-indigo-600 hover:text-indigo-900 rounded hover:bg-indigo-50"
-                          title="Edit"
+                          title="Sửa"
                         >
                           <Edit className="h-4 w-4" />
                         </Link>
@@ -564,7 +564,7 @@ export default function ProductsTable({
                                 onClick={(e) => e.stopPropagation()}
                                 disabled={statusUpdating === product.id}
                                 className="p-1 text-gray-600 hover:text-gray-900 rounded hover:bg-gray-100"
-                                title="Change status"
+                                title="Thay đổi trạng thái"
                               >
                                 {statusUpdating === product.id ? (
                                   <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-600 border-t-transparent" />
@@ -580,7 +580,7 @@ export default function ProductsTable({
                                 }
                                 disabled={product.status === "pending"}
                               >
-                                Set Pending
+                                Đặt thành Chờ duyệt
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={(e) =>
@@ -588,7 +588,7 @@ export default function ProductsTable({
                                 }
                                 disabled={product.status === "approved"}
                               >
-                                Approve
+                                Duyệt
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={(e) =>
@@ -596,7 +596,7 @@ export default function ProductsTable({
                                 }
                                 disabled={product.status === "rejected"}
                               >
-                                Reject
+                                Từ chối
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -606,7 +606,7 @@ export default function ProductsTable({
                           <button
                             onClick={(e) => handleDeleteClick(product, e)}
                             className="p-1 text-red-600 hover:text-red-900 rounded hover:bg-red-50"
-                            title="Delete"
+                            title="Xóa"
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
@@ -626,7 +626,7 @@ export default function ProductsTable({
                           {product.link && (
                             <div>
                               <h4 className="font-medium text-gray-700 mb-1">
-                                External Link
+                                Liên kết ngoài
                               </h4>
                               <a
                                 href={product.link}
@@ -643,7 +643,7 @@ export default function ProductsTable({
                           {product.colors && product.colors.length > 0 && (
                             <div>
                               <h4 className="font-medium text-gray-700 mb-1">
-                                Colors
+                                Màu sắc
                               </h4>
                               <div className="flex flex-wrap gap-2">
                                 {product.colors.map((color) => (
@@ -663,7 +663,7 @@ export default function ProductsTable({
                           {product.sizes && product.sizes.length > 0 && (
                             <div>
                               <h4 className="font-medium text-gray-700 mb-1">
-                                Sizes & Prices
+                                Kích cỡ & Giá
                               </h4>
                               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                                 {product.sizes.map((size) => (
@@ -675,7 +675,7 @@ export default function ProductsTable({
                                       {size.name}
                                     </div>
                                     <div className="text-gray-600 mt-1">
-                                      Br {size.price.toLocaleString()}
+                                      {size.price.toLocaleString("vi-VN")} ₫
                                     </div>
                                   </div>
                                 ))}
@@ -687,33 +687,33 @@ export default function ProductsTable({
                           <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-200">
                             <div>
                               <h4 className="font-medium text-gray-700 mb-1">
-                                Created
+                                Ngày tạo
                               </h4>
                               <p className="text-xs text-gray-600">
                                 {product.created_by ? (
                                   <>
-                                    by {product.created_by.name} (
+                                    bởi {product.created_by.name} (
                                     {product.created_by.email})
                                   </>
                                 ) : (
-                                  "Unknown"
+                                  "Không xác định"
                                 )}
                                 <br />
-                                {new Date(product.created_at).toLocaleString()}
+                                {new Date(product.created_at).toLocaleString("vi-VN")}
                               </p>
                             </div>
                             {product.updated_by && (
                               <div>
                                 <h4 className="font-medium text-gray-700 mb-1">
-                                  Last Updated
+                                  Cập nhật cuối
                                 </h4>
                                 <p className="text-xs text-gray-600">
-                                  by {product.updated_by.name} (
+                                  bởi {product.updated_by.name} (
                                   {product.updated_by.email})
                                   <br />
                                   {new Date(
                                     product.updated_at,
-                                  ).toLocaleString()}
+                                  ).toLocaleString("vi-VN")}
                                 </p>
                               </div>
                             )}
@@ -729,13 +729,13 @@ export default function ProductsTable({
 
           {filteredProducts.length === 0 && (
             <div className="px-4 py-8 text-center">
-              <div className="text-gray-400 mb-2">No products found</div>
+              <div className="text-gray-400 mb-2">Không tìm thấy sản phẩm</div>
               <p className="text-sm text-gray-500">
                 {searchQuery ||
                 selectedCategory !== "all" ||
                 selectedStatus !== "all"
-                  ? "Try changing your filters"
-                  : "Add your first product to get started"}
+                  ? "Thử thay đổi bộ lọc của bạn"
+                  : "Thêm sản phẩm đầu tiên của bạn để bắt đầu"}
               </p>
             </div>
           )}
@@ -745,18 +745,18 @@ export default function ProductsTable({
         <div className="px-4 py-2 border-t border-gray-200">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div className="text-xs text-gray-700">
-              Showing{" "}
+              Hiển thị{" "}
               <span className="font-medium">
                 {filteredProducts.length === 0
                   ? 0
                   : (currentPage - 1) * PAGE_SIZE + 1}
               </span>{" "}
-              to{" "}
+              đến{" "}
               <span className="font-medium">
                 {Math.min(currentPage * PAGE_SIZE, filteredProducts.length)}
               </span>{" "}
-              of <span className="font-medium">{filteredProducts.length}</span>{" "}
-              products
+              trên <span className="font-medium">{filteredProducts.length}</span>{" "}
+              sản phẩm
             </div>
             <div className="flex gap-1">
               <Button
@@ -766,7 +766,7 @@ export default function ProductsTable({
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1 || filteredProducts.length === 0}
               >
-                Prev
+                Trước
               </Button>
               <Button
                 variant="outline"
@@ -787,7 +787,7 @@ export default function ProductsTable({
                   currentPage === totalPages || filteredProducts.length === 0
                 }
               >
-                Next
+                Sau
               </Button>
             </div>
           </div>
@@ -801,15 +801,15 @@ export default function ProductsTable({
       >
         <AlertDialogContent className="max-w-md">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Product</AlertDialogTitle>
+            <AlertDialogTitle>Xóa sản phẩm</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{productToDelete?.title}"? This
-              action cannot be undone.
+              Bạn có chắc chắn muốn xóa "{productToDelete?.title}"? Hành
+              động này không thể hoàn tác.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isDeleting} size="sm">
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
@@ -817,7 +817,7 @@ export default function ProductsTable({
               className="bg-red-600 hover:bg-red-700"
               size="sm"
             >
-              {isDeleting ? "Deleting..." : "Delete"}
+              {isDeleting ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

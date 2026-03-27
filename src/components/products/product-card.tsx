@@ -208,7 +208,7 @@ export default function PremiumProductCard({
           <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
             {product.average_rating >= 4.5 && (
               <Badge className="bg-[#f73a00] hover:bg-[#fe4208] text-white text-sm border-0 shadow-md">
-                <Star className="h-3 w-3 mr-1" /> Premium
+                <Star className="h-3 w-3 mr-1" /> Cao cấp
               </Badge>
             )}
           </div>
@@ -226,7 +226,7 @@ export default function PremiumProductCard({
               disabled={favoriteLoading}
               className="h-10 w-10 rounded-full bg-white/90 flex items-center justify-center shadow-lg hover:scale-110 hover:bg-white transition-all disabled:opacity-50"
               aria-label={
-                productIsFavorite ? "Remove from favorites" : "Add to favorites"
+                productIsFavorite ? "Xóa khỏi yêu thích" : "Thêm vào yêu thích"
               }
             >
               {favoriteLoading ? (
@@ -254,7 +254,7 @@ export default function PremiumProductCard({
               size="lg"
             >
               <ShoppingBag className="mr-2 h-5 w-5" />
-              {isAdding ? "Adding..." : "Quick Add"}
+              {isAdding ? "Đang thêm..." : "Thêm nhanh"}
             </Button>
           </div>
         </div>
@@ -283,7 +283,7 @@ export default function PremiumProductCard({
           <div className="flex items-center justify-between">
             <div>
               <span className="text-lg font-bold text-gray-900">
-                Br {minPrice.toLocaleString("en-US")}
+                {minPrice.toLocaleString("vi-VN")}
               </span>
             </div>
             <Button
@@ -294,7 +294,7 @@ export default function PremiumProductCard({
               className="text-[#f73a00] hover:text-[#f73a00]/80 hover:bg-[#f73a00]/10"
             >
               <ShoppingBag className="h-4 w-4 mr-1" />
-              Add
+              Thêm
             </Button>
           </div>
         </div>

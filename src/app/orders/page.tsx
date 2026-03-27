@@ -68,16 +68,16 @@ export default function UserOrdersPage() {
   const getDisplayStatus = (status: string): string => {
     switch (status) {
       case "PENDING":
-        return "PENDING";
+        return "CHỜ XỬ LÝ";
       case "CONFIRMED":
       case "SHIPPED":
       case "READY":
-        return "CONFIRMED";
+        return "ĐÃ XÁC NHẬN";
       case "COMPLETED":
-        return "COMPLETED";
+        return "HOÀN THÀNH";
       case "CANCELED":
       case "FAILED":
-        return "CANCELED";
+        return "ĐÃ HỦY";
       default:
         return status;
     }
@@ -125,10 +125,10 @@ export default function UserOrdersPage() {
       if (res.ok) {
         setOrders(data.orders || []);
       } else {
-        toast.error(data.error || "Failed to load orders");
+        toast.error(data.error || "Không thể tải danh sách đơn hàng");
       }
     } catch (error) {
-      toast.error("Failed to load orders");
+      toast.error("Không thể tải danh sách đơn hàng");
     } finally {
       setOrdersLoading(false);
     }
@@ -136,7 +136,7 @@ export default function UserOrdersPage() {
 
   useEffect(() => {
     if (!authLoading && !user) {
-      toast.error("Please login to view your orders");
+      toast.error("Vui lòng đăng nhập để xem đơn hàng của bạn");
       const returnUrl = encodeURIComponent(window.location.pathname);
       router.push(`/login?redirectTo=${returnUrl}`);
     }
@@ -173,7 +173,7 @@ export default function UserOrdersPage() {
   }, [user?.id]);
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("vi-VN", {
       month: "short",
       day: "numeric",
       year: "numeric",
@@ -211,7 +211,7 @@ export default function UserOrdersPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-[#f73a00] mx-auto mb-4" />
-          <p className="text-gray-600">Loading your orders...</p>
+          <p className="text-gray-600">Đang tải đơn hàng của bạn...</p>
         </div>
       </div>
     );
@@ -227,10 +227,10 @@ export default function UserOrdersPage() {
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-            My Orders
+            Đơn hàng của tôi
           </h1>
           <p className="text-sm sm:text-base text-gray-600">
-            Track and manage your orders
+            Theo dõi và quản lý các đơn hàng của bạn
           </p>
         </div>
 
@@ -241,17 +241,16 @@ export default function UserOrdersPage() {
                 <Package className="h-8 w-8 sm:h-10 sm:w-10 text-[#f73a00]" />
               </div>
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-                No orders yet
+                Chưa có đơn hàng nào
               </h2>
               <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 max-w-sm mx-auto">
-                You haven't placed any orders. Start shopping and your orders
-                will appear here.
+                Bạn chưa đặt đơn hàng nào. Hãy bắt đầu mua sắm và đơn hàng của
+                bạn sẽ xuất hiện ở đây.
               </p>
               <Button
                 onClick={() => router.push("/products")}
-                className="bg-[#f73a00] hover:bg-[#f73a00]/90 text-white rounded-xl px-6 py-5 sm:px-8 sm:py-6 text-sm sm:text-base"
-              >
-                Browse Products
+                className="bg-[#f73a00] hover:bg-[#f73a00]/90 text-white rounded-xl px-6 py-5 sm:px-8 sm:py-6 text-sm sm:text-base">
+                Xem sản phẩm
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </CardContent>
@@ -264,13 +263,11 @@ export default function UserOrdersPage() {
               return (
                 <Card
                   key={order.id}
-                  className="border border-gray-200 shadow-sm rounded-xl overflow-hidden bg-white hover:shadow-md transition-shadow"
-                >
+                  className="border border-gray-200 shadow-sm rounded-xl overflow-hidden bg-white hover:shadow-md transition-shadow">
                   {/* Order Header - Clickable */}
                   <div
                     className="px-2 py-1 sm:p-4 cursor-pointer hover:bg-gray-50/80 transition-colors"
-                    onClick={() => toggleOrder(order.id)}
-                  >
+                    onClick={() => toggleOrder(order.id)}>
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
                         <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
@@ -281,11 +278,10 @@ export default function UserOrdersPage() {
                             <span className="text-sm sm:text-base font-semibold text-gray-900 truncate">
                               {order.order_number
                                 ? `#${order.order_number}`
-                                : `Order ref: ${order.id.substring(0, 8)}`}
+                                : `Mã ĐH: ${order.id.substring(0, 8)}`}
                             </span>
                             <Badge
-                              className={`${getStatusColor(order.status)} border text-xs px-2 py-0.5`}
-                            >
+                              className={`${getStatusColor(order.status)} border text-xs px-2 py-0.5`}>
                               {displayStatus}
                             </Badge>
                           </div>
@@ -296,9 +292,7 @@ export default function UserOrdersPage() {
                             </span>
                             <span>
                               {order.order_items.length}{" "}
-                              {order.order_items.length === 1
-                                ? "item"
-                                : "items"}
+                              sản phẩm
                             </span>
                           </div>
                         </div>
@@ -306,7 +300,7 @@ export default function UserOrdersPage() {
                       <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                         <div className="text-right">
                           <div className="text-sm sm:text-base font-bold text-gray-900">
-                            ETB {order.total_price.toLocaleString("en-US")}
+                            {order.total_price.toLocaleString("vi-VN")}
                           </div>
                         </div>
                         {expandedOrder === order.id ? (
@@ -326,13 +320,13 @@ export default function UserOrdersPage() {
                         <div className="bg-white rounded-lg p-4 sm:p-5 shadow-sm">
                           <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2 text-sm sm:text-base">
                             <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-[#f73a00]" />
-                            Shipping Details
+                            Chi tiết giao hàng
                           </h4>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
                             <div className="flex items-start gap-2">
                               <User className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
                               <div className="min-w-0">
-                                <p className="text-gray-500">Full Name</p>
+                                <p className="text-gray-500">Họ và tên</p>
                                 <p className="font-medium text-gray-900 truncate">
                                   {shipping.fullName}
                                 </p>
@@ -341,7 +335,7 @@ export default function UserOrdersPage() {
                             <div className="flex items-start gap-2">
                               <Phone className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
                               <div className="min-w-0">
-                                <p className="text-gray-500">Phone</p>
+                                <p className="text-gray-500">Số điện thoại</p>
                                 <p className="font-medium text-gray-900">
                                   {shipping.phone}
                                 </p>
@@ -350,7 +344,7 @@ export default function UserOrdersPage() {
                             <div className="flex items-start gap-2 sm:col-span-2">
                               <Home className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
                               <div className="min-w-0">
-                                <p className="text-gray-500">Address</p>
+                                <p className="text-gray-500">Địa chỉ</p>
                                 <p className="font-medium text-gray-900">
                                   {shipping.address}
                                 </p>
@@ -363,14 +357,13 @@ export default function UserOrdersPage() {
                         <div>
                           <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2 text-sm sm:text-base">
                             <ShoppingBag className="h-4 w-4 sm:h-5 sm:w-5 text-[#f73a00]" />
-                            Items ({order.order_items.length})
+                            Sản phẩm ({order.order_items.length})
                           </h4>
                           <div className="space-y-3 sm:space-y-4">
                             {order.order_items.map((item) => (
                               <div
                                 key={item.id}
-                                className="flex items-start gap-3 sm:gap-4 p-2 sm:p-3 rounded-lg hover:bg-white transition-colors"
-                              >
+                                className="flex items-start gap-3 sm:gap-4 p-2 sm:p-3 rounded-lg hover:bg-white transition-colors">
                                 <Link href={`/products/${item.products.slug}`}>
                                   <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
                                     {item.products.images?.[0] ? (
@@ -396,11 +389,11 @@ export default function UserOrdersPage() {
                                         <div className="text-xs text-gray-500 mt-0.5">
                                           {[
                                             item.product_variants.color &&
-                                              `Color: ${item.product_variants.color}`,
+                                              `Màu sắc: ${item.product_variants.color}`,
                                             item.product_variants.size &&
-                                              `Size: ${item.product_variants.size}`,
+                                              `Kích thước: ${item.product_variants.size}`,
                                             item.product_variants.unit &&
-                                              `Unit: ${item.product_variants.unit}`,
+                                              `Đơn vị: ${item.product_variants.unit}`,
                                           ]
                                             .filter(Boolean)
                                             .join(" • ")}
@@ -409,13 +402,12 @@ export default function UserOrdersPage() {
                                     </div>
                                     <div className="text-left sm:text-right flex-shrink-0">
                                       <div className="font-semibold text-gray-900 text-sm sm:text-base">
-                                        Br
                                         {(
                                           item.price * item.quantity
-                                        ).toLocaleString("en-US")}
+                                        ).toLocaleString("vi-VN")}
                                       </div>
                                       <div className="text-xs text-gray-500">
-                                        Br{item.price.toLocaleString("en-US")} ×{" "}
+                                        {item.price.toLocaleString("vi-VN")} ×{" "}
                                         {item.quantity}
                                       </div>
                                     </div>
@@ -430,10 +422,10 @@ export default function UserOrdersPage() {
                         <div className="border-t border-gray-200 pt-3 sm:pt-4">
                           <div className="flex justify-between items-center">
                             <span className="text-sm sm:text-base text-gray-600">
-                              Total
+                              Tổng cộng
                             </span>
                             <span className="text-lg sm:text-xl font-bold text-[#f73a00]">
-                              ETB {order.total_price.toLocaleString("en-US")}
+                              {order.total_price.toLocaleString("vi-VN")}
                             </span>
                           </div>
                         </div>

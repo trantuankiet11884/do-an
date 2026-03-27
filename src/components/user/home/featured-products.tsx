@@ -80,9 +80,9 @@ export default function FeaturedProducts() {
   }, [activeTab]);
 
   const tabs = [
-    { id: "new", label: "New Arrivals", icon: Clock },
-    { id: "featured", label: "Featured", icon: Sparkles },
-    { id: "trending", label: "Trending", icon: TrendingUp },
+    { id: "new", label: "Hàng Mới Về", icon: Clock },
+    { id: "featured", label: "Nổi Bật", icon: Sparkles },
+    { id: "trending", label: "Xu Hướng", icon: TrendingUp },
   ] as const;
 
   // Scroll active tab into view on mobile when it changes
@@ -108,14 +108,14 @@ export default function FeaturedProducts() {
           <div className="w-full md:w-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#f73a00]/10 rounded-full text-[#f73a00] text-xs sm:text-sm font-medium mb-3 sm:mb-4">
               <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
-              Premium Selection
+              Lựa Chọn Cao Cấp
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">
-              Featured Products
+              Sản Phẩm Nổi Bật
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl">
-              The pieces everyone is talking about this week. Curated for the
-              discerning taste.
+              Những sản phẩm đang được quan tâm nhất trong tuần. Được tuyển chọn
+              kỹ lưỡng cho phong cách tinh tế.
             </p>
           </div>
 
@@ -173,7 +173,7 @@ export default function FeaturedProducts() {
             ))
           ) : (
             <div className="col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 text-center py-12">
-              <p className="text-gray-500">No products found</p>
+              <p className="text-gray-500">Không tìm thấy sản phẩm nào</p>
             </div>
           )}
         </div>
@@ -183,7 +183,7 @@ export default function FeaturedProducts() {
             href="/products"
             className="inline-flex items-center gap-2 text-[#f73a00] text-sm sm:text-base font-semibold hover:gap-3 transition-all group"
           >
-            View All Products
+            Xem Tất Cả Sản Phẩm
             <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

@@ -41,27 +41,27 @@ export const OrderConfirmedEmail = ({
   customerEmail,
   customerPhone,
 }: OrderConfirmedProps) => {
-  const previewText = `Your order ${orderNumber} has been confirmed!`;
+  const previewText = `Đơn hàng ${orderNumber} của bạn đã được xác nhận!`;
 
   // Parse shipping info
   const parseShippingInfo = (info: string) => {
     const lines = info.split("\n");
     const fullName =
       lines
-        .find((l) => l.startsWith("Full Name:"))
-        ?.replace("Full Name:", "")
+        .find((l) => l.startsWith("Họ và tên:"))
+        ?.replace("Họ và tên:", "")
         .trim() || "";
     const phone =
       lines
-        .find((l) => l.startsWith("Phone:"))
-        ?.replace("Phone:", "")
+        .find((l) => l.startsWith("Số điện thoại:"))
+        ?.replace("Số điện thoại:", "")
         .trim() ||
       customerPhone ||
       "";
     const address =
       lines
-        .find((l) => l.startsWith("Address:"))
-        ?.replace("Address:", "")
+        .find((l) => l.startsWith("Địa chỉ:"))
+        ?.replace("Địa chỉ:", "")
         .trim() || "";
     return { fullName, phone, address };
   };
@@ -69,7 +69,7 @@ export const OrderConfirmedEmail = ({
   const shipping = parseShippingInfo(shippingAddress);
 
   const formatPrice = (price: number) => {
-    return `ETB ${price.toLocaleString("en-US")}`;
+    return ` ${price.toLocaleString("vi-VN")} ₫`;
   };
 
   const itemTotalPrice = (price: number, quantity: number) => {
@@ -97,9 +97,9 @@ export const OrderConfirmedEmail = ({
             </Row>
             <Row>
               <Column align="center">
-                <Text style={headerTitle}>Order Confirmed!</Text>
+                <Text style={headerTitle}>Đơn hàng đã được xác nhận!</Text>
                 <Text style={headerSubtitle}>
-                  Thank you for shopping with us
+                  Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi
                 </Text>
               </Column>
             </Row>
@@ -107,16 +107,16 @@ export const OrderConfirmedEmail = ({
 
           {/* Order Number Badge */}
           <Section style={orderBadge}>
-            <Text style={orderNumberText}>Order #{orderNumber}</Text>
+            <Text style={orderNumberText}>Đơn hàng #{orderNumber}</Text>
           </Section>
 
           {/* Customer Info */}
           <Section style={infoSection}>
             <Row>
               <Column>
-                <Text style={infoTitle}>Customer Information</Text>
+                <Text style={infoTitle}>Thông tin khách hàng</Text>
                 <Text style={infoText}>
-                  <strong>Name:</strong> {shipping.fullName || customerName}
+                  <strong>Tên:</strong> {shipping.fullName || customerName}
                 </Text>
                 {customerEmail && (
                   <Text style={infoText}>
@@ -125,12 +125,13 @@ export const OrderConfirmedEmail = ({
                 )}
                 {(shipping.phone || customerPhone) && (
                   <Text style={infoText}>
-                    <strong>Phone:</strong> {shipping.phone || customerPhone}
+                    <strong>Điện thoại:</strong>{" "}
+                    {shipping.phone || customerPhone}
                   </Text>
                 )}
               </Column>
               <Column>
-                <Text style={infoTitle}>Address</Text>
+                <Text style={infoTitle}>Địa chỉ</Text>
                 <Text style={infoText}>{shipping.address}</Text>
               </Column>
             </Row>
@@ -149,7 +150,7 @@ export const OrderConfirmedEmail = ({
 
           {/* Order Items */}
           <Section style={itemsSection}>
-            <Text style={sectionTitle}>Order Items</Text>
+            <Text style={sectionTitle}>Sản phẩm trong đơn hàng</Text>
             {items.map((item, index) => (
               <Row key={index} style={itemRow}>
                 <Column style={itemImageColumn}>
@@ -172,12 +173,12 @@ export const OrderConfirmedEmail = ({
                   {item.variant && (
                     <Text style={itemVariant}>{item.variant}</Text>
                   )}
-                  <Text style={itemQuantity}>Qty: {item.quantity}</Text>
+                  <Text style={itemQuantity}>SL: {item.quantity}</Text>
                 </Column>
                 <Column style={itemPriceColumn} align="right">
                   <Text style={itemPrice}>{formatPrice(item.price)}</Text>
                   <Text style={itemTotal}>
-                    Total:{" "}
+                    Tổng:{" "}
                     {formatPrice(itemTotalPrice(item.price, item.quantity))}
                   </Text>
                 </Column>
@@ -189,7 +190,7 @@ export const OrderConfirmedEmail = ({
           <Section style={summarySection}>
             <Row style={summaryRow}>
               <Column>
-                <Text style={summaryLabel}>Subtotal</Text>
+                <Text style={summaryLabel}>Tạm tính</Text>
               </Column>
               <Column align="right">
                 <Text style={summaryValue}>{formatPrice(total)}</Text>
@@ -197,17 +198,17 @@ export const OrderConfirmedEmail = ({
             </Row>
             <Row style={summaryRow}>
               <Column>
-                <Text style={summaryLabel}>Shipping</Text>
+                <Text style={summaryLabel}>Phí giao hàng</Text>
               </Column>
               <Column align="right">
-                <Text style={summaryValueFree}>Free (Addis Ababa)</Text>
+                <Text style={summaryValueFree}>Miễn phí (Nội thành)</Text>
               </Column>
             </Row>
 
             {/* Payment breakdown – half now, half on delivery */}
             <Row style={summaryRow}>
               <Column>
-                <Text style={summaryLabel}>Amount you paid</Text>
+                <Text style={summaryLabel}>Số tiền đã thanh toán</Text>
               </Column>
               <Column align="right">
                 <Text style={summaryValue}>{formatPrice(halfAmount)}</Text>
@@ -215,7 +216,7 @@ export const OrderConfirmedEmail = ({
             </Row>
             <Row style={summaryRow}>
               <Column>
-                <Text style={summaryLabel}>Amount due on delivery</Text>
+                <Text style={summaryLabel}>Số tiền còn lại khi nhận hàng</Text>
               </Column>
               <Column align="right">
                 <Text style={summaryValue}>{formatPrice(halfAmount)}</Text>
@@ -224,16 +225,18 @@ export const OrderConfirmedEmail = ({
 
             <Row style={summaryRow}>
               <Column>
-                <Text style={summaryLabel}>Payment</Text>
+                <Text style={summaryLabel}>Thanh toán</Text>
               </Column>
               <Column align="right">
-                <Text style={summaryValue}>Pay 50% now, 50% on Delivery</Text>
+                <Text style={summaryValue}>
+                  Thanh toán 50% bây giờ, 50% khi nhận hàng
+                </Text>
               </Column>
             </Row>
             <Hr style={divider} />
             <Row style={totalRow}>
               <Column>
-                <Text style={totalLabel}>Total</Text>
+                <Text style={totalLabel}>Tổng cộng</Text>
               </Column>
               <Column align="right">
                 <Text style={totalValue}>{formatPrice(total)}</Text>
@@ -245,16 +248,16 @@ export const OrderConfirmedEmail = ({
           <Section style={footer}>
             <Row>
               <Column align="center">
-                <Link href="https://ambaastore.com" style={footerLink}>
-                  Visit Our Store
+                <Link href="https://kds.com" style={footerLink}>
+                  Ghé thăm cửa hàng
                 </Link>
                 <Text style={footerText}>
-                  © {new Date().getFullYear()} KDS. All rights reserved.
+                  © {new Date().getFullYear()} KDS. Bảo lưu mọi quyền.
                 </Text>
-                <Text style={footerAddress}>Addis Ababa, Ethiopia</Text>
+                <Text style={footerAddress}>Hồ Chí Minh, Việt Nam</Text>
                 <Text style={footerContact}>
-                  <Link href="mailto:support@ambaastore.com" style={footerLink}>
-                    support@ambaastore.com
+                  <Link href="mailto:support@kds.com" style={footerLink}>
+                    support@kds.com
                   </Link>
                   {" • "}
                   <Link href="tel:+251912345678" style={footerLink}>

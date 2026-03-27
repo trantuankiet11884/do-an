@@ -56,7 +56,7 @@ function LoginFormContent() {
       router.push(redirectTo);
     } catch (err: any) {
       setGeneralError(
-        err.message || "Login failed. Please check your credentials.",
+        err.message || "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.",
       );
     } finally {
       setLoading(false);
@@ -72,10 +72,10 @@ function LoginFormContent() {
           </div>
         </div>
         <CardTitle className="text-3xl text-gray-900 font-bold">
-          Welcome back
+          Chào mừng trở lại
         </CardTitle>
         <CardDescription className="text-base text-gray-600">
-          Access the world's finest fashion collections.
+          Khám phá bộ sưu tập thời trang đẳng cấp nhất thế giới.
         </CardDescription>
       </CardHeader>
 
@@ -89,12 +89,12 @@ function LoginFormContent() {
 
           <div className="space-y-2 text-gray-900">
             <Label htmlFor="email" className="text-gray-700">
-              EMAIL ADDRESS
+              ĐỊA CHỈ EMAIL
             </Label>
             <Input
               id="email"
               type="email"
-              placeholder="name@company.com"
+              placeholder="example@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={errors.email ? "border-red-500" : "border-gray-300"}
@@ -107,12 +107,12 @@ function LoginFormContent() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password" className="text-gray-700">
-                PASSWORD
+                MẬT KHẨU
               </Label>
               <Link
                 href="/forgot-password"
                 className="text-sm text-[#f73a00] hover:underline">
-                Forgot password?
+                Quên mật khẩu?
               </Link>
             </div>
             <div className="relative text-gray-900 mb-3">
@@ -150,15 +150,15 @@ function LoginFormContent() {
             type="submit"
             className="w-full bg-[#f73a00] hover:bg-[#f73a00]/90 text-white"
             disabled={loading}>
-            {loading ? "Signing in..." : "Sign In to KDS"}
+            {loading ? "Đang đăng nhập..." : "Đăng nhập vào KDS"}
           </Button>
 
           <div className="text-center text-sm text-gray-600">
-            Don't have an account?{" "}
+            Chưa có tài khoản?{" "}
             <Link
               href="/register"
               className="text-[#f73a00] hover:underline font-medium">
-              Sign up
+              Đăng ký ngay
             </Link>
           </div>
         </CardFooter>
@@ -174,7 +174,7 @@ export default function LoginForm() {
         <div className="min-h-screen bg-white flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="h-12 w-12 animate-spin text-[#f73a00] mx-auto mb-4" />
-            <p className="text-gray-600">Loading form...</p>
+            <p className="text-gray-600">Đang tải biểu mẫu...</p>
           </div>
         </div>
       }>

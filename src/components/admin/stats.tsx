@@ -44,7 +44,7 @@ export default function AdminStatsClient({
   const fetchPeriodStats = async () => {
     try {
       const res = await fetch("/api/admin/stats");
-      if (!res.ok) throw new Error("Failed to fetch stats");
+      if (!res.ok) throw new Error("Lỗi khi tải số liệu thống kê");
       const data = await res.json();
       setStats((prev) => ({ ...prev, ...data }));
     } catch (error) {
@@ -86,7 +86,7 @@ export default function AdminStatsClient({
 
   const statsCards = [
     {
-      name: "Total Orders",
+      name: "Tổng đơn hàng",
       total: stats.totalOrders,
       recent: stats.recentOrders,
       prev: stats.prevOrders,
@@ -94,7 +94,7 @@ export default function AdminStatsClient({
       color: "bg-blue-500",
     },
     {
-      name: "Total Products",
+      name: "Tổng sản phẩm",
       total: stats.totalProducts,
       recent: stats.recentProducts,
       prev: stats.prevProducts,
@@ -102,7 +102,7 @@ export default function AdminStatsClient({
       color: "bg-green-500",
     },
     {
-      name: "Total Users",
+      name: "Tổng người dùng",
       total: stats.totalUsers,
       recent: stats.recentUsers,
       prev: stats.prevUsers,
@@ -110,7 +110,7 @@ export default function AdminStatsClient({
       color: "bg-purple-500",
     },
     {
-      name: "Pending Orders",
+      name: "Đơn hàng chờ xử lý",
       total: stats.pendingOrders,
       recent: stats.recentPending,
       prev: stats.prevPending,
@@ -160,15 +160,15 @@ export default function AdminStatsClient({
                 {trendIcon}
                 <span
                   className={`text-xs font-medium ${trendColor}`}
-                  title={`${stat.recent} in last 30 days (${change.absolute > 0 ? "+" : ""}${change.absolute} vs previous period)`}
+                  title={`${stat.recent} trong 30 ngày qua (${change.absolute > 0 ? "+" : ""}${change.absolute} so với kỳ trước)`}
                 >
-                  {stat.recent} this month
+                  {stat.recent} tháng này
                 </span>
               </div>
             </dd>
             <dd className="ml-16 mt-1">
               <div className="text-xs text-gray-500">
-                {change.percent} vs previous 30 days
+                {change.percent} so với 30 ngày trước
               </div>
             </dd>
           </div>

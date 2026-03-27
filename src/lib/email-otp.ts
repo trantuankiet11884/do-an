@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_OTP_API_KEY);
-const fromEmail = "KDS <auth@recover.ambaastore.com>";
+const fromEmail = "KDS <auth@recover.kds.com>";
 
 export async function sendOtpEmail({
   to,
@@ -27,8 +27,8 @@ export async function sendOtpEmail({
         <p>If you didn't request this, please ignore this email.</p>
         <hr style="border: 0; border-top: 1px solid #eaeaea; margin: 30px 0;" />
         <p style="color: #6b7280; font-size: 12px; text-align: center;">
-          KDS – Addis Ababa, Ethiopia<br />
-          <a href="mailto:support@ambaastore.com" style="color: #f73a00;">support@ambaastore.com</a>
+          KDS – Hồ Chí Minh, Việt Nam<br />
+          <a href="mailto:support@kds.com" style="color: #f73a00;">support@kds.com</a>
         </p>
       </div>
     </div>

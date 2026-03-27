@@ -131,9 +131,9 @@ export default function CategoryShowcase() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold mb-4 text-gray-900">
-            Shop by Category
+            Mua sắm theo danh mục
           </h2>
-          <p className="text-gray-600 mb-8">Categories coming soon!</p>
+          <p className="text-gray-600 mb-8">Danh mục sẽ sớm ra mắt!</p>
         </div>
       </section>
     );
@@ -147,14 +147,14 @@ export default function CategoryShowcase() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#f73a00]/10 rounded-full text-[#f73a00] text-sm font-medium mb-4">
             <Tag className="h-4 w-4" />
-            Shop by Category
+            Mua sắm theo danh mục
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Curated Collections
+            Bộ sưu tập tuyển chọn
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Discover our thoughtfully organized categories for every lifestyle
-            and occasion.
+            Khám phá các danh mục được sắp xếp tỉ mỉ cho mọi phong cách sống và
+            dịp lễ.
           </p>
         </div>
 
@@ -175,15 +175,15 @@ export default function CategoryShowcase() {
                 <div className="absolute bottom-6 left-6 right-6 text-white z-10">
                   <h3 className="text-3xl font-bold mb-2">{cat4.title}</h3>
                   <p className="text-white/80 text-sm mb-3 line-clamp-2">
-                    {cat4.description || "Explore our collection"}
+                    {cat4.description || "Khám phá bộ sưu tập"}
                   </p>
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-2 text-sm font-semibold border-b-2 border-[#f73a00] pb-1 group-hover:gap-3 transition-all">
-                      Shop Now
+                      Mua ngay
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </span>
                     <span className="text-white/60 text-sm">
-                      {cat4.product_count} products
+                      {cat4.product_count} sản phẩm
                     </span>
                   </div>
                 </div>
@@ -210,11 +210,11 @@ export default function CategoryShowcase() {
                     <div className="absolute bottom-4 left-4 right-4 text-white">
                       <h3 className="text-lg font-bold mb-1">{cat3.title}</h3>
                       <p className="text-white/70 text-xs mb-2 line-clamp-1">
-                        {cat3.description || "Shop now"}
+                        {cat3.description || "Mua ngay"}
                       </p>
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-medium border-b border-[#f73a00] pb-0.5 group-hover:border-b-2 transition-all">
-                          Shop
+                          Mua sắm
                         </span>
                         <span className="text-white/50 text-xs">
                           {cat3.product_count}
@@ -239,11 +239,11 @@ export default function CategoryShowcase() {
                     <div className="absolute bottom-4 left-4 right-4 text-white">
                       <h3 className="text-lg font-bold mb-1">{cat1.title}</h3>
                       <p className="text-white/70 text-xs mb-2 line-clamp-1">
-                        {cat1.description || "Shop now"}
+                        {cat1.description || "Mua ngay"}
                       </p>
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-medium border-b border-[#f73a00] pb-0.5 group-hover:border-b-2 transition-all">
-                          Shop
+                          Mua sắm
                         </span>
                         <span className="text-white/50 text-xs">
                           {cat1.product_count}
@@ -270,11 +270,11 @@ export default function CategoryShowcase() {
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <h3 className="text-xl font-bold mb-1">{cat2.title}</h3>
                     <p className="text-white/70 text-xs mb-2 line-clamp-1">
-                      {cat2.description || "Shop now"}
+                      {cat2.description || "Mua ngay"}
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-medium border-b border-[#f73a00] pb-0.5 group-hover:border-b-2 transition-all">
-                        Shop
+                        Mua sắm
                       </span>
                       <span className="text-white/50 text-xs">
                         {cat2.product_count}

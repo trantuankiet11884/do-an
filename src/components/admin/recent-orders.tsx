@@ -88,7 +88,7 @@ export default function RecentOrders({ orders }: RecentOrdersProps) {
 
   // Format date
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("vi-VN", {
       month: "short",
       day: "numeric",
       year: "numeric",
@@ -100,9 +100,9 @@ export default function RecentOrders({ orders }: RecentOrdersProps) {
       <div className="px-6 py-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-medium text-gray-900">Recent Orders</h3>
+            <h3 className="text-lg font-medium text-gray-900">Đơn hàng gần đây</h3>
             <p className="text-sm text-gray-500 mt-1">
-              Latest customer orders and their status
+              Các đơn hàng mới nhất và trạng thái của chúng
             </p>
           </div>
           <Link href="/admin/orders">
@@ -111,7 +111,7 @@ export default function RecentOrders({ orders }: RecentOrdersProps) {
               size="sm"
               className="text-blue-600 hover:text-blue-800"
             >
-              View all
+              Xem tất cả
               <ArrowUpRight className="ml-1 h-4 w-4" />
             </Button>
           </Link>
@@ -122,22 +122,22 @@ export default function RecentOrders({ orders }: RecentOrdersProps) {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Order #
+                Đơn hàng #
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Customer
+                Khách hàng
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Date
+                Ngày
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Items
+                Sản phẩm
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Total
+                Tổng cộng
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
+                Trạng thái
               </th>
             </tr>
           </thead>
@@ -145,7 +145,7 @@ export default function RecentOrders({ orders }: RecentOrdersProps) {
             {orders.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
-                  No recent orders found
+                  Không tìm thấy đơn hàng gần đây
                 </td>
               </tr>
             ) : (
@@ -174,19 +174,19 @@ export default function RecentOrders({ orders }: RecentOrdersProps) {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-col">
                       <div className="text-sm text-gray-900">
-                        {calculateTotalItems(order)} items
+                        {calculateTotalItems(order)} món
                       </div>
                       <div className="text-xs text-gray-500">
-                        {order.order_items?.length || 0} products
+                        {order.order_items?.length || 0} sản phẩm
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
-                      Br
                       {parseFloat(order.total_price.toString()).toLocaleString(
-                        "en-US",
+                        "vi-VN",
                       )}
+                      {" "}₫
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -208,7 +208,7 @@ export default function RecentOrders({ orders }: RecentOrdersProps) {
       {orders.length > 0 && (
         <div className="px-6 py-3 border-t border-gray-200 bg-gray-50">
           <div className="text-sm text-gray-600">
-            Showing {Math.min(orders.length, 10)} recent orders
+            Đang hiển thị {Math.min(orders.length, 10)} đơn hàng gần đây
           </div>
         </div>
       )}

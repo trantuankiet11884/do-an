@@ -22,11 +22,11 @@ export default function NotFound() {
       <div className="text-center">
         <h1 className="text-9xl font-bold text-[#f73a00]/30">404</h1>
         <h2 className="text-3xl font-bold text-gray-900 mt-4">
-          Page Not Found
+          Không Tìm Thấy Trang
         </h2>
         <p className="text-gray-600 mt-2 max-w-md mx-auto">
-          The page you are looking for might have been removed, had its name
-          changed, or is temporarily unavailable.
+          Trang bạn đang tìm kiếm có thể đã bị xóa, thay đổi tên hoặc tạm thời
+          không khả dụng.
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
@@ -36,7 +36,7 @@ export default function NotFound() {
             className="flex items-center gap-2 text-gray-900"
           >
             <ArrowLeft className="h-4 w-4" />
-            Go Back
+            Quay Lại
           </Button>
 
           <Button
@@ -45,25 +45,25 @@ export default function NotFound() {
           >
             <Link href="/">
               <Home className="h-4 w-4" />
-              Back to Home
+              Về Trang Chủ
             </Link>
           </Button>
         </div>
         {/* Additional Help */}
         <div className="mt-12 pt-8 border-t border-gray-200">
-          <p className="text-sm text-gray-500 mb-4 underline">Need help?</p>
+          <p className="text-sm text-gray-500 mb-4 underline">Cần hỗ trợ?</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href="/products"
               className="text-sm text-[#f73a00] hover:text-[#f73a00]/90 hover:underline"
             >
-              Browse Products
+              Xem Sản Phẩm
             </Link>
             <Link
               href="/"
               className="text-sm text-[#f73a00] hover:text-[#f73a00]/90 hover:underline"
             >
-              Contact Support
+              Liên Hệ Hỗ Trợ
             </Link>
           </div>
         </div>

@@ -83,15 +83,15 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
       });
 
       if (res.ok) {
-        toast.success("Category deleted successfully");
+        toast.success("Xóa danh mục thành công");
         window.location.reload();
       } else {
         const data = await res.json();
-        toast.error(data.error || "Failed to delete category");
+        toast.error(data.error || "Xóa danh mục thất bại");
       }
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("Failed to delete category");
+      toast.error("Xóa danh mục thất bại");
     } finally {
       setIsDeleting(false);
       setCategoryToDelete(null);
@@ -149,7 +149,7 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
                   {cat.title}
                   {!isMainCategory && (
                     <span className="ml-2 text-xs text-gray-500">
-                      (Subcategory)
+                      (Danh mục con)
                     </span>
                   )}
                 </div>
@@ -165,17 +165,17 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
           <td className="px-6 py-4 text-sm">
             {isMainCategory ? (
               <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                Main Category
+                Danh mục chính
               </span>
             ) : (
               <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-                Subcategory
+                Danh mục con
               </span>
             )}
           </td>
 
           <td className="px-6 py-4 text-sm text-gray-500">
-            {new Date(cat.created_at).toLocaleDateString()}
+            {new Date(cat.created_at).toLocaleDateString("vi-VN")}
           </td>
 
           <td className="px-6 py-4">
@@ -183,14 +183,14 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
               <Link
                 href={`/admin/categories/edit/${cat.id}`}
                 className="text-blue-600 hover:text-blue-900 transition-colors"
-                title="Edit"
+                title="Sửa"
               >
                 <Edit className="h-4 w-4" />
               </Link>
               <button
                 onClick={() => handleDeleteClick(cat)}
                 className="text-red-600 hover:text-red-900 transition-colors"
-                title="Delete"
+                title="Xóa"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
@@ -212,14 +212,14 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
             <div className="flex-1 max-w-lg">
               <input
                 type="search"
-                placeholder="Search categories by name or description..."
+                placeholder="Tìm kiếm danh mục theo tên hoặc mô tả..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <div className="text-sm text-gray-500">
-              {categoryTree.length} main categories • {categories.length} total
+              {categoryTree.length} danh mục chính • {categories.length} tổng cộng
             </div>
           </div>
         </div>
@@ -230,16 +230,16 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Category
+                  Danh mục
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Type
+                  Loại
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Created
+                  Ngày tạo
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
+                  Thao tác
                 </th>
               </tr>
             </thead>
@@ -252,9 +252,9 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
 
         {categories.length === 0 && (
           <div className="p-8 text-center">
-            <div className="text-gray-400 mb-2">No categories found</div>
+            <div className="text-gray-400 mb-2">Không tìm thấy danh mục</div>
             <p className="text-sm text-gray-500">
-              Create your first category to get started
+              Tạo danh mục đầu tiên của bạn để bắt đầu
             </p>
           </div>
         )}
@@ -267,34 +267,32 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Category</AlertDialogTitle>
+            <AlertDialogTitle>Xóa danh mục</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{categoryToDelete?.title}"?
+              Bạn có chắc chắn muốn xóa danh mục "{categoryToDelete?.title}"?
               {categoryToDelete?.children &&
                 categoryToDelete.children.length > 0 && (
                   <span className="block mt-2 font-semibold text-amber-600">
-                    This category has {categoryToDelete.children.length}{" "}
-                    subcategor
-                    {categoryToDelete.children.length === 1 ? "y" : "ies"} that
-                    will also be deleted.
+                    Danh mục này có {categoryToDelete.children.length}{" "}
+                    danh mục con cũng sẽ bị xóa.
                   </span>
                 )}
               <span className="block mt-2">
-                Products in this category will become uncategorized.
+                Sản phẩm trong danh mục này sẽ trở thành chưa phân loại.
               </span>
               <span className="block mt-2 text-red-600">
-                This action cannot be undone.
+                Hành động này không thể hoàn tác.
               </span>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting}>Hủy</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={isDeleting}
               className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
             >
-              {isDeleting ? "Deleting..." : "Delete"}
+              {isDeleting ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

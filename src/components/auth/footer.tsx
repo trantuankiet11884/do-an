@@ -17,36 +17,36 @@ export default function AuthFooter() {
             <button
               onClick={() => setShowPrivacy(true)}
               className="text-sm hover:text-gray-900 transition-colors">
-              Privacy Policy
+              Chính sách bảo mật
             </button>
             <button
               onClick={() => setShowTerms(true)}
               className="text-sm hover:text-gray-900 transition-colors">
-              Terms of Service
+              Điều khoản dịch vụ
             </button>
             <button
               onClick={() => setShowCookie(true)}
               className="text-sm hover:text-gray-900 transition-colors">
-              Cookie Policy
+              Chính sách Cookie
             </button>
           </div>
-          <p className="text-sm">© {currentYear} KDS. All rights reserved.</p>
+          <p className="text-sm">© {currentYear} KDS. Bảo lưu mọi quyền.</p>
         </div>
       </footer>
 
       {/* Dialogs */}
       {showPrivacy && (
-        <Dialog title="Privacy Policy" onClose={() => setShowPrivacy(false)}>
+        <Dialog title="Chính sách bảo mật" onClose={() => setShowPrivacy(false)}>
           <PrivacyContent />
         </Dialog>
       )}
       {showTerms && (
-        <Dialog title="Terms of Service" onClose={() => setShowTerms(false)}>
+        <Dialog title="Điều khoản dịch vụ" onClose={() => setShowTerms(false)}>
           <TermsContent />
         </Dialog>
       )}
       {showCookie && (
-        <Dialog title="Cookie Policy" onClose={() => setShowCookie(false)}>
+        <Dialog title="Chính sách Cookie" onClose={() => setShowCookie(false)}>
           <CookieContent />
         </Dialog>
       )}
@@ -91,58 +91,59 @@ function Dialog({
 function PrivacyContent() {
   return (
     <div className="prose max-w-none">
-      <p className="text-gray-600 mb-6">Effective Date: 22/2/2026</p>
+      <p className="text-gray-600 mb-6">Ngày có hiệu lực: 22/02/2026</p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Information We Collect
+        Thông tin chúng tôi thu thập
       </h3>
       <p className="text-gray-700 mb-4">
-        We collect information you provide directly to us, such as when you
-        create an account, make a purchase, or contact us. This may include your
-        name, email address, phone number, shipping address, and payment
-        information.
+        Chúng tôi thu thập thông tin bạn cung cấp trực tiếp cho chúng tôi, ví dụ
+        như khi bạn tạo tài khoản, thực hiện mua hàng hoặc liên hệ với chúng
+        tôi. Thông tin này có thể bao gồm tên, địa chỉ email, số điện thoại, địa
+        chỉ giao hàng và thông tin thanh toán của bạn.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        How We Use Your Information
+        Cách chúng tôi sử dụng thông tin
       </h3>
       <p className="text-gray-700 mb-3">
-        We use the information we collect to:
+        Chúng tôi sử dụng thông tin thu thập được để:
       </p>
       <ul className="text-gray-600 mb-4 list-disc pl-6">
-        <li>Process your orders and payments</li>
-        <li>Communicate with you about your orders and account</li>
-        <li>Send you promotional offers and newsletters (with your consent)</li>
-        <li>Improve our website and services</li>
-        <li>Comply with legal obligations</li>
+        <li>Xử lý đơn hàng và thanh toán của bạn</li>
+        <li>Liên lạc với bạn về đơn hàng và tài khoản</li>
+        <li>Gửi các ưu đãi quảng cáo và bản tin (khi có sự đồng ý của bạn)</li>
+        <li>Cải thiện trang web và dịch vụ của chúng tôi</li>
+        <li>Tuân thủ các nghĩa vụ pháp lý</li>
       </ul>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Information Sharing
+        Chia sẻ thông tin
       </h3>
       <p className="text-gray-700 mb-4">
-        We do not sell or rent your personal information to third parties. We
-        may share your information with trusted service providers who assist us
-        in operating our website, conducting our business, or servicing you, as
-        long as those parties agree to keep this information confidential.
+        Chúng tôi không bán hoặc cho thuê thông tin cá nhân của bạn cho bên thứ
+        ba. Chúng tôi có thể chia sẻ thông tin của bạn với các nhà cung cấp dịch
+        vụ tin cậy hỗ trợ chúng tôi vận hành trang web, kinh doanh hoặc phục vụ
+        bạn, miễn là các bên đó đồng ý giữ kín thông tin này.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Data Security
+        An toàn dữ liệu
       </h3>
       <p className="text-gray-700 mb-4">
-        We implement appropriate security measures to protect your personal
-        information against unauthorized access, alteration, disclosure, or
-        destruction.
+        Chúng tôi thực hiện các biện pháp an ninh thích hợp để bảo vệ thông tin
+        cá nhân của bạn khỏi việc truy cập, thay đổi, tiết lộ hoặc hủy hoại trái
+        phép.
       </p>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Rights</h3>
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">Quyền lợi của bạn</h3>
       <p className="text-gray-700 mb-4">
-        You have the right to access, update, or delete your personal
-        information. To exercise these rights, please contact us at
-        support@ambaastore.com.
+        Bạn có quyền truy cập, cập nhật hoặc xóa thông tin cá nhân của mình. Để
+        thực hiện các quyền này, vui lòng liên hệ với chúng tôi tại
+        support@kds.com.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Changes to This Policy
+        Thay đổi chính sách này
       </h3>
       <p className="text-gray-700">
-        We may update this Privacy Policy from time to time. We will notify you
-        of any changes by posting the new policy on this page.
+        Chúng tôi có thể cập nhật Chính sách bảo mật này theo thời gian. Chúng
+        tôi sẽ thông báo cho bạn về bất kỳ thay đổi nào bằng cách đăng chính
+        sách mới trên trang này.
       </p>
     </div>
   );
@@ -151,67 +152,67 @@ function PrivacyContent() {
 function TermsContent() {
   return (
     <div className="prose max-w-none">
-      <p className="text-gray-600 mb-6">Effective Date: 22/2/2026</p>
+      <p className="text-gray-600 mb-6">Ngày có hiệu lực: 22/02/2026</p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Acceptance of Terms
+        Chấp nhận Điều khoản
       </h3>
       <p className="text-gray-700 mb-4">
-        By accessing and using KDS services, you accept and agree to be bound by
-        these Terms of Service.
+        Bằng cách truy cập và sử dụng dịch vụ của KDS, bạn chấp nhận và đồng ý
+        tuân theo các Điều khoản dịch vụ này.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Use of Our Services
+        Sử dụng Dịch vụ của chúng tôi
       </h3>
       <p className="text-gray-700 mb-4">
-        You may use our services only for lawful purposes and in accordance with
-        these Terms. You agree not to use our services in any way that could
-        damage, disable, overburden, or impair our website.
+        Bạn chỉ được sử dụng dịch vụ của chúng tôi cho các mục đích hợp pháp và
+        tuân theo các Điều khoản này. Bạn đồng ý không sử dụng dịch vụ theo bất
+        kỳ cách nào có thể làm hỏng, vô hiệu hóa, gây quá tải hoặc làm suy yếu
+        trang web của chúng tôi.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Account Responsibilities
+        Trách nhiệm Tài khoản
       </h3>
       <p className="text-gray-700 mb-4">
-        If you create an account, you are responsible for maintaining the
-        security of your account and for all activities that occur under the
-        account. You must notify us immediately of any unauthorized use.
+        Nếu bạn tạo tài khoản, bạn chịu trách nhiệm bảo mật tài khoản của mình
+        và cho mọi hoạt động xảy ra dưới tài khoản đó. Bạn phải thông báo ngay
+        cho chúng tôi về bất kỳ việc sử dụng trái phép nào.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Orders and Payments
+        Đơn hàng và Thanh toán
       </h3>
       <p className="text-gray-700 mb-4">
-        By placing an order, you agree to pay the specified price for the
-        products. We reserve the right to refuse or cancel any order for any
-        reason, including but not limited to product availability, errors in
-        pricing, or suspected fraud.
+        Bằng cách đặt hàng, bạn đồng ý thanh toán mức giá quy định cho sản phẩm.
+        Chúng tôi có quyền từ chối hoặc hủy bất kỳ đơn hàng nào vì bất kỳ lý do
+        nào, bao gồm nhưng không giới hạn ở tính trạng sẵn có của sản phẩm, lỗi
+        giá cả hoặc nghi ngờ gian lận.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Shipping and Returns
+        Vận chuyển và Trả hàng
       </h3>
       <p className="text-gray-700 mb-4">
-        Our shipping and return policies are outlined separately and are
-        incorporated by reference into these Terms.
+        Chính sách vận chuyển và trả hàng của chúng tôi được quy định riêng và
+        được kết hợp vào các Điều khoản này bằng cách tham chiếu.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Intellectual Property
+        Sở hữu trí tuệ
       </h3>
       <p className="text-gray-700 mb-4">
-        All content on this website, including text, graphics, logos, and
-        images, is the property of KDS and is protected by copyright laws.
+        Tất cả nội dung trên trang web này, bao gồm văn bản, đồ họa, logo và
+        hình ảnh, là tài sản của KDS và được bảo vệ bởi luật bản quyền.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Limitation of Liability
+        Giới hạn Trách nhiệm
       </h3>
       <p className="text-gray-700 mb-4">
-        To the fullest extent permitted by law, KDS shall not be liable for any
-        indirect, incidental, special, or consequential damages arising out of
-        or in connection with your use of our services.
+        Trong phạm vi tối đa do luật pháp cho phép, KDS sẽ không chịu trách
+        nhiệm về bất kỳ thiệt hại gián tiếp, ngẫu nhiên, đặc biệt hoặc hệ quả
+        nào phát sinh từ hoặc liên quan đến việc bạn sử dụng dịch vụ của chúng
+        tôi.
       </p>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Governing Law
-      </h3>
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">Luật điều chỉnh</h3>
       <p className="text-gray-700">
-        These Terms shall be governed by the laws of the Federal Democratic
-        Republic of Ethiopia.
+        Các Điều khoản này sẽ được điều chỉnh bởi pháp luật của nước Cộng hòa
+        Xã hội Chủ nghĩa Việt Nam.
       </p>
     </div>
   );
@@ -220,51 +221,50 @@ function TermsContent() {
 function CookieContent() {
   return (
     <div className="prose max-w-none">
-      <p className="text-gray-600 mb-6">Effective Date: 22/2/2026</p>
+      <p className="text-gray-600 mb-6">Ngày có hiệu lực: 22/02/2026</p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        What Are Cookies
+        Cookie là gì
       </h3>
       <p className="text-gray-700 mb-4">
-        Cookies are small text files that are placed on your computer or mobile
-        device when you visit a website. They are widely used to make websites
-        work more efficiently and provide information to the site owners.
+        Cookie là các tệp văn bản nhỏ được lưu trên máy tính hoặc thiết bị di
+        động của bạn khi bạn truy cập trang web. Chúng được sử dụng rộng rãi để
+        làm cho các trang web hoạt động hiệu quả hơn và cung cấp thông tin cho
+        chủ sở hữu trang web.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        How We Use Cookies
+        Cách chúng tôi sử dụng Cookie
       </h3>
       <p className="text-gray-700 mb-4">
-        We use cookies for the following purposes:
+        Chúng tôi sử dụng cookie cho các mục đích sau:
       </p>
       <ul className="text-gray-600 mb-4 list-disc pl-6">
+        <li>Essential cookies: Cần thiết để trang web hoạt động bình thường</li>
         <li>
-          Essential cookies: Necessary for the website to function properly
+          Performance cookies: Giúp chúng tôi hiểu cách khách truy cập tương tác
+          với trang web
         </li>
-        <li>
-          Performance cookies: Help us understand how visitors interact with our
-          website
-        </li>
-        <li>Functional cookies: Remember your preferences and settings</li>
-        <li>Marketing cookies: Used to deliver relevant advertisements</li>
+        <li>Functional cookies: Ghi nhớ các sở thích và cài đặt của bạn</li>
+        <li>Marketing cookies: Được sử dụng để phân phối quảng cáo liên quan</li>
       </ul>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Managing Cookies
+        Quản lý Cookie
       </h3>
       <p className="text-gray-700 mb-4">
-        Most web browsers allow you to control cookies through their settings.
-        You can choose to block or delete cookies, but this may affect your
-        experience on our website.
+        Hầu hết các trình duyệt web cho phép bạn kiểm soát cookie thông qua cài
+        đặt. Bạn có thể chọn chặn hoặc xóa cookie, nhưng điều này có thể ảnh
+        hưởng đến trải nghiệm của bạn trên trang web.
       </p>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Changes to This Policy
+        Thay đổi chính sách này
       </h3>
       <p className="text-gray-700">
-        We may update this Cookie Policy from time to time. Any changes will be
-        posted on this page.
+        Chúng tôi có thể cập nhật Chính sách Cookie này theo thời gian. Bất kỳ
+        thay đổi nào sẽ được đăng trên trang này.
       </p>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Us</h3>
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">Liên hệ</h3>
       <p className="text-gray-700">
-        If you have any questions about our use of cookies, please contact us at
-        support@ambaastore.com.
+        Nếu bạn có bất kỳ câu hỏi nào về việc chúng tôi sử dụng cookie, vui lòng
+        liên hệ với chúng tôi tại support@kds.com.
       </p>
     </div>
   );

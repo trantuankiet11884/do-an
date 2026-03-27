@@ -50,7 +50,7 @@ function LoadingSpinner() {
       <div className="text-center px-4">
         <Loader2 className="h-12 w-12 animate-spin text-[#f73a00] mx-auto mb-4" />
         <p className="text-gray-600 text-sm sm:text-base">
-          Loading checkout...
+          Đang tải trang thanh toán...
         </p>
       </div>
     </div>
@@ -97,7 +97,7 @@ function CheckoutContent() {
   // Handle redirect for non-authenticated users
   useEffect(() => {
     if (mounted && !isLoading && !user) {
-      toast.error("Please login to checkout");
+      toast.error("Vui lòng đăng nhập để thanh toán");
       const returnUrl = encodeURIComponent(window.location.pathname);
       router.push(`/login?redirectTo=${returnUrl}`);
     }
@@ -120,15 +120,15 @@ function CheckoutContent() {
             <Package className="h-8 w-8 sm:h-10 sm:w-10 text-[#f73a00]" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-            Your cart is empty
+            Giỏ hàng của bạn đang trống
           </h1>
           <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
-            Add some products to your cart before checkout.
+            Thêm một số sản phẩm vào giỏ hàng trước khi thanh toán.
           </p>
           <Button
             onClick={() => router.push("/products")}
             className="bg-[#f73a00] hover:bg-[#f73a00]/90 text-white rounded-xl px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg w-full sm:w-auto">
-            Browse Products
+            Xem sản phẩm
           </Button>
         </div>
       </div>
@@ -148,14 +148,14 @@ function CheckoutContent() {
 
     try {
       if (!formData.fullName || !formData.phone || !formData.address) {
-        toast.error("Please fill all required fields");
+        toast.error("Vui lòng điền đầy đủ các thông tin bắt buộc");
         setSubmitting(false);
         return;
       }
 
-      const shippingInfo = `Full Name: ${formData.fullName}
-Phone: ${formData.phone}
-Address: ${formData.address}`;
+      const shippingInfo = `Họ và tên: ${formData.fullName}
+Số điện thoại: ${formData.phone}
+Địa chỉ: ${formData.address}`;
 
       const res = await fetch("/api/orders", {
         method: "POST",
@@ -168,18 +168,18 @@ Address: ${formData.address}`;
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to place order");
+      if (!res.ok) throw new Error(data.error || "Không thể đặt hàng");
 
       setOrderId(data.order.id);
-      setOrderNumber(data.order.order_number || "Pending");
+      setOrderNumber(data.order.order_number || "Đang xử lý");
       setOrderTotal(data.order.total_price);
       setOrderPlaced(true);
 
       await clearCart();
 
-      toast.success("Order placed successfully!");
+      toast.success("Đặt hàng thành công!");
     } catch (error: any) {
-      toast.error(error.message || "Failed to place order");
+      toast.error(error.message || "Không thể đặt hàng");
     } finally {
       setSubmitting(false);
     }
@@ -205,10 +205,10 @@ Address: ${formData.address}`;
                   </div>
                 </div>
                 <CardTitle className="text-xl font-bold text-center mb-1">
-                  Order Submitted!
+                  Đã nhận đơn hàng!
                 </CardTitle>
                 <CardDescription className="text-green-50 text-center text-sm">
-                  Thank you for your purchase
+                  Cảm ơn bạn đã mua sắm tại cửa hàng
                 </CardDescription>
               </div>
             </CardHeader>
@@ -220,15 +220,15 @@ Address: ${formData.address}`;
                   <div className="flex items-center gap-1.5">
                     <Clock className="h-4 w-4 text-[#f73a00]" />
                     <span className="font-medium text-gray-900 text-xs">
-                      Order Status
+                      Trạng thái đơn hàng
                     </span>
                   </div>
                   <Badge className="bg-yellow-100 text-[#f73a00] px-2 py-0.5 text-xs font-medium">
-                    PENDING
+                    CHỜ XỬ LÝ
                   </Badge>
                 </div>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  We'll contact you via phone shortly to confirm.
+                  Chúng tôi sẽ sớm liên hệ với bạn qua điện thoại để xác nhận.
                 </p>
               </div>
 
@@ -238,7 +238,7 @@ Address: ${formData.address}`;
                   <div className="flex items-center gap-1.5 mb-1">
                     <Receipt className="h-3.5 w-3.5 text-gray-500" />
                     <span className="text-[10px] text-gray-500 uppercase tracking-wider">
-                      Ref
+                      Mã tham chiếu
                     </span>
                   </div>
                   <p className="font-mono text-xs text-gray-900 break-all">
@@ -250,11 +250,11 @@ Address: ${formData.address}`;
                   <div className="flex items-center gap-1.5 mb-1">
                     <ShoppingBag className="h-3.5 w-3.5 text-gray-500" />
                     <span className="text-[10px] text-gray-500 uppercase tracking-wider">
-                      Total
+                      Tổng cộng
                     </span>
                   </div>
                   <p className="text-sm font-bold text-gray-900">
-                    ETB {orderTotal.toLocaleString()}
+                    {orderTotal.toLocaleString("vi-VN")}
                   </p>
                 </div>
               </div>
@@ -265,10 +265,10 @@ Address: ${formData.address}`;
                   <CreditCard className="h-4 w-4 text-blue-600 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-xs font-medium text-gray-900">
-                      Pay half now
+                      Thanh toán một nửa ngay
                     </p>
                     <p className="text-[11px] text-blue-800">
-                      ETB {halfAmount.toLocaleString()} on delivery (50%)
+                      {halfAmount.toLocaleString("vi-VN")} khi nhận hàng (50%)
                     </p>
                   </div>
                 </div>
@@ -276,10 +276,10 @@ Address: ${formData.address}`;
                   <Truck className="h-4 w-4 text-blue-600 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-xs font-medium text-gray-900">
-                      Delivery
+                      Giao hàng
                     </p>
                     <p className="text-[11px] text-blue-800">
-                      Free in Addis Ababa • EMS fee for other cities
+                      Miễn phí trong khu vực • Có phí EMS cho các tỉnh thành khác
                     </p>
                   </div>
                 </div>
@@ -288,7 +288,7 @@ Address: ${formData.address}`;
               {/* What happens next - compact */}
               <div className="bg-gray-50 rounded-lg p-3">
                 <h4 className="font-medium text-gray-900 mb-2 text-xs">
-                  Next steps
+                  Các bước tiếp theo
                 </h4>
                 <div className="space-y-2">
                   <div className="flex items-start gap-2 bg-white p-2 rounded border border-gray-100">
@@ -297,9 +297,9 @@ Address: ${formData.address}`;
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-gray-900">
-                        Phone verification
+                        Xác nhận qua điện thoại
                       </p>
-                      <p className="text-[10px] text-gray-500">Within 24h</p>
+                      <p className="text-[10px] text-gray-500">Trong vòng 24 giờ</p>
                     </div>
                     <ChevronRight className="h-3 w-3 text-gray-400 shrink-0" />
                   </div>
@@ -309,10 +309,10 @@ Address: ${formData.address}`;
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-gray-900">
-                        Order number
+                        Mã số đơn hàng
                       </p>
                       <p className="text-[10px] text-gray-500">
-                        You will receive ORD-XXXX-XXXX
+                        Bạn sẽ nhận được ORD-XXXX-XXXX
                       </p>
                     </div>
                     <ChevronRight className="h-3 w-3 text-gray-400 shrink-0" />
@@ -323,10 +323,10 @@ Address: ${formData.address}`;
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-gray-900">
-                        Delivery arranged
+                        Sắp xếp giao hàng
                       </p>
                       <p className="text-[10px] text-gray-500">
-                        Based on location
+                        Dựa trên vị trí của bạn
                       </p>
                     </div>
                     <ChevronRight className="h-3 w-3 text-gray-400 shrink-0" />
@@ -339,13 +339,13 @@ Address: ${formData.address}`;
                 <Button
                   onClick={() => router.push("/orders")}
                   className="bg-[#f73a00] hover:bg-[#f73a00]/90 text-white rounded-lg py-2.5 text-sm w-full sm:w-1/2">
-                  Track My Orders
+                  Theo dõi đơn hàng
                 </Button>
                 <Button
                   onClick={() => router.push("/products")}
                   variant="outline"
                   className="rounded-lg border-orange-200 text-gray-900 hover:bg-orange-50 py-2.5 text-sm w-full sm:w-1/2">
-                  Continue Shopping
+                  Tiếp tục mua hàng
                 </Button>
               </div>
             </CardContent>
@@ -364,11 +364,11 @@ Address: ${formData.address}`;
             onClick={() => router.push("/cart")}
             className="mb-4 sm:mb-6 text-gray-600 hover:text-gray-900 text-sm sm:text-base -ml-2">
             <ArrowLeft className="h-4 w-4 mr-1 sm:mr-2" />
-            Back to Cart
+            Quay lại giỏ hàng
           </Button>
 
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 sm:mb-8 bg-gradient-to-r from-[#f73a00] to-amber-600 bg-clip-text text-transparent">
-            Checkout
+            Thanh toán
           </h1>
 
           {/* Mobile Order Summary Toggle could go here if needed */}
@@ -384,10 +384,10 @@ Address: ${formData.address}`;
                     </div>
                     <div>
                       <CardTitle className="text-base sm:text-xl">
-                        Shipping Information
+                        Thông tin giao hàng
                       </CardTitle>
                       <CardDescription className="text-orange-50 text-xs sm:text-sm">
-                        Enter your delivery details
+                        Nhập chi tiết nhận hàng của bạn
                       </CardDescription>
                     </div>
                   </div>
@@ -401,7 +401,7 @@ Address: ${formData.address}`;
                         <Label
                           htmlFor="fullName"
                           className="text-gray-700 text-sm sm:text-base">
-                          Full Name <span className="text-[#f73a00]">*</span>
+                          Họ và tên <span className="text-[#f73a00]">*</span>
                         </Label>
                         <div className="relative">
                           <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -411,7 +411,7 @@ Address: ${formData.address}`;
                             value={formData.fullName}
                             onChange={handleChange}
                             required
-                            placeholder="Enter your full name"
+                            placeholder="Nhập họ và tên đầy đủ"
                             className="pl-9 sm:pl-10 rounded-xl border-gray-200 text-gray-700 focus:ring-[#f73a00] focus:border-[#f73a00] bg-white text-sm sm:text-base h-10 sm:h-12"
                           />
                         </div>
@@ -421,7 +421,7 @@ Address: ${formData.address}`;
                         <Label
                           htmlFor="phone"
                           className="text-gray-700 text-sm sm:text-base">
-                          Phone Number <span className="text-[#f73a00]">*</span>
+                          Số điện thoại <span className="text-[#f73a00]">*</span>
                         </Label>
                         <div className="relative">
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -432,7 +432,7 @@ Address: ${formData.address}`;
                             onChange={handleChange}
                             type="tel"
                             required
-                            placeholder="Enter phone number"
+                            placeholder="Nhập số điện thoại"
                             className="pl-9 sm:pl-10 rounded-xl border-gray-200 text-gray-700 focus:ring-[#f73a00] focus:border-[#f73a00] bg-white text-sm sm:text-base h-10 sm:h-12"
                           />
                         </div>
@@ -443,7 +443,7 @@ Address: ${formData.address}`;
                       <Label
                         htmlFor="address"
                         className="text-gray-700 text-sm sm:text-base">
-                        Delivery Address{" "}
+                        Địa chỉ giao hàng{" "}
                         <span className="text-[#f73a00]">*</span>
                       </Label>
                       <div className="relative">
@@ -455,7 +455,7 @@ Address: ${formData.address}`;
                           onChange={handleChange}
                           rows={3}
                           required
-                          placeholder="Street address, apartment, suite, etc."
+                          placeholder="Địa chỉ nhà, số phòng, căn hộ, v.v."
                           className="pl-9 sm:pl-10 rounded-xl border-gray-200 text-gray-700 focus:ring-[#f73a00] focus:border-[#f73a00] bg-white text-sm sm:text-base"
                         />
                       </div>
@@ -466,12 +466,12 @@ Address: ${formData.address}`;
                         <Truck className="h-4 w-4 sm:h-5 sm:w-5 text-[#f73a00] mt-0.5 shrink-0" />
                         <div className="text-xs sm:text-sm text-[#f73a00]">
                           <p className="font-medium mb-1">
-                            Delivery Information:
+                            Thông tin giao hàng:
                           </p>
                           <ul className="list-disc list-inside space-y-0.5 sm:space-y-1">
-                            <li>Free delivery within Addis Ababa</li>
-                            <li>EMS shipping fee applies to other cities</li>
-                            <li>Delivery time: 2-3 weeks</li>
+                            <li>Giao hàng miễn phí trong khu vực</li>
+                            <li>Có tính phí EMS khi giao đến các tỉnh thành khác</li>
+                            <li>Thời gian nhận hàng: 2-3 tuần</li>
                           </ul>
                         </div>
                       </div>
@@ -481,20 +481,21 @@ Address: ${formData.address}`;
                       <div className="flex items-start gap-2 text-xs sm:text-sm text-gray-600">
                         <Shield className="h-4 w-4 text-[#f73a00] shrink-0 mt-0.5" />
                         <p>
-                          By placing this order, you agree to our{" "}
+                          Bằng cách đặt hàng, bạn đồng ý với các{" "}
                           <button
                             type="button"
                             onClick={() => setShowTermsDialog(true)}
                             className="underline cursor-pointer hover:text-[#f73a00] focus:outline-none">
-                            terms
+                            điều khoản
                           </button>{" "}
-                          and{" "}
+                          và{" "}
                           <button
                             type="button"
                             onClick={() => setShowTermsDialog(true)}
                             className="underline cursor-pointer hover:text-[#f73a00] focus:outline-none">
-                            conditions.
-                          </button>
+                            điều kiện
+                          </button>{" "}
+                          của chúng tôi.
                         </p>
                       </div>
                     </div>
@@ -510,7 +511,7 @@ Address: ${formData.address}`;
                   <div className="flex items-center gap-2">
                     <Package className="h-4 w-4 sm:h-5 sm:w-5" />
                     <CardTitle className="text-base sm:text-xl">
-                      Order Summary
+                      Tóm tắt đơn hàng
                     </CardTitle>
                   </div>
                 </CardHeader>
@@ -547,12 +548,11 @@ Address: ${formData.address}`;
                           )}
                           <div className="flex justify-between items-center mt-1">
                             <span className="text-[10px] sm:text-xs text-gray-500">
-                              Qty: {item.quantity}
+                                Số lượng: {item.quantity}
                             </span>
                             <span className="text-xs sm:text-sm font-semibold text-gray-900">
-                              Br{" "}
                               {(item.price * item.quantity).toLocaleString(
-                                "en-US",
+                                "vi-VN",
                               )}
                             </span>
                           </div>
@@ -566,30 +566,30 @@ Address: ${formData.address}`;
                   {/* Price Breakdown */}
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs sm:text-sm">
-                      <span className="text-gray-600">Subtotal</span>
+                      <span className="text-gray-600">Tạm tính</span>
                       <span className="font-medium text-gray-900">
-                        Br {total.toLocaleString("en-US")}
+                        {total.toLocaleString("vi-VN")}
                       </span>
                     </div>
                     <div className="flex justify-between text-xs sm:text-sm">
-                      <span className="text-gray-600">Shipping</span>
+                      <span className="text-gray-600">Giao hàng</span>
                       <div className="text-right">
-                        <span className="font-medium text-green-600">Free</span>
+                        <span className="font-medium text-green-600">Miễn phí</span>
                         <p className="text-[10px] sm:text-xs text-gray-500">
-                          Within Addis
+                          Trong khu vực
                         </p>
                       </div>
                     </div>
                     <div className="flex justify-between border-t border-gray-200 pt-2 sm:pt-3">
                       <span className="text-sm sm:text-base font-semibold text-gray-900">
-                        Total
+                        Tổng cộng
                       </span>
                       <span className="text-lg sm:text-2xl font-bold text-[#f73a00]">
-                        ETB {total.toLocaleString("en-US")}
+                        {total.toLocaleString("vi-VN")}
                       </span>
                     </div>
                     <p className="text-gray-600 text-sm text-right">
-                      You pay: {half.toLocaleString("en-US")}
+                      Bạn thanh toán: {half.toLocaleString("vi-VN")} (50%)
                     </p>
                   </div>
 
@@ -598,8 +598,8 @@ Address: ${formData.address}`;
                     <div className="flex items-start gap-2">
                       <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mt-0.5 shrink-0" />
                       <div className="text-[10px] sm:text-xs text-blue-800">
-                        <p className="font-medium mb-0.5">Payment Method:</p>
-                        <p>We will contact you with payment options.</p>
+                        <p className="font-medium mb-0.5">Phương thức thanh toán:</p>
+                        <p>Chúng tôi sẽ liên hệ để trao đổi cách thanh toán.</p>
                       </div>
                     </div>
                   </div>
@@ -613,16 +613,16 @@ Address: ${formData.address}`;
                     {submitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
-                        Placing Order...
+                        Đang đặt hàng...
                       </>
                     ) : (
-                      "Place Order"
+                      "Đặt hàng ngay"
                     )}
                   </Button>
 
                   {/* Note */}
                   <p className="text-[10px] sm:text-xs text-center text-gray-500">
-                    You only pay half the price until delivery.
+                    Bạn chỉ thanh toán một nửa trước khi nhận hàng.
                   </p>
                 </CardContent>
               </Card>
@@ -642,7 +642,7 @@ Address: ${formData.address}`;
             {/* Dialog Header - Mobile Optimized */}
             <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 bg-gray-50 sticky top-0">
               <h2 className="text-lg sm:text-2xl font-bold text-gray-900">
-                Terms and Conditions
+                Điều khoản và Điều kiện
               </h2>
               <button
                 onClick={() => setShowTermsDialog(false)}
@@ -655,97 +655,79 @@ Address: ${formData.address}`;
             <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(90vh-120px)] sm:max-h-[60vh] bg-white">
               <div className="prose max-w-none">
                 <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6">
-                  Effective Date: 22/2/2026
+                  Ngày có hiệu lực: 22/2/2026
                 </p>
 
                 <div className="space-y-4 sm:space-y-6">
                   <section>
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-4">
-                      Acceptance of Terms
+                      Chấp thuận điều khoản
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      By accessing and using KDS services, you accept and agree
-                      to be bound by these Terms of Service.
+                      Bằng việc sử dụng dịch vụ của KDS, bạn đồng ý tuân thủ các Điều khoản Dịch vụ này.
                     </p>
                   </section>
 
                   <section>
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-4">
-                      Use of Our Services
+                      Sử dụng dịch vụ
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      You may use our services only for lawful purposes and in
-                      accordance with these Terms. You agree not to use our
-                      services in any way that could damage, disable,
-                      overburden, or impair our website.
+                      Bạn cam kết sử dụng dịch vụ cho các mục đích hợp pháp và theo đúng quy định. Bạn đồng ý không gây hại, làm gián đoạn hoặc quá tải hệ thống của chúng tôi.
                     </p>
                   </section>
 
                   <section>
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-4">
-                      Account Responsibilities
+                      Trách nhiệm tài khoản
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      If you create an account, you are responsible for
-                      maintaining the security of your account and for all
-                      activities that occur under the account. You must notify
-                      us immediately of any unauthorized use.
+                      Nếu bạn tạo tài khoản, bạn có trách nhiệm bảo mật tài khoản và chịu trách nhiệm cho mọi hoạt động diễn ra dưới tài khoản đó.
                     </p>
                   </section>
 
                   <section>
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-4">
-                      Orders and Payments
+                      Đơn hàng và Thanh toán
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      By placing an order, you agree to pay the specified price
-                      for the products. We reserve the right to refuse or cancel
-                      any order for any reason, including but not limited to
-                      product availability, errors in pricing, or suspected
-                      fraud.
+                      Khi đặt hàng, bạn đồng ý thanh toán đúng giá niêm yết. Chúng tôi có quyền từ chối hoặc hủy đơn hàng nếu có sai sót về giá hoặc nghi ngờ gian lận.
                     </p>
                   </section>
 
                   <section>
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-4">
-                      Shipping and Returns
+                      Vận chuyển và Đổi trả
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      Our shipping and return policies are outlined separately
-                      and are incorporated by reference into these Terms.
+                      Chính sách vận chuyển và đổi trả được quy định riêng và là một phần của Điều khoản này.
                     </p>
                   </section>
 
                   <section>
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-4">
-                      Intellectual Property
+                      Sở hữu trí tuệ
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      All content on this website, including text, graphics,
-                      logos, and images, is the property of KDS and is protected
-                      by copyright laws.
+                      Mọi nội dung trên website bao gồm văn bản, đồ họa, logo và hình ảnh là tài sản của KDS và được bảo vệ bởi luật bản quyền.
                     </p>
                   </section>
 
                   <section>
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-4">
-                      Limitation of Liability
+                      Giới hạn trách nhiệm
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      To the fullest extent permitted by law, KDS shall not be
-                      liable for any indirect, incidental, special, or
-                      consequential damages arising out of or in connection with
-                      your use of our services.
+                      KDS không chịu trách nhiệm cho các thiệt hại gián tiếp, ngẫu nhiên hoặc hậu quả phát sinh từ việc bạn sử dụng dịch vụ của chúng tôi.
                     </p>
                   </section>
 
                   <section>
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-4">
-                      Governing Law
+                      Luật áp dụng
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      These Terms shall be governed by the laws of the Federal
-                      Democratic Republic of Ethiopia.
+                      Các Điều khoản này được điều chỉnh bởi pháp luật hiện hành.
                     </p>
                   </section>
                 </div>

@@ -33,13 +33,13 @@ export default function RecentProducts({ products }: RecentProductsProps) {
     );
 
     if (diffInDays === 0) {
-      return "Today";
+      return "Hôm nay";
     } else if (diffInDays === 1) {
-      return "Yesterday";
+      return "Hôm qua";
     } else if (diffInDays < 7) {
-      return `${diffInDays} days ago`;
+      return `${diffInDays} ngày trước`;
     } else {
-      return date.toLocaleDateString("en-US", {
+      return date.toLocaleDateString("vi-VN", {
         month: "short",
         day: "numeric",
       });
@@ -53,7 +53,7 @@ export default function RecentProducts({ products }: RecentProductsProps) {
           <div className="flex items-center">
             <Calendar className="h-5 w-5 text-blue-600 mr-2" />
             <h3 className="text-lg font-medium text-gray-900">
-              Recently Added Products
+              Sản phẩm mới thêm gần đây
             </h3>
           </div>
           <Link href="/admin/products">
@@ -62,7 +62,7 @@ export default function RecentProducts({ products }: RecentProductsProps) {
               size="sm"
               className="text-blue-600 hover:text-blue-800"
             >
-              View all
+              Xem tất cả
               <ArrowUpRight className="ml-1 h-4 w-4" />
             </Button>
           </Link>
@@ -83,7 +83,7 @@ export default function RecentProducts({ products }: RecentProductsProps) {
                   </div>
                 ) : (
                   <div className="h-full w-full bg-gray-100 flex items-center justify-center">
-                    <div className="text-gray-400 text-xs">No image</div>
+                    <div className="text-gray-400 text-xs">Không có hình ảnh</div>
                   </div>
                 )}
               </div>
@@ -93,19 +93,19 @@ export default function RecentProducts({ products }: RecentProductsProps) {
                     {product.title}
                   </h4>
                   <Badge variant="outline" className="ml-2">
-                    Br
                     {parseFloat(product.price.toString()).toLocaleString(
-                      "en-US",
+                      "vi-VN",
                     )}
+                    {" "}₫
                   </Badge>
                 </div>
                 <div className="mt-1 flex items-center text-sm text-gray-500">
                   <Clock className="h-3 w-3 mr-1" />
-                  <span>Added {formatDate(product.created_at)}</span>
+                  <span>Đã thêm {formatDate(product.created_at)}</span>
                 </div>
                 <div className="mt-2 flex items-center justify-between">
                   <div className="flex items-center">
-                    <span className="text-xs text-gray-500 mr-2">Rating:</span>
+                    <span className="text-xs text-gray-500 mr-2">Đánh giá:</span>
                     <div className="flex items-center">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <span
@@ -128,7 +128,7 @@ export default function RecentProducts({ products }: RecentProductsProps) {
                     href={`/admin/products/edit/${product.id}`}
                     className="text-sm text-blue-600 hover:text-blue-800 font-medium"
                   >
-                    Edit →
+                    Sửa →
                   </Link>
                 </div>
               </div>
@@ -138,13 +138,13 @@ export default function RecentProducts({ products }: RecentProductsProps) {
         {recentProducts.length === 0 && (
           <div className="px-6 py-12 text-center">
             <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-            <div className="text-gray-400">No products added yet</div>
+            <div className="text-gray-400">Chưa có sản phẩm nào được thêm</div>
             <p className="mt-1 text-sm text-gray-500">
-              Add your first product to get started
+              Thêm sản phẩm đầu tiên của bạn để bắt đầu
             </p>
             <Link href="/admin/products/new">
               <Button className="mt-3" size="sm">
-                Add Product
+                Thêm sản phẩm
               </Button>
             </Link>
           </div>
@@ -158,12 +158,12 @@ export default function RecentProducts({ products }: RecentProductsProps) {
             <div className="flex items-center">
               <Calendar className="h-3 w-3 mr-1" />
               <span>
-                {recentProducts.length} product
-                {recentProducts.length !== 1 ? "s" : ""} added
+                {recentProducts.length} sản phẩm
+                đã thêm
               </span>
             </div>
             <div className="text-xs text-gray-500">
-              Latest: {formatDate(recentProducts[0]?.created_at)}
+              Mới nhất: {formatDate(recentProducts[0]?.created_at)}
             </div>
           </div>
         </div>

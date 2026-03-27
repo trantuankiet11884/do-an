@@ -72,12 +72,12 @@ export default function ChangePasswordForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to change password");
+        throw new Error(data.error || "Đổi mật khẩu thất bại");
       }
 
       await refreshUser();
 
-      toast.success("Password changed successfully");
+      toast.success("Đổi mật khẩu thành công");
       router.push("/profile");
       router.refresh();
     } catch (err: any) {
@@ -106,10 +106,10 @@ export default function ChangePasswordForm() {
           </div>
         </div>
         <CardTitle className="text-3xl text-gray-900 font-bold">
-          Change Password
+          Đổi mật khẩu
         </CardTitle>
         <CardDescription className="text-base text-gray-600">
-          You can change your password once every 30 days.
+          Bạn có thể đổi mật khẩu sau mỗi 30 ngày.
         </CardDescription>
       </CardHeader>
 
@@ -123,7 +123,7 @@ export default function ChangePasswordForm() {
 
           <div className="space-y-2">
             <Label htmlFor="current" className="text-gray-700">
-              CURRENT PASSWORD
+              MẬT KHẨU HIỆN TẠI
             </Label>
             <div className="relative">
               <Input
@@ -150,7 +150,7 @@ export default function ChangePasswordForm() {
 
           <div className="space-y-2">
             <Label htmlFor="new" className="text-gray-700">
-              NEW PASSWORD
+              MẬT KHẨU MỚI
             </Label>
             <div className="relative">
               <Input
@@ -172,14 +172,14 @@ export default function ChangePasswordForm() {
               <p className="text-xs text-red-500 mt-1">{errors.newPassword}</p>
             )}
             <p className="text-xs text-gray-500">
-              Must be 8+ chars with uppercase, lowercase, number & special
-              character
+              Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số
+              và ký tự đặc biệt
             </p>
           </div>
 
           <div className="space-y-2 mb-3">
             <Label htmlFor="confirm" className="text-gray-700">
-              CONFIRM NEW PASSWORD
+              XÁC NHẬN MẬT KHẨU MỚI
             </Label>
             <div className="relative">
               <Input
@@ -210,7 +210,7 @@ export default function ChangePasswordForm() {
             type="submit"
             className="w-full bg-[#f73a00] hover:bg-[#f73a00]/90 text-white"
             disabled={loading}>
-            {loading ? "Changing..." : "Change Password"}
+            {loading ? "Đang thay đổi..." : "Đổi mật khẩu"}
           </Button>
         </CardFooter>
       </form>

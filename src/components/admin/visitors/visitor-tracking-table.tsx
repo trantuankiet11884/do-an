@@ -127,15 +127,15 @@ export function VisitorTrackingTable() {
 
   const handleExport = () => {
     const csvContent = visitors.map((v) => ({
-      SessionID: v.session_id,
-      User: v.users ? v.users.email : "Anonymous",
-      Name: v.users ? v.users.name : "Guest",
-      Country: v.country || "Unknown",
-      City: v.city || "Unknown",
-      Device: v.device_info || "Unknown",
-      VisitedAt: new Date(v.visited_at).toLocaleString(),
-      Duration: v.duration
-        ? `${Math.floor(v.duration / 60)}m ${v.duration % 60}s`
+      "Phiên ID": v.session_id,
+      "Người dùng": v.users ? v.users.email : "Vô danh",
+      "Tên": v.users ? v.users.name : "Khách",
+      "Quốc gia": v.country || "Không xác định",
+      "Thành phố": v.city || "Không xác định",
+      "Thiết bị": v.device_info || "Không xác định",
+      "Thời gian truy cập": new Date(v.visited_at).toLocaleString("vi-VN"),
+      "Thời lượng": v.duration
+        ? `${Math.floor(v.duration / 60)}p ${v.duration % 60}s`
         : "0s",
     }));
 
@@ -158,7 +158,7 @@ export function VisitorTrackingTable() {
       <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
         <form onSubmit={handleSearch} className="flex gap-2">
           <Input
-            placeholder="Search by email, session, or device..."
+            placeholder="Tìm kiếm theo email, phiên hoặc thiết bị..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full sm:w-80"
@@ -177,7 +177,7 @@ export function VisitorTrackingTable() {
               onClick={() => setFilter("all")}
               className="rounded-r-none"
             >
-              All
+              Tất cả
             </Button>
             <Button
               variant={filter === "registered" ? "default" : "ghost"}
@@ -185,7 +185,7 @@ export function VisitorTrackingTable() {
               onClick={() => setFilter("registered")}
               className="rounded-none"
             >
-              Registered
+              Đã đăng ký
             </Button>
             <Button
               variant={filter === "anonymous" ? "default" : "ghost"}
@@ -193,18 +193,18 @@ export function VisitorTrackingTable() {
               onClick={() => setFilter("anonymous")}
               className="rounded-l-none"
             >
-              Anonymous
+              Vô danh
             </Button>
           </div>
 
           {/* Action Buttons */}
           <Button variant="outline" size="sm" onClick={handleRefresh}>
             <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh
+            Làm mới
           </Button>
           <Button variant="outline" size="sm" onClick={handleExport}>
             <Download className="h-4 w-4 mr-2" />
-            Export
+            Xuất file
           </Button>
         </div>
       </div>
@@ -214,12 +214,12 @@ export function VisitorTrackingTable() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[180px]">Session</TableHead>
-              <TableHead className="w-[200px]">User</TableHead>
-              <TableHead className="w-[150px]">Location</TableHead>
-              <TableHead className="w-[150px]">Device</TableHead>
-              <TableHead className="w-[150px]">Visit Time</TableHead>
-              <TableHead className="w-[80px]">Actions</TableHead>
+              <TableHead className="w-[180px]">Phiên</TableHead>
+              <TableHead className="w-[200px]">Người dùng</TableHead>
+              <TableHead className="w-[150px]">Vị trí</TableHead>
+              <TableHead className="w-[150px]">Thiết bị</TableHead>
+              <TableHead className="w-[150px]">Thời gian truy cập</TableHead>
+              <TableHead className="w-[80px]">Thao tác</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -234,7 +234,7 @@ export function VisitorTrackingTable() {
             ) : visitors.length === 0 ? (
               <TableRow>
                 <td colSpan={6} className="text-center py-8">
-                  <div className="text-gray-500">No visitor data found</div>
+                  <div className="text-gray-500">Không tìm thấy dữ liệu khách truy cập</div>
                 </td>
               </TableRow>
             ) : (
@@ -254,7 +254,7 @@ export function VisitorTrackingTable() {
       {!loading && visitors.length > 0 && (
         <div className="flex items-center justify-between mt-4">
           <div className="text-sm text-gray-500">
-            Showing {visitors.length} of {totalPages * 15} visitors
+            Hiển thị {visitors.length} trên tổng số {totalPages * 15} lượt truy cập
           </div>
           <div className="flex gap-2">
             <Button
@@ -264,11 +264,11 @@ export function VisitorTrackingTable() {
               disabled={page === 1}
             >
               <ChevronLeft className="h-4 w-4" />
-              Previous
+              Trước
             </Button>
             <div className="flex items-center px-3">
               <span className="text-sm">
-                Page {page} of {totalPages}
+                Trang {page} trên {totalPages}
               </span>
             </div>
             <Button
@@ -277,7 +277,7 @@ export function VisitorTrackingTable() {
               onClick={() => setPage(Math.min(totalPages, page + 1))}
               disabled={page === totalPages}
             >
-              Next
+              Sau
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
@@ -288,20 +288,20 @@ export function VisitorTrackingTable() {
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Bạn có chắc chắn?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this
-              visitor session from the database.
+              Hành động này không thể hoàn tác. Phiên truy cập này sẽ bị xóa
+              vĩnh viễn khỏi cơ sở dữ liệu.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Hủy</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               disabled={isDeleting}
               className="bg-red-600 hover:bg-red-700"
             >
-              {isDeleting ? "Deleting..." : "Delete"}
+              {isDeleting ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

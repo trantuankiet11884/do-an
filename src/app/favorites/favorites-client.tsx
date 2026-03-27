@@ -20,7 +20,7 @@ export default function FavoritesClient() {
       <div className="min-h-screen bg-white">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
-            My Favorites
+            Sản phẩm yêu thích
           </h1>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {[...Array(10)].map((_, i) => (
@@ -41,10 +41,10 @@ export default function FavoritesClient() {
               <Heart className="h-10 w-10 text-[#f73a00]" />
             </div>
             <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              Your favorites list is empty
+              Danh sách yêu thích của bạn đang trống
             </h1>
             <p className="text-gray-600 mb-8">
-              Save your favorite items and come back to them anytime.
+              Lưu các sản phẩm yêu thích của bạn và quay lại xem bất cứ lúc nào.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -53,7 +53,7 @@ export default function FavoritesClient() {
               >
                 <Link href="/products">
                   <ShoppingBag className="mr-2 h-5 w-5" />
-                  Browse Products
+                  Xem sản phẩm
                 </Link>
               </Button>
               <Button
@@ -63,7 +63,7 @@ export default function FavoritesClient() {
               >
                 <Link href="/">
                   <ArrowLeft className="mr-2 h-5 w-5" />
-                  Go Home
+                  Trang chủ
                 </Link>
               </Button>
             </div>
@@ -77,7 +77,7 @@ export default function FavoritesClient() {
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
-          My Favorites
+          Sản phẩm yêu thích
         </h1>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {items.map((product) => (

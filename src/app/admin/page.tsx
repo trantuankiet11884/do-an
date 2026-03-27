@@ -68,10 +68,10 @@ export default async function AdminDashboard() {
       <div>
         <div className="mb-8">
           <h1 className="text-2xl font-semibold text-gray-900">
-            Dashboard Overview
+            Tổng quan bảng điều khiển
           </h1>
           <p className="text-gray-600">
-            Welcome back! Here's what's happening with your store today.
+            Chào mừng bạn trở lại! Đây là những gì đang diễn ra với cửa hàng của bạn hôm nay.
           </p>
         </div>
 
@@ -102,8 +102,8 @@ export default async function AdminDashboard() {
     console.error("Dashboard error:", error);
     return (
       <div className="text-center py-12">
-        <div className="text-red-600">Failed to load dashboard data</div>
-        <p className="text-gray-600 mt-2">Please try refreshing the page</p>
+        <div className="text-red-600">Tải dữ liệu bảng điều khiển thất bại</div>
+        <p className="text-gray-600 mt-2">Vui lòng thử tải lại trang</p>
       </div>
     );
   }

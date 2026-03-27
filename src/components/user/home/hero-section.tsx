@@ -119,7 +119,7 @@ export default function HeroSection() {
           </div>
         ))}
 
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent z-20" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/60 to-transparent z-20" />
 
         {/* Left/Right Navigation Arrows - improved mobile tap area */}
         <button

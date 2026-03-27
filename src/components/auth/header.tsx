@@ -14,7 +14,7 @@ export default function Header() {
         </div>
         <div className="flex items-center gap-0 hover:underline cursor-pointer">
           <CircleQuestionMark className="text-xs text-white fill-gray-700" />
-          <p className="text-gray-700">Support</p>
+          <p className="text-gray-700">Hỗ trợ</p>
         </div>
       </div>
     </header>

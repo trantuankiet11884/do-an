@@ -68,11 +68,11 @@ export function VisitorAnalyticsDashboard() {
     fetchDashboard();
   }, []);
 
-  if (loading) return <div>Loading dashboard...</div>;
-  if (!data) return <div>No data available</div>;
+  if (loading) return <div>Đang tải bảng điều khiển...</div>;
+  if (!data) return <div>Không có dữ liệu</div>;
 
   const countryChartData = data.byCountry.map((c) => ({
-    name: c.country || "Unknown",
+    name: c.country || "Không xác định",
     value: c.count,
   }));
   const topProductsData = data.topProducts.slice(0, 5).map((p) => ({
@@ -86,14 +86,14 @@ export function VisitorAnalyticsDashboard() {
     <div className="space-y-6">
       <div className="flex justify-end">
         <Button onClick={fetchDashboard} variant="outline" size="sm">
-          <RefreshCw className="h-4 w-4 mr-2" /> Refresh
+          <RefreshCw className="h-4 w-4 mr-2" /> Làm mới
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Visitors
+              Tổng lượt truy cập
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -103,7 +103,7 @@ export function VisitorAnalyticsDashboard() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">
-              Registered Users
+              Người dùng đã đăng ký
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -112,7 +112,7 @@ export function VisitorAnalyticsDashboard() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Anonymous</CardTitle>
+            <CardTitle className="text-sm font-medium">Khách vãng lai</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{data.anonymousVisitors}</div>
@@ -120,7 +120,7 @@ export function VisitorAnalyticsDashboard() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Today</CardTitle>
+            <CardTitle className="text-sm font-medium">Hôm nay</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{data.todayVisitors}</div>
@@ -131,7 +131,7 @@ export function VisitorAnalyticsDashboard() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <MapPin className="h-5 w-5" /> Visitors by Country
+            <MapPin className="h-5 w-5" /> Khách truy cập theo quốc gia
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -170,9 +170,9 @@ export function VisitorAnalyticsDashboard() {
                 >
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-medium">
-                      {countryStat.country || "Unknown"}
+                      {countryStat.country || "Không xác định"}
                     </span>
-                    <Badge>{countryStat.count} visitors</Badge>
+                    <Badge>{countryStat.count} khách truy cập</Badge>
                   </div>
                   {countryStat.cities.length > 0 && (
                     <div className="flex flex-wrap gap-2 text-xs">
@@ -182,12 +182,12 @@ export function VisitorAnalyticsDashboard() {
                           variant="outline"
                           className="bg-gray-100"
                         >
-                          {city.city || "Unknown"}: {city.count}
+                          {city.city || "Không xác định"}: {city.count}
                         </Badge>
                       ))}
                       {countryStat.cities.length > 3 && (
                         <span className="text-gray-500">
-                          +{countryStat.cities.length - 3} more
+                          +{countryStat.cities.length - 3} thêm
                         </span>
                       )}
                     </div>
@@ -202,7 +202,7 @@ export function VisitorAnalyticsDashboard() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Package className="h-5 w-5" /> Most Viewed Products
+            <Package className="h-5 w-5" /> Sản phẩm được xem nhiều nhất
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -213,9 +213,9 @@ export function VisitorAnalyticsDashboard() {
                 <XAxis type="number" />
                 <YAxis dataKey="name" type="category" width={120} />
                 <Tooltip />
-                <Bar dataKey="views" fill="#3b82f6" name="Views" />
-                <Bar dataKey="cart" fill="#10b981" name="Add to Cart" />
-                <Bar dataKey="wishlist" fill="#ef4444" name="Wishlist" />
+                <Bar dataKey="views" fill="#3b82f6" name="Lượt xem" />
+                <Bar dataKey="cart" fill="#10b981" name="Thêm vào giỏ hàng" />
+                <Bar dataKey="wishlist" fill="#ef4444" name="Danh sách yêu thích" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -230,14 +230,14 @@ export function VisitorAnalyticsDashboard() {
                   {product.title || product.product_id.substring(0, 8)}...
                 </span>
                 <div className="flex gap-2">
-                  <span className="text-blue-600" title="Views">
+                  <span className="text-blue-600" title="Lượt xem">
                     <Eye className="h-3 w-3 inline mr-1" /> {product.views}
                   </span>
-                  <span className="text-green-600" title="Cart">
+                  <span className="text-green-600" title="Giỏ hàng">
                     <ShoppingCart className="h-3 w-3 inline mr-1" />{" "}
                     {product.cart_adds}
                   </span>
-                  <span className="text-red-600" title="Wishlist">
+                  <span className="text-red-600" title="Yêu thích">
                     <Heart className="h-3 w-3 inline mr-1" />{" "}
                     {product.wishlist_adds}
                   </span>

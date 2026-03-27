@@ -79,10 +79,10 @@ export default async function AnalyticsPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-semibold text-gray-900">
-          Analytics Dashboard
+          Thống kê & Phân tích
         </h1>
         <p className="text-gray-600">
-          Monitor your store performance and insights
+          Theo dõi hiệu suất và thông tin chi tiết về cửa hàng của bạn
         </p>
       </div>
 

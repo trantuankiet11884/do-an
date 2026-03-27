@@ -72,7 +72,7 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
       setUsers(data || []);
     } catch (error) {
       console.error("Error fetching users:", error);
-      toast.error("Failed to fetch users");
+      toast.error("Lấy danh sách người dùng thất bại");
     }
   };
 
@@ -195,15 +195,15 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to update user");
+        throw new Error(data.error || "Cập nhật người dùng thất bại");
       }
 
-      toast.success("User updated successfully");
+      toast.success("Cập nhật người dùng thành công");
       setEditingUser(null);
       setEditData(null);
       await fetchUsers();
     } catch (error: any) {
-      toast.error(error.message || "Failed to update user");
+      toast.error(error.message || "Cập nhật người dùng thất bại");
     } finally {
       setLoading(null);
     }
@@ -226,13 +226,13 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to delete user");
+        throw new Error(data.error || "Xóa người dùng thất bại");
       }
 
-      toast.success("User deleted successfully");
+      toast.success("Xóa người dùng thành công");
       await fetchUsers();
     } catch (error: any) {
-      toast.error(error.message || "Failed to delete user");
+      toast.error(error.message || "Xóa người dùng thất bại");
     } finally {
       setLoading(null);
       setDeleteDialog(null);
@@ -248,7 +248,7 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
             <div className="flex-1 max-w-lg">
               <input
                 type="search"
-                placeholder="Search users by name, email, phone..."
+                placeholder="Tìm kiếm người dùng theo tên, email, số điện thoại..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-3 py-2 border rounded-md text-sm text-gray-900 ring-2 ring-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -260,11 +260,11 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
                 onChange={(e) => setRoleFilter(e.target.value)}
                 className="px-3 py-2 border rounded-md text-sm text-gray-900 ring ring-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="all">All Roles</option>
-                <option value="CUSTOMER">Customer</option>
-                {isAdmin && <option value="ADMIN">Admin</option>}
+                <option value="all">Tất cả vai trò</option>
+                <option value="CUSTOMER">Khách hàng</option>
+                {isAdmin && <option value="ADMIN">Quản trị viên</option>}
                 {isSuperAdmin && (
-                  <option value="SUPERADMIN">Super Admin</option>
+                  <option value="SUPERADMIN">Quản trị viên cấp cao</option>
                 )}
               </select>
               <select
@@ -272,17 +272,17 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="px-3 py-2 border rounded-md text-sm text-gray-900 ring ring-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="all">All Status</option>
-                <option value="ACTIVE">Active</option>
-                <option value="INACTIVE">Inactive</option>
-                <option value="BANNED">Banned</option>
+                <option value="all">Tất cả trạng thái</option>
+                <option value="ACTIVE">Hoạt động</option>
+                <option value="INACTIVE">Không hoạt động</option>
+                <option value="BANNED">Đã khóa</option>
               </select>
             </div>
           </div>
           {isSuperAdmin && (
             <div className="mt-2 flex items-center text-xs text-blue-600">
               <Shield className="h-3 w-3 mr-1" />
-              <span>SUPERADMIN privileges enabled</span>
+              <span>Đã bật quyền Quản trị viên cấp cao</span>
             </div>
           )}
         </div>
@@ -293,23 +293,23 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  User
+                  Người dùng
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Contact
+                  Liên hệ
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Role
+                  Vai trò
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
+                  Trạng thái
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Created
+                  Ngày tạo
                 </th>
                 {isSuperAdmin && (
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
+                    Thao tác
                   </th>
                 )}
               </tr>
@@ -327,7 +327,7 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
                           {user.name}
                           {currentUser?.id === user.id && (
                             <span className="ml-2 text-xs text-blue-600">
-                              (You)
+                              (Bạn)
                             </span>
                           )}
                         </div>
@@ -367,10 +367,10 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
                         className="px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                         disabled={loading === `save-${user.id}`}
                       >
-                        <option value="CUSTOMER">Customer</option>
-                        {isAdmin && <option value="ADMIN">Admin</option>}
+                        <option value="CUSTOMER">Khách hàng</option>
+                        {isAdmin && <option value="ADMIN">Quản trị viên</option>}
                         {isSuperAdmin && (
-                          <option value="SUPERADMIN">Super Admin</option>
+                          <option value="SUPERADMIN">Quản trị viên cấp cao</option>
                         )}
                       </select>
                     ) : (
@@ -379,7 +379,11 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
                         <span
                           className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(user.role)}`}
                         >
-                          {user.role}
+                          {user.role === "SUPERADMIN"
+                            ? "Quản trị viên cấp cao"
+                            : user.role === "ADMIN"
+                              ? "Quản trị viên"
+                              : "Khách hàng"}
                         </span>
                       </div>
                     )}
@@ -404,9 +408,9 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
                         className="px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                         disabled={loading === `save-${user.id}`}
                       >
-                        <option value="ACTIVE">Active</option>
-                        <option value="INACTIVE">Inactive</option>
-                        <option value="BANNED">Banned</option>
+                        <option value="ACTIVE">Hoạt động</option>
+                        <option value="INACTIVE">Không hoạt động</option>
+                        <option value="BANNED">Đã khóa</option>
                       </select>
                     ) : (
                       <div className="flex items-center">
@@ -414,13 +418,17 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
                         <span
                           className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(user.status)}`}
                         >
-                          {user.status}
+                          {user.status === "ACTIVE"
+                            ? "Hoạt động"
+                            : user.status === "INACTIVE"
+                              ? "Không hoạt động"
+                              : "Đã khóa"}
                         </span>
                       </div>
                     )}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-500">
-                    {new Date(user.created_at).toLocaleDateString()}
+                    {new Date(user.created_at).toLocaleDateString("vi-VN")}
                   </td>
                   {isSuperAdmin && (
                     <td className="px-6 py-4 text-sm font-medium">
@@ -480,11 +488,11 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
           </table>
           {filteredUsers.length === 0 && (
             <div className="p-8 text-center">
-              <div className="text-gray-400 mb-2">No users found</div>
+              <div className="text-gray-400 mb-2">Không tìm thấy người dùng</div>
               <p className="text-sm text-gray-500">
                 {searchQuery || roleFilter !== "all" || statusFilter !== "all"
-                  ? "Try changing your filters"
-                  : "No users in the system yet"}
+                  ? "Thử thay đổi bộ lọc của bạn"
+                  : "Chưa có người dùng nào trong hệ thống"}
               </p>
             </div>
           )}
@@ -498,17 +506,17 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete User</AlertDialogTitle>
+            <AlertDialogTitle>Xóa người dùng</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{deleteDialog?.name}"? This
-              action cannot be undone.
+              Bạn có chắc chắn muốn xóa "{deleteDialog?.name}"? Hành động
+              này không thể hoàn tác.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel
               disabled={loading === `delete-${deleteDialog?.id}`}
             >
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
@@ -516,8 +524,8 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
               className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
             >
               {loading === `delete-${deleteDialog?.id}`
-                ? "Deleting..."
-                : "Delete"}
+                ? "Đang xóa..."
+                : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

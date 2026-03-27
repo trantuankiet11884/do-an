@@ -2,8 +2,8 @@ import { createAdminClient } from "@/lib/supabase/supabaseServer";
 import { AdminRatingsClient } from "./AdminRatingsClient";
 
 export const metadata = {
-  title: "Ratings Moderation | Admin Dashboard",
-  description: "Moderate and manage product ratings and reviews",
+  title: "Kiểm duyệt Đánh giá | Bảng điều khiển Quản trị",
+  description: "Kiểm duyệt và quản lý các đánh giá và nhận xét sản phẩm",
 };
 
 export default async function AdminRatingsPage() {
@@ -25,7 +25,7 @@ export default async function AdminRatingsPage() {
     console.error("Error fetching ratings:", error);
     return (
       <div className="p-8 text-center">
-        <p className="text-red-600">Failed to load ratings</p>
+        <p className="text-red-600">Tải đánh giá thất bại</p>
       </div>
     );
   }

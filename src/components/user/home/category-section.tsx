@@ -84,7 +84,7 @@ export default function CategorySection({
             href={`/products?category=${categoryId}`}
             className="inline-flex items-center text-[#f73a00] hover:text-[#f73a00]/80 font-medium group"
           >
-            View All
+            Xem tất cả
             <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -112,7 +112,7 @@ export default function CategorySection({
           </div>
         ) : (
           <p className="text-gray-500 text-center py-8">
-            No products in this category yet.
+            Chưa có sản phẩm nào trong danh mục này.
           </p>
         )}
       </div>

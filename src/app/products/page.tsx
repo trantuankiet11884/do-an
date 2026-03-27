@@ -139,9 +139,9 @@ export default async function ProductsPage({
   return (
     <div className="container bg-white mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Our Products</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Sản phẩm của chúng tôi</h1>
         <p className="text-gray-600">
-          Discover amazing products for every need
+          Khám phá những sản phẩm tuyệt vời cho mọi nhu cầu
         </p>
       </div>
 
@@ -162,7 +162,7 @@ export default async function ProductsPage({
                 {params.category && (
                   <div className="mb-6">
                     <p className="text-sm text-gray-600">
-                      Showing {productsWithAvgRating.length} products
+                      Đang hiển thị {productsWithAvgRating.length} sản phẩm
                     </p>
                   </div>
                 )}
@@ -175,11 +175,11 @@ export default async function ProductsPage({
               </>
             ) : (
               <div className="text-center py-12">
-                <div className="text-gray-500 text-lg">No products found</div>
+                <div className="text-gray-500 text-lg">Không tìm thấy sản phẩm</div>
                 <p className="text-gray-500 mt-2">
                   {params.category || params.search || params.new
-                    ? "Try changing your filters"
-                    : "Check back later for new products"}
+                    ? "Hãy thử thay đổi bộ lọc của bạn"
+                    : "Quay lại sau để xem các sản phẩm mới"}
                 </p>
               </div>
             )}

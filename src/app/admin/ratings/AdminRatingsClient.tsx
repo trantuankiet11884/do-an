@@ -18,6 +18,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { vi } from "date-fns/locale";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -155,12 +156,12 @@ export function AdminRatingsClient({
       );
       toast.success(
         <div className="flex items-center gap-2">
-          <span>Rating {moderated ? "approved" : "set to pending"}!</span>
+          <span>{moderated ? "Đã duyệt đánh giá!" : "Đã chuyển sang trạng thái chờ!"}</span>
         </div>,
       );
     } catch (error: any) {
       console.error("Moderate error:", error);
-      toast.error(error.message || "Failed to moderate rating");
+      toast.error(error.message || "Kiểm duyệt thất bại");
     }
   };
 
@@ -187,12 +188,12 @@ export function AdminRatingsClient({
       setDeletingRating(null);
       toast.success(
         <div className="flex items-center gap-2">
-          <span>Rating deleted successfully</span>
+          <span>Xóa đánh giá thành công</span>
         </div>,
       );
     } catch (error: any) {
       console.error("Delete error:", error);
-      toast.error(error.message || "Failed to delete rating");
+      toast.error(error.message || "Xóa đánh giá thất bại");
     }
   };
 
@@ -203,7 +204,7 @@ export function AdminRatingsClient({
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       setRatings(data.ratings);
-      toast.success("Ratings refreshed");
+      toast.success("Đã làm mới danh sách đánh giá");
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -243,10 +244,10 @@ export function AdminRatingsClient({
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">
-            Ratings Moderation
+            Kiểm duyệt Đánh giá
           </h1>
           <p className="text-gray-600 mt-1">
-            Manage and moderate customer reviews
+            Quản lý và kiểm duyệt các đánh giá của khách hàng
           </p>
         </div>
         <Button
@@ -256,16 +257,16 @@ export function AdminRatingsClient({
           disabled={loading}
         >
           <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-          Refresh
+          Làm mới
         </Button>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-br from-gray-200 to-gray-100 text-white border-0">
+        <Card className="bg-linear-to-br from-gray-200 to-gray-100 text-white border-0">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm text-gray-900 font-medium opacity-90">
-              Total Ratings
+              Tổng số đánh giá
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -273,15 +274,15 @@ export function AdminRatingsClient({
               {stats.total}
             </div>
             <p className="text-xs text-gray-600 opacity-75 mt-1">
-              All time reviews
+              Tất cả các đánh giá
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-slate-300 to-slate-400 text-white border-0">
+        <Card className="bg-linear-to-br from-slate-300 to-slate-400 text-white border-0">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm text-gray-900 font-medium opacity-90">
-              Average Rating
+              Đánh giá trung bình
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -294,27 +295,27 @@ export function AdminRatingsClient({
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white border-0">
+        <Card className="bg-linear-to-br from-blue-500 to-cyan-500 text-white border-0">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium opacity-90">
-              Pending
+              Chờ duyệt
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{stats.pending}</div>
-            <p className="text-xs opacity-75 mt-1">Awaiting moderation</p>
+            <p className="text-xs opacity-75 mt-1">Đang chờ kiểm duyệt</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-green-500 to-emerald-500 text-white border-0">
+        <Card className="bg-linear-to-br from-green-500 to-emerald-500 text-white border-0">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium opacity-90">
-              Approved
+              Đã duyệt
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{stats.approved}</div>
-            <p className="text-xs opacity-75 mt-1">Published reviews</p>
+            <p className="text-xs opacity-75 mt-1">Các đánh giá đã công khai</p>
           </CardContent>
         </Card>
       </div>
@@ -326,7 +327,7 @@ export function AdminRatingsClient({
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
-                placeholder="Search reviews..."
+                placeholder="Tìm kiếm đánh giá..."
                 className="pl-10 bg-white border-gray-300 text-gray-900"
                 value={search}
                 onChange={(e) => {
@@ -345,26 +346,26 @@ export function AdminRatingsClient({
             >
               <SelectTrigger className="bg-white border-gray-300 text-gray-900">
                 <Filter className="h-4 w-4 mr-2 text-gray-500" />
-                <SelectValue placeholder="Filter by status" />
+                <SelectValue placeholder="Lọc theo trạng thái" />
               </SelectTrigger>
               <SelectContent className="bg-white border-gray-200">
                 <SelectItem
                   value="all"
                   className="text-gray-900 hover:bg-gray-100"
                 >
-                  All Status
+                  Tất cả trạng thái
                 </SelectItem>
                 <SelectItem
                   value="pending"
                   className="text-gray-900 hover:bg-gray-100"
                 >
-                  Pending
+                  Chờ duyệt
                 </SelectItem>
                 <SelectItem
                   value="approved"
                   className="text-gray-900 hover:bg-gray-100"
                 >
-                  Approved
+                  Đã duyệt
                 </SelectItem>
               </SelectContent>
             </Select>
@@ -378,14 +379,14 @@ export function AdminRatingsClient({
             >
               <SelectTrigger className="bg-white border-gray-300 text-gray-900">
                 <Star className="h-4 w-4 mr-2 text-gray-500" />
-                <SelectValue placeholder="Filter by rating" />
+                <SelectValue placeholder="Lọc theo đánh giá" />
               </SelectTrigger>
               <SelectContent className="bg-white border-gray-200">
                 <SelectItem
                   value="all"
                   className="text-gray-900 hover:bg-gray-100"
                 >
-                  All Ratings
+                  Tất cả mức sao
                 </SelectItem>
                 {[5, 4, 3, 2, 1].map((rating) => (
                   <SelectItem
@@ -402,8 +403,8 @@ export function AdminRatingsClient({
             </Select>
 
             <div className="text-sm text-gray-600 flex items-center justify-end">
-              Showing {paginatedRatings.length} of {filteredRatings.length}{" "}
-              reviews
+              Hiển thị {paginatedRatings.length} trong số {filteredRatings.length}{" "}
+              đánh giá
             </div>
           </div>
         </CardContent>
@@ -431,12 +432,12 @@ export function AdminRatingsClient({
                 <MessageSquare className="h-8 w-8 text-gray-400" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                No reviews found
+                Không tìm thấy đánh giá
               </h3>
               <p className="text-gray-600">
                 {search || statusFilter !== "all" || ratingFilter !== "all"
-                  ? "Try adjusting your filters"
-                  : "No reviews have been submitted yet"}
+                  ? "Hãy thử điều chỉnh bộ lọc của bạn"
+                  : "Chưa có đánh giá nào được gửi"}
               </p>
             </div>
           ) : (
@@ -449,7 +450,7 @@ export function AdminRatingsClient({
                   <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                     {/* User Avatar and Info */}
                     <div className="flex items-start gap-4 flex-1 min-w-0">
-                      <Avatar className="h-12 w-12 ring-2 ring-[#f73a00]/20 flex-shrink-0">
+                      <Avatar className="h-12 w-12 ring-2 ring-[#f73a00]/20 shrink-0">
                         <AvatarFallback className="bg-[#f73a00] text-white">
                           {getUserInitials(rating.user.name)}
                         </AvatarFallback>
@@ -470,6 +471,7 @@ export function AdminRatingsClient({
                             <Clock className="h-3 w-3 mr-1" />
                             {formatDistanceToNow(new Date(rating.created_at), {
                               addSuffix: true,
+                              locale: vi,
                             })}
                           </Badge>
                         </div>
@@ -484,7 +486,7 @@ export function AdminRatingsClient({
                                 : "bg-yellow-100 text-yellow-800 border-yellow-200"
                             }
                           >
-                            {rating.moderated ? "Approved" : "Pending"}
+                            {rating.moderated ? "Đã duyệt" : "Chờ duyệt"}
                           </Badge>
                         </div>
 
@@ -498,7 +500,7 @@ export function AdminRatingsClient({
 
                         <div className="flex items-center gap-2 text-sm text-gray-500">
                           <Package className="h-4 w-4" />
-                          <span>Product: </span>
+                          <span>Sản phẩm: </span>
                           <button
                             onClick={() => setSelectedRating(rating)}
                             className="text-[#f73a00] hover:text-[#f73a00]/80 font-medium hover:underline"
@@ -510,7 +512,7 @@ export function AdminRatingsClient({
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex flex-row sm:flex-col items-center gap-2 sm:ml-4 flex-shrink-0">
+                    <div className="flex flex-row sm:flex-col items-center gap-2 sm:ml-4 shrink-0">
                       {!rating.moderated ? (
                         <>
                           <Button
@@ -519,7 +521,7 @@ export function AdminRatingsClient({
                             className="bg-green-600 hover:bg-green-700 text-white w-full"
                           >
                             <CheckCircle className="h-4 w-4 mr-1" />
-                            <span className="">Approve</span>
+                            <span className="">Duyệt</span>
                           </Button>
                           <Button
                             size="sm"
@@ -528,7 +530,7 @@ export function AdminRatingsClient({
                             className="border-red-300 text-red-700 hover:bg-red-50 w-full"
                           >
                             <XCircle className="h-4 w-4 mr-1" />
-                            <span className="">Reject</span>
+                            <span className="">Từ chối</span>
                           </Button>
                         </>
                       ) : (
@@ -539,7 +541,7 @@ export function AdminRatingsClient({
                           className="border-yellow-300 text-yellow-700 hover:bg-yellow-50 w-full"
                         >
                           <RotateCcw className="h-4 w-4 mr-1" />
-                          <span className="">Set Pending</span>
+                          <span className="">Đặt lại Chờ duyệt</span>
                         </Button>
                       )}
                       <Button
@@ -562,7 +564,7 @@ export function AdminRatingsClient({
         {totalPages > 1 && (
           <CardFooter className="flex flex-col sm:flex-row sm:justify-between items-center gap-4 border-t border-gray-200 px-6 py-4 bg-white">
             <div className="text-sm text-gray-600">
-              Page {currentPage} of {totalPages}
+              Trang {currentPage} trên {totalPages}
             </div>
             <div className="flex gap-2">
               <Button
@@ -573,7 +575,7 @@ export function AdminRatingsClient({
                 className="border-gray-300 text-gray-700 hover:bg-gray-100"
               >
                 <ChevronLeft className="h-4 w-4" />
-                Previous
+                Trước
               </Button>
               <Button
                 variant="outline"
@@ -584,7 +586,7 @@ export function AdminRatingsClient({
                 disabled={currentPage === totalPages}
                 className="border-gray-300 text-gray-700 hover:bg-gray-100"
               >
-                Next
+                Sau
                 <ChevronRight className="h-4 w-4 ml-1" />
               </Button>
             </div>
@@ -599,9 +601,9 @@ export function AdminRatingsClient({
       >
         <DialogContent className="sm:max-w-2xl bg-white border border-gray-200">
           <DialogHeader>
-            <DialogTitle className="text-gray-900">Product Details</DialogTitle>
+            <DialogTitle className="text-gray-900">Chi tiết sản phẩm</DialogTitle>
             <DialogDescription className="text-gray-600">
-              View the product that this review is for
+              Xem sản phẩm mà đánh giá này dành cho
             </DialogDescription>
           </DialogHeader>
           {selectedRating && (
@@ -627,7 +629,7 @@ export function AdminRatingsClient({
                   <div className="flex items-center gap-4 mb-4">
                     {renderStars(selectedRating.rating, "lg")}
                     <span className="text-sm text-gray-500">
-                      {selectedRating.rating}.0 average rating
+                      Đánh giá trung bình {selectedRating.rating}.0 sao
                     </span>
                   </div>
                   {selectedRating.review && (
@@ -645,7 +647,7 @@ export function AdminRatingsClient({
                   className="bg-[#f73a00] hover:bg-[#f73a00]/90 text-white"
                 >
                   <Link href={`/products/${selectedRating.product.slug}`}>
-                    View Product Page
+                    Xem trang sản phẩm
                   </Link>
                 </Button>
               </div>
@@ -662,23 +664,23 @@ export function AdminRatingsClient({
         <AlertDialogContent className="bg-white border border-gray-200 max-w-md">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-2xl font-bold text-gray-900">
-              Delete Review?
+              Xóa Đánh giá?
             </AlertDialogTitle>
             <AlertDialogDescription className="text-gray-600">
-              This action cannot be undone. This will permanently delete the
-              review from {deletingRating?.user.name} for "
+              Hành động này không thể hoàn tác. Việc này sẽ xóa vĩnh viễn đánh giá của 
+              {deletingRating?.user.name} dành cho "
               {deletingRating?.product.title}".
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex-col sm:flex-row gap-2">
             <AlertDialogCancel className="rounded-xl border-gray-300 text-gray-700 hover:bg-gray-100 mt-0">
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               className="bg-red-600 hover:bg-red-700 text-white rounded-xl"
             >
-              Delete Permanently
+              Xóa Vĩnh viễn
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

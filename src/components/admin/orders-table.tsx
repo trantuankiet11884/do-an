@@ -107,7 +107,7 @@ const getStatusIcon = (status: string) => {
 };
 
 const formatDate = (dateString: string) =>
-  new Date(dateString).toLocaleDateString("en-US", {
+  new Date(dateString).toLocaleDateString("vi-VN", {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -116,7 +116,7 @@ const formatDate = (dateString: string) =>
   });
 
 const formatFullDate = (dateString: string) =>
-  new Date(dateString).toLocaleDateString("en-US", {
+  new Date(dateString).toLocaleDateString("vi-VN", {
     month: "long",
     day: "numeric",
     year: "numeric",
@@ -230,7 +230,7 @@ export default function OrdersTable({
           prev.map((order) => (order.id === orderId ? data.order : order)),
         );
 
-        toast.success("Order status updated");
+        toast.success("Trạng thái đơn hàng đã được cập nhật");
       } catch (err: any) {
         toast.error(err.message);
       } finally {
@@ -302,7 +302,7 @@ export default function OrdersTable({
           <div className="flex-1 max-w-lg">
             <input
               type="search"
-              placeholder="Search by ref, order number, customer name, email, or shipping info..."
+              placeholder="Tìm kiếm theo mã tham chiếu, số đơn hàng, tên khách hàng, email hoặc địa chỉ giao hàng..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-3 py-2 border rounded-md text-gray-900 text-sm ring-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -314,14 +314,14 @@ export default function OrdersTable({
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-3 py-2 border text-gray-900 ring ring-gray-400 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="all">All Status</option>
-              <option value="PENDING">Pending</option>
-              <option value="CONFIRMED">Confirmed</option>
-              <option value="SHIPPED">Shipped</option>
-              <option value="READY">Ready</option>
-              <option value="COMPLETED">Completed</option>
-              <option value="CANCELED">Canceled</option>
-              <option value="FAILED">Failed</option>
+              <option value="all">Tất cả trạng thái</option>
+              <option value="PENDING">Chờ xử lý</option>
+              <option value="CONFIRMED">Đã xác nhận</option>
+              <option value="SHIPPED">Đang giao</option>
+              <option value="READY">Sẵn sàng</option>
+              <option value="COMPLETED">Hoàn thành</option>
+              <option value="CANCELED">Đã hủy</option>
+              <option value="FAILED">Thất bại</option>
             </select>
           </div>
         </div>
@@ -333,22 +333,22 @@ export default function OrdersTable({
           <thead className="bg-gray-50">
             <tr>
               <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Order #
+                Đơn hàng #
               </th>
               <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Customer
+                Khách hàng
               </th>
               <th className="hidden sm:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Total
+                Tổng cộng
               </th>
               <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
+                Trạng thái
               </th>
               <th className="hidden lg:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Created
+                Ngày tạo
               </th>
               <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
+                Thao tác
               </th>
             </tr>
           </thead>
@@ -382,8 +382,8 @@ export default function OrdersTable({
                   </td>
                   <td className="hidden sm:table-cell px-4 md:px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center font-medium text-gray-900">
-                      <DollarSign className="h-4 w-4 text-gray-400 mr-1" />
-                      {order.total_price.toLocaleString("en-US")}
+                      {order.total_price.toLocaleString("vi-VN")}
+                      {" "}₫
                     </div>
                   </td>
                   <td className="px-4 md:px-6 py-4 whitespace-nowrap">
@@ -399,13 +399,13 @@ export default function OrdersTable({
                         className="px-2 py-1 border rounded text-gray-900 ring-1 ring-gray-400 text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                         disabled={loading === order.id}
                       >
-                        <option value="PENDING">Pending</option>
-                        <option value="CONFIRMED">Confirmed</option>
-                        <option value="SHIPPED">Shipped</option>
-                        <option value="READY">Ready</option>
-                        <option value="COMPLETED">Completed</option>
-                        <option value="CANCELED">Canceled</option>
-                        <option value="FAILED">Failed</option>
+                        <option value="PENDING">Chờ xử lý</option>
+                        <option value="CONFIRMED">Đã xác nhận</option>
+                        <option value="SHIPPED">Đang giao</option>
+                        <option value="READY">Sẵn sàng</option>
+                        <option value="COMPLETED">Hoàn thành</option>
+                        <option value="CANCELED">Đã hủy</option>
+                        <option value="FAILED">Thất bại</option>
                       </select>
                       {loading === order.id && (
                         <span className="h-3 w-3 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></span>
@@ -426,7 +426,7 @@ export default function OrdersTable({
                         }
                         disabled={deleteLoading === order.id}
                         className="text-red-600 hover:text-red-900 flex items-center disabled:opacity-50"
-                        title="Delete Order"
+                        title="Xóa đơn hàng"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
@@ -444,12 +444,12 @@ export default function OrdersTable({
                           <div>
                             <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-4 flex items-center">
                               <User className="h-5 w-5 mr-2" />
-                              Customer Information
+                              Thông tin khách hàng
                             </h4>
                             <div className="space-y-3 text-xs md:text-sm">
                               <div>
                                 <div className="font-medium text-gray-700">
-                                  Name
+                                  Họ tên
                                 </div>
                                 <div className="text-gray-900 break-words">
                                   {order.users.name}
@@ -466,7 +466,7 @@ export default function OrdersTable({
                               {order.users.phone && (
                                 <div>
                                   <div className="font-medium text-gray-700">
-                                    Phone
+                                    Số điện thoại
                                   </div>
                                   <div className="text-gray-900 break-words">
                                     {order.users.phone}
@@ -476,7 +476,7 @@ export default function OrdersTable({
                               {order.users.address && (
                                 <div>
                                   <div className="font-medium text-gray-700">
-                                    Address
+                                    Địa chỉ
                                   </div>
                                   <div className="text-gray-900 whitespace-pre-line break-words">
                                     {order.users.address}
@@ -490,12 +490,12 @@ export default function OrdersTable({
                           <div>
                             <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-4 flex items-center">
                               <Package className="h-5 w-5 mr-2" />
-                              Order Details
+                              Chi tiết đơn hàng
                             </h4>
                             <div className="text-xs md:text-sm space-y-3">
                               <div>
                                 <div className="font-medium text-gray-700 mb-1">
-                                  Shipping Address
+                                  Địa chỉ giao hàng
                                 </div>
                                 <div className="text-gray-900 whitespace-pre-line break-words">
                                   {order.shipping_info}
@@ -503,12 +503,12 @@ export default function OrdersTable({
                               </div>
                               <div className="pt-2 border-t">
                                 <div className="font-medium text-gray-700">
-                                  Order Timeline
+                                  Lịch sử đơn hàng
                                 </div>
                                 <div className="mt-2 space-y-1">
                                   <div className="flex justify-between">
                                     <span className="text-gray-600">
-                                      Created:
+                                      Ngày tạo:
                                     </span>
                                     <span className="text-gray-900">
                                       {formatFullDate(order.created_at)}
@@ -516,7 +516,7 @@ export default function OrdersTable({
                                   </div>
                                   <div className="flex justify-between">
                                     <span className="text-gray-600">
-                                      Last Updated:
+                                      Cập nhật cuối:
                                     </span>
                                     <span className="text-gray-900">
                                       {formatFullDate(order.updated_at)}
@@ -525,7 +525,7 @@ export default function OrdersTable({
                                   {order.updated_by_user && (
                                     <div className="flex justify-between items-start">
                                       <span className="text-gray-600">
-                                        Updated By:
+                                        Người cập nhật:
                                       </span>
                                       <div className="text-right">
                                         <div className="text-gray-900 font-medium">
@@ -545,7 +545,7 @@ export default function OrdersTable({
                           {/* Order Items */}
                           <div className="md:col-span-2">
                             <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-4">
-                              Order Items
+                              Sản phẩm trong đơn
                             </h4>
                             <div className="space-y-4">
                               {order.order_items.map((item) => (
@@ -573,37 +573,37 @@ export default function OrdersTable({
                                         <div className="mt-1 text-xs md:text-sm text-gray-500 flex flex-wrap gap-x-3">
                                           {item.product_variants.color && (
                                             <span>
-                                              Color:{" "}
+                                              Màu sắc:{" "}
                                               {item.product_variants.color}
                                             </span>
                                           )}
                                           {item.product_variants.size && (
                                             <span>
-                                              Size: {item.product_variants.size}
+                                              Kích cỡ: {item.product_variants.size}
                                             </span>
                                           )}
                                           {item.product_variants.unit && (
                                             <span>
-                                              Unit: {item.product_variants.unit}
+                                              Đơn vị: {item.product_variants.unit}
                                             </span>
                                           )}
                                         </div>
                                       )}
                                       <div className="mt-1 text-xs md:text-sm text-gray-600">
-                                        Quantity: {item.quantity}
+                                        Số lượng: {item.quantity}
                                       </div>
                                     </div>
                                   </div>
                                   <div className="text-right sm:text-left sm:ml-auto">
                                     <div className="text-base md:text-lg font-bold text-gray-900">
-                                      Br{" "}
                                       {(
                                         item.price * item.quantity
-                                      ).toLocaleString("en-US")}
+                                      ).toLocaleString("vi-VN")}
+                                      {" "}₫
                                     </div>
                                     <div className="text-xs md:text-sm text-gray-500">
-                                      Br {item.price.toLocaleString("en-US")}{" "}
-                                      each
+                                      {item.price.toLocaleString("vi-VN")}{" "}₫
+                                      / mỗi sản phẩm
                                     </div>
                                   </div>
                                 </div>
@@ -615,11 +615,11 @@ export default function OrdersTable({
                               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                 <div>
                                   <div className="text-xs md:text-sm text-gray-600">
-                                    Total
+                                    Tổng cộng
                                   </div>
                                   <div className="text-xl md:text-2xl font-bold text-gray-900">
-                                    Br{" "}
-                                    {order.total_price.toLocaleString("en-US")}
+                                    {order.total_price.toLocaleString("vi-VN")}
+                                    {" "}₫
                                   </div>
                                 </div>
                                 <div className="flex items-center space-x-2">
@@ -647,11 +647,11 @@ export default function OrdersTable({
 
         {filteredOrders.length === 0 && (
           <div className="p-8 text-center">
-            <div className="text-gray-400 mb-2">No orders found</div>
+            <div className="text-gray-400 mb-2">Không tìm thấy đơn hàng</div>
             <p className="text-sm text-gray-500">
               {searchQuery || statusFilter !== "all"
-                ? "Try changing your filters"
-                : "No orders in the system yet"}
+                ? "Thử thay đổi bộ lọc của bạn"
+                : "Chưa có đơn hàng nào trong hệ thống"}
             </p>
           </div>
         )}
@@ -660,7 +660,7 @@ export default function OrdersTable({
       {/* Summary */}
       <div className="p-4 border-t bg-gray-50">
         <div className="text-xs md:text-sm text-gray-600">
-          Showing {filteredOrders.length} of {orders.length} orders
+          Hiển thị {filteredOrders.length} trên {orders.length} đơn hàng
         </div>
       </div>
 
@@ -671,25 +671,25 @@ export default function OrdersTable({
       >
         <AlertDialogContent className="max-w-md">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Order</AlertDialogTitle>
+            <AlertDialogTitle>Xóa đơn hàng</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete order{" "}
+              Bạn có chắc chắn muốn xóa đơn hàng{" "}
               {orderToDelete?.orderNumber
                 ? `#${orderToDelete.orderNumber}`
                 : `ref ${orderToDelete?.id.slice(0, 8)}`}
-              ? This action cannot be undone.
+              ? Hành động này không thể hoàn tác.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={deleteLoading === orderToDelete?.id}>
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteLoading === orderToDelete?.id}
               className="bg-red-600 hover:bg-red-700"
             >
-              {deleteLoading === orderToDelete?.id ? "Deleting..." : "Delete"}
+              {deleteLoading === orderToDelete?.id ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

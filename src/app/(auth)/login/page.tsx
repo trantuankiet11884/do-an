@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import LoginForm from "@/components/auth/login-form";
 
 export const metadata: Metadata = {
-  title: "Login",
-  description: "Sign in to your KDS account",
+  title: "Đăng nhập",
+  description: "Đăng nhập vào tài khoản KDS của bạn",
 };
 
 export default function LoginPage() {

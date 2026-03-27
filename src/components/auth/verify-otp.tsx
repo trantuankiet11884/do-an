@@ -68,7 +68,7 @@ export default function VerifyOtpForm() {
       setExpirySeconds(remaining);
       if (remaining === 0) {
         localStorage.removeItem(STORAGE_KEYS.EXPIRY_END);
-        setError("OTP has expired. Please request a new one.");
+        setError("Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới.");
       }
     } else {
       router.push("/forgot-password");
@@ -105,7 +105,7 @@ export default function VerifyOtpForm() {
         setExpirySeconds(newSeconds);
         if (newSeconds === 0) {
           localStorage.removeItem(STORAGE_KEYS.EXPIRY_END);
-          setError("OTP has expired. Please request a new one.");
+          setError("Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới.");
         } else {
           const expiryEnd = Date.now() + newSeconds * 1000;
           localStorage.setItem(STORAGE_KEYS.EXPIRY_END, expiryEnd.toString());
@@ -153,7 +153,7 @@ export default function VerifyOtpForm() {
     e.preventDefault();
     const otpCode = otp.join("");
     if (otpCode.length !== 6) {
-      setError("Please enter the 6-digit OTP");
+      setError("Vui lòng nhập mã OTP 6 chữ số");
       return;
     }
 
@@ -170,7 +170,7 @@ export default function VerifyOtpForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Invalid OTP");
+        throw new Error(data.error || "Mã OTP không hợp lệ");
       }
 
       localStorage.removeItem(STORAGE_KEYS.COOLDOWN_END);
@@ -200,7 +200,7 @@ export default function VerifyOtpForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to resend OTP");
+        throw new Error(data.error || "Gửi lại mã OTP thất bại");
       }
 
       const cooldownEnd = Date.now() + RESEND_COOLDOWN * 1000;
@@ -213,7 +213,7 @@ export default function VerifyOtpForm() {
       setExpirySeconds(OTP_EXPIRY_MINUTES * 60);
       setOtp(["", "", "", "", "", ""]);
       inputRefs.current[0]?.focus();
-      toast.success("OTP resent successfully");
+      toast.success("Đã gửi lại mã OTP thành công");
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -234,14 +234,14 @@ export default function VerifyOtpForm() {
           </div>
         </div>
         <CardTitle className="text-3xl font-bold text-gray-900">
-          Verify OTP
+          Xác thực OTP
         </CardTitle>
         <CardDescription className="text-gray-600">
-          Enter the 6-digit code sent to {email}
+          Nhập mã 6 chữ số đã được gửi đến {email}
         </CardDescription>
         {!isExpired && (
           <p className="text-sm text-gray-500 mt-2">
-            Code expires in{" "}
+            Mã hết hạn sau{" "}
             <span className="font-mono font-medium text-[#f73a00]">
               {formatTime(expirySeconds)}
             </span>
@@ -258,7 +258,7 @@ export default function VerifyOtpForm() {
           )}
 
           <div className="space-y-2">
-            <Label className="text-gray-700">OTP CODE</Label>
+            <Label className="text-gray-700">MÃ OTP</Label>
             <div className="flex justify-between gap-2">
               {otp.map((digit, index) => (
                 <Input
@@ -283,7 +283,7 @@ export default function VerifyOtpForm() {
             type="submit"
             className="w-full bg-[#f73a00] hover:bg-[#f73a00]/90 text-white"
             disabled={loading || isExpired}>
-            {loading ? "Verifying..." : "Verify OTP"}
+            {loading ? "Đang xác thực..." : "Xác thực OTP"}
           </Button>
 
           <div className="flex items-center justify-center gap-3">
@@ -296,10 +296,10 @@ export default function VerifyOtpForm() {
                   ? "bg-gray-200 text-gray-500 cursor-not-allowed opacity-60"
                   : "bg-gray-100 text-[#f73a00] hover:bg-gray-200"
               }`}>
-              {resendLoading ? "Sending..." : "Resend OTP"}
+              {resendLoading ? "Đang gửi..." : "Gửi lại mã OTP"}
             </button>
             {cooldownSeconds > 0 && (
-              <span className="font-mono text-sm font-medium text-[#f73a00] min-w-[3rem]">
+              <span className="font-mono text-sm font-medium text-[#f73a00] min-w-12">
                 {cooldownSeconds}s
               </span>
             )}
@@ -311,7 +311,7 @@ export default function VerifyOtpForm() {
         <Link
           href="/forgot-password"
           className="text-sm text-gray-600 hover:text-[#f73a00] transition-colors">
-          ← Back
+          ← Quay lại
         </Link>
       </CardFooter>
     </Card>

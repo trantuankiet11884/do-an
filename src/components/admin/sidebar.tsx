@@ -23,18 +23,18 @@ interface AdminSidebarProps {
 }
 
 const navigation = [
-  { name: "Dashboard", href: "/admin", icon: Home },
-  { name: "Products", href: "/admin/products", icon: Package },
-  { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
-  { name: "Categories", href: "/admin/categories", icon: LayoutGrid },
-  { name: "Users", href: "/admin/users", icon: Users },
-  { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
-  { name: "Ratings", href: "/admin/ratings", icon: Star },
+  { name: "Bảng điều khiển", href: "/admin", icon: Home },
+  { name: "Sản phẩm", href: "/admin/products", icon: Package },
+  { name: "Đơn hàng", href: "/admin/orders", icon: ShoppingCart },
+  { name: "Danh mục", href: "/admin/categories", icon: LayoutGrid },
+  { name: "Người dùng", href: "/admin/users", icon: Users },
+  { name: "Phân tích", href: "/admin/analytics", icon: BarChart3 },
+  { name: "Đánh giá", href: "/admin/ratings", icon: Star },
 ];
 
 const superAdminNavigation = [
-  { name: "Visitor Tracking", href: "/admin/visitor-tracking", icon: Eye },
-  { name: "Security", href: "/admin/security", icon: Shield },
+  { name: "Theo dõi khách", href: "/admin/visitor-tracking", icon: Eye },
+  { name: "Bảo mật", href: "/admin/security", icon: Shield },
 ];
 
 export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
@@ -123,7 +123,7 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
               </div>
               <div className="ml-3">
                 <p className="text-sm font-medium text-gray-700">
-                  {role === "SUPERADMIN" ? "Super Admin" : "Admin"}
+                  {role === "SUPERADMIN" ? "Quản trị cao cấp" : "Quản trị viên"}
                 </p>
                 <p className="text-xs font-medium text-gray-500">{role}</p>
               </div>
@@ -213,7 +213,7 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                 </div>
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-700">
-                    {role === "SUPERADMIN" ? "Super Admin" : "Admin"}
+                    {role === "SUPERADMIN" ? "Quản trị cao cấp" : "Quản trị viên"}
                   </p>
                   <p className="text-xs font-medium text-gray-500">{role}</p>
                 </div>
