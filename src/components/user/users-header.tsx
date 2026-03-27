@@ -36,6 +36,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { createClient } from "@/lib/supabase/supabaseClient";
 import { useDebounce } from "@/hooks/useDebounce";
+import Image from "next/image";
 
 interface Category {
   id: string;
@@ -289,10 +290,13 @@ export default function UserHeader({
           <div className="flex justify-between items-center h-20">
             {/* Logo + Brand - text hidden on mobile */}
             <Link href="/" className="flex items-center gap-1 shrink-0">
-              <ShoppingBag className="text-[#f73a00] h-6 w-6" />
-              <span className="text-[#f73a00] text-xl font-semibold hidden lg:inline">
-                Amba<span className="text-[#f73a00]">Store</span>
-              </span>
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={100}
+                height={100}
+                className="w-20 h-20 object-contain"
+              />
             </Link>
 
             {/* Desktop Search Bar */}

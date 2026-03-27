@@ -13,6 +13,7 @@ import {
   ShoppingBag,
   X,
 } from "lucide-react";
+import Image from "next/image";
 
 interface FooterProps {
   categories: { id: string; title: string }[];
@@ -65,15 +66,13 @@ export default function Footer({ categories }: FooterProps) {
             {/* Brand - 3 columns */}
             <div className="lg:col-span-3">
               <Link href="/">
-                <div className="flex items-center gap-0 mb-8 transition-colors group">
-                  <div className="relative h-10 w-10">
-                    <ShoppingBag className="h-8 w-8 text-[#f73a00]" />
-                  </div>
-                  <h2 className="text-2xl relative text-[#f73a00] font-extrabold tracking-tight">
-                    KDS
-                    <span className="absolute -bottom-2 left-0 w-0 group-hover:w-16 h-0.5 bg-[#f73a00] transition-all duration-500"></span>
-                  </h2>
-                </div>
+                <Image
+                  src="/logo.png"
+                  alt="Logo"
+                  width={100}
+                  height={100}
+                  className="w-20 h-20 object-contain"
+                />
               </Link>
               <p className="text-slate-800 leading-relaxed mb-6">
                 Định nghĩa lại thời trang cao cấp với các bộ sưu tập tuyển chọn
