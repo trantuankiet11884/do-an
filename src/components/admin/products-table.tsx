@@ -99,7 +99,7 @@ export default function ProductsTable({
   const { user } = useAuth();
   const supabase = createClient();
   const isSuperAdmin = user?.role === "SUPERADMIN";
-
+  console.log(initialProducts);
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -295,9 +295,7 @@ export default function ProductsTable({
 
       // Show appropriate message based on whether it was soft or hard deleted
       if (data.softDelete) {
-        toast.success(
-          "Sản phẩm đã được ẩn (xóa mềm) vì đã có đơn hàng.",
-        );
+        toast.success("Sản phẩm đã được ẩn (xóa mềm) vì đã có đơn hàng.");
       } else {
         toast.success("Sản phẩm đã được xóa vĩnh viễn.");
       }
@@ -417,8 +415,7 @@ export default function ProductsTable({
                 <Filter className="h-4 w-4 text-gray-500" />
                 <Select
                   value={selectedCategory}
-                  onValueChange={setSelectedCategory}
-                >
+                  onValueChange={setSelectedCategory}>
                   <SelectTrigger className="w-36 h-8 text-sm">
                     <SelectValue placeholder="Danh mục" />
                   </SelectTrigger>
@@ -428,8 +425,7 @@ export default function ProductsTable({
                       <SelectItem
                         key={option.id}
                         value={option.id}
-                        className={option.depth > 0 ? "pl-6" : ""}
-                      >
+                        className={option.depth > 0 ? "pl-6" : ""}>
                         {option.title}
                       </SelectItem>
                     ))}
@@ -495,8 +491,7 @@ export default function ProductsTable({
                   {/* Main row (unchanged) */}
                   <tr
                     onClick={() => toggleExpand(product.id)}
-                    className="hover:bg-gray-50 cursor-pointer"
-                  >
+                    className="hover:bg-gray-50 cursor-pointer">
                     <td className="px-4 py-2">
                       <div className="flex items-center">
                         <div className="shrink-0 h-10 w-10 bg-gray-200 rounded-md overflow-hidden">
@@ -527,8 +522,7 @@ export default function ProductsTable({
                     <td className="px-4 py-2 hidden md:table-cell">
                       <Badge
                         variant="outline"
-                        className="text-xs max-w-[150px] truncate"
-                      >
+                        className="text-xs max-w-[150px] truncate">
                         {getCategoryPath(product.categories?.id || null)}
                       </Badge>
                     </td>
@@ -552,8 +546,7 @@ export default function ProductsTable({
                           href={`/admin/products/${product.id}/edit`}
                           onClick={(e) => e.stopPropagation()}
                           className="p-1 text-indigo-600 hover:text-indigo-900 rounded hover:bg-indigo-50"
-                          title="Sửa"
-                        >
+                          title="Sửa">
                           <Edit className="h-4 w-4" />
                         </Link>
 
@@ -564,8 +557,7 @@ export default function ProductsTable({
                                 onClick={(e) => e.stopPropagation()}
                                 disabled={statusUpdating === product.id}
                                 className="p-1 text-gray-600 hover:text-gray-900 rounded hover:bg-gray-100"
-                                title="Thay đổi trạng thái"
-                              >
+                                title="Thay đổi trạng thái">
                                 {statusUpdating === product.id ? (
                                   <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-600 border-t-transparent" />
                                 ) : (
@@ -578,24 +570,21 @@ export default function ProductsTable({
                                 onClick={(e) =>
                                   handleStatusChange(product.id, "pending", e)
                                 }
-                                disabled={product.status === "pending"}
-                              >
+                                disabled={product.status === "pending"}>
                                 Đặt thành Chờ duyệt
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={(e) =>
                                   handleStatusChange(product.id, "approved", e)
                                 }
-                                disabled={product.status === "approved"}
-                              >
+                                disabled={product.status === "approved"}>
                                 Duyệt
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={(e) =>
                                   handleStatusChange(product.id, "rejected", e)
                                 }
-                                disabled={product.status === "rejected"}
-                              >
+                                disabled={product.status === "rejected"}>
                                 Từ chối
                               </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -606,8 +595,7 @@ export default function ProductsTable({
                           <button
                             onClick={(e) => handleDeleteClick(product, e)}
                             className="p-1 text-red-600 hover:text-red-900 rounded hover:bg-red-50"
-                            title="Xóa"
-                          >
+                            title="Xóa">
                             <Trash2 className="h-4 w-4" />
                           </button>
                         )}
@@ -620,8 +608,7 @@ export default function ProductsTable({
                     <tr>
                       <td
                         colSpan={6}
-                        className="px-4 py-3 bg-gray-50 border-t border-gray-200"
-                      >
+                        className="px-4 py-3 bg-gray-50 border-t border-gray-200">
                         <div className="space-y-3 text-sm">
                           {product.link && (
                             <div>
@@ -632,8 +619,7 @@ export default function ProductsTable({
                                 href={product.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-blue-600 hover:underline break-all"
-                              >
+                                className="text-blue-600 hover:underline break-all">
                                 {product.link}
                               </a>
                             </div>
@@ -650,8 +636,7 @@ export default function ProductsTable({
                                   <Badge
                                     key={color}
                                     variant="outline"
-                                    className="bg-white p-2 rounded border border-gray-200 text-xs font-medium text-gray-900"
-                                  >
+                                    className="bg-white p-2 rounded border border-gray-200 text-xs font-medium text-gray-900">
                                     {color}
                                   </Badge>
                                 ))}
@@ -669,8 +654,7 @@ export default function ProductsTable({
                                 {product.sizes.map((size) => (
                                   <div
                                     key={size.name}
-                                    className="bg-white p-2 rounded border border-gray-200 text-xs"
-                                  >
+                                    className="bg-white p-2 rounded border border-gray-200 text-xs">
                                     <div className="font-medium text-gray-900">
                                       {size.name}
                                     </div>
@@ -699,7 +683,9 @@ export default function ProductsTable({
                                   "Không xác định"
                                 )}
                                 <br />
-                                {new Date(product.created_at).toLocaleString("vi-VN")}
+                                {new Date(product.created_at).toLocaleString(
+                                  "vi-VN",
+                                )}
                               </p>
                             </div>
                             {product.updated_by && (
@@ -711,9 +697,9 @@ export default function ProductsTable({
                                   bởi {product.updated_by.name} (
                                   {product.updated_by.email})
                                   <br />
-                                  {new Date(
-                                    product.updated_at,
-                                  ).toLocaleString("vi-VN")}
+                                  {new Date(product.updated_at).toLocaleString(
+                                    "vi-VN",
+                                  )}
                                 </p>
                               </div>
                             )}
@@ -755,8 +741,9 @@ export default function ProductsTable({
               <span className="font-medium">
                 {Math.min(currentPage * PAGE_SIZE, filteredProducts.length)}
               </span>{" "}
-              trên <span className="font-medium">{filteredProducts.length}</span>{" "}
-              sản phẩm
+              trên{" "}
+              <span className="font-medium">{filteredProducts.length}</span> sản
+              phẩm
             </div>
             <div className="flex gap-1">
               <Button
@@ -764,16 +751,14 @@ export default function ProductsTable({
                 size="sm"
                 className="h-7 px-2 text-xs"
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                disabled={currentPage === 1 || filteredProducts.length === 0}
-              >
+                disabled={currentPage === 1 || filteredProducts.length === 0}>
                 Trước
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 className="h-7 px-2 text-xs"
-                disabled
-              >
+                disabled>
                 {currentPage}
               </Button>
               <Button
@@ -785,8 +770,7 @@ export default function ProductsTable({
                 }
                 disabled={
                   currentPage === totalPages || filteredProducts.length === 0
-                }
-              >
+                }>
                 Sau
               </Button>
             </div>
@@ -797,14 +781,13 @@ export default function ProductsTable({
       {/* Delete Confirmation Dialog (unchanged) */}
       <AlertDialog
         open={!!productToDelete}
-        onOpenChange={() => setProductToDelete(null)}
-      >
+        onOpenChange={() => setProductToDelete(null)}>
         <AlertDialogContent className="max-w-md">
           <AlertDialogHeader>
             <AlertDialogTitle>Xóa sản phẩm</AlertDialogTitle>
             <AlertDialogDescription>
-              Bạn có chắc chắn muốn xóa "{productToDelete?.title}"? Hành
-              động này không thể hoàn tác.
+              Bạn có chắc chắn muốn xóa "{productToDelete?.title}"? Hành động
+              này không thể hoàn tác.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -815,8 +798,7 @@ export default function ProductsTable({
               onClick={confirmDelete}
               disabled={isDeleting}
               className="bg-red-600 hover:bg-red-700"
-              size="sm"
-            >
+              size="sm">
               {isDeleting ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>

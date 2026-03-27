@@ -19,8 +19,7 @@ export async function GET(request: NextRequest) {
       .from('orders')
       .select(`
         *,
-        users!orders_user_id_fkey(id, name, email, phone, address),
-        updated_by_user:users!orders_updated_by_fkey(id, name, email),
+        users(id, name, email, phone, address),
         order_items(
         *,
         products(*),

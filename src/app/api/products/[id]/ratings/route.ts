@@ -67,11 +67,13 @@ export async function POST(
     const { data: newRating, error } = await supabase
       .from('ratings')
       .insert({
+        id: crypto.randomUUID(),
         product_id: id,
         user_id: user.id,
         rating,
         review: review || null,
         moderated: false,
+        updated_at: new Date().toISOString(),
       })
       .select(`*, users ( name, email )`)
       .single()

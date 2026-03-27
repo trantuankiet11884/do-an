@@ -64,10 +64,12 @@ export async function POST(request: NextRequest) {
     const { data: category, error: categoryError } = await supabase
       .from('categories')
       .insert([{
+        id: crypto.randomUUID(),
         title,
         description: description || null,
         parent_id: parent_id === 'null' ? null : parent_id,
         image: null,
+        updated_at: new Date().toISOString(),
       }])
       .select()
       .single();

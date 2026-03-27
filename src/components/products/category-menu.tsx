@@ -116,16 +116,14 @@ export default function CategoryMenu({
         key={cat.id}
         className="relative"
         onMouseEnter={() => hasChildren && handleMouseEnter(cat)}
-        onMouseLeave={handleMouseLeave}
-      >
+        onMouseLeave={handleMouseLeave}>
         <button
           onClick={() => navigateToCategory(cat.id)}
           className={`w-full text-left px-3 py-2 rounded-md text-sm flex items-center justify-between group hover:bg-orange-50 ${
             isSelected
               ? "bg-orange-100 font-medium text-[#f73a00]"
               : "text-gray-700"
-          }`}
-        >
+          }`}>
           <span className="truncate">{cat.title}</span>
           {hasChildren && (
             <ChevronRight className="h-4 w-4 ml-1 text-gray-400" />
@@ -137,8 +135,7 @@ export default function CategoryMenu({
           <div
             className="absolute left-full top-0 ml-2 bg-white border border-gray-200 rounded-lg shadow-lg p-2 min-w-[180px] z-50"
             onMouseEnter={() => handleMouseEnter(cat)}
-            onMouseLeave={handleMouseLeave}
-          >
+            onMouseLeave={handleMouseLeave}>
             {cat.children.map((child) => (
               <button
                 key={child.id}
@@ -147,8 +144,7 @@ export default function CategoryMenu({
                   child.id === selectedCategoryId
                     ? "bg-orange-100 font-medium text-[#f73a00]"
                     : "text-gray-700"
-                }`}
-              >
+                }`}>
                 {child.title}
               </button>
             ))}
@@ -178,15 +174,13 @@ export default function CategoryMenu({
                 ? "bg-orange-100 font-medium text-[#f73a00]"
                 : "text-gray-700"
             }`}
-            style={{ paddingLeft: `${depth * 1.5 + 0.5}rem` }}
-          >
+            style={{ paddingLeft: `${depth * 1.5 + 0.5}rem` }}>
             {cat.title}
           </button>
           {hasChildren && (
             <button
               onClick={() => toggleMobileCategory(cat.id)}
-              className="p-2"
-            >
+              className="p-2">
               <ChevronRight
                 className={`h-4 w-4 text-gray-700 transition-transform ${isExpanded ? "rotate-90" : ""}`}
               />
@@ -210,10 +204,9 @@ export default function CategoryMenu({
       <div className="lg:hidden mb-4">
         <Button
           onClick={() => setMobileDrawerOpen(true)}
-          className="w-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
-        >
+          className="w-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50">
           <Menu className="h-4 w-4 mr-2" />
-          Categories
+          Danh mục
         </Button>
       </div>
 
@@ -224,8 +217,7 @@ export default function CategoryMenu({
           {selectedCategoryId && (
             <button
               onClick={clearCategory}
-              className="text-sm text-gray-500 hover:text-[#f73a00]"
-            >
+              className="text-sm text-gray-500 hover:text-[#f73a00]">
               Xóa
             </button>
           )}
@@ -246,14 +238,11 @@ export default function CategoryMenu({
           {/* Drawer – width fits content, not full width */}
           <div className="absolute left-0 top-0 h-full w-auto min-w-48 max-w-xs bg-white shadow-xl overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">
-                Danh mục
-              </h3>
+              <h3 className="text-lg font-semibold text-gray-900">Danh mục</h3>
               <button
                 onClick={() => setMobileDrawerOpen(false)}
                 className="p-2 rounded-full hover:bg-gray-100"
-                aria-label="Close"
-              >
+                aria-label="Close">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -261,8 +250,7 @@ export default function CategoryMenu({
               {selectedCategoryId && (
                 <button
                   onClick={clearCategory}
-                  className="mb-4 text-sm text-gray-500 hover:text-[#f73a00]"
-                >
+                  className="mb-4 text-sm text-gray-500 hover:text-[#f73a00]">
                   Xóa bộ lọc
                 </button>
               )}

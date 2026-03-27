@@ -130,6 +130,9 @@ model Order {
   totalPrice  Decimal     @db.Decimal(12,2) @map("total_price")
   shippingInfo String     @map("shipping_info")
   status      OrderStatus @default(PENDING)
+  paymentMethod String    @default("COD") @map("payment_method")
+  paymentStatus String    @default("PENDING") @map("payment_status")
+  stripeSessionId String? @map("stripe_session_id")
 
   items OrderItem[]
 

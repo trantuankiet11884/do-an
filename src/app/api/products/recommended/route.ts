@@ -25,8 +25,7 @@ export async function GET(request: NextRequest) {
     supabase
       .from('products')
       .select('id, slug, title, price, images, average_rating')
-      .neq('id', productId)
-      .eq('status', 'approved');
+      .neq('id', productId);
 
   if (product?.category_id) {
     // Try same category first

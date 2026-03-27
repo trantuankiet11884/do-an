@@ -172,11 +172,13 @@ export async function POST(request: NextRequest) {
       const { data: newItem, error: insertError } = await supabase
         .from('cart_items')
         .insert({
+          id: crypto.randomUUID(),
           user_id: user.id,
           product_id: productId,
           variant_id: variantId,
           quantity,
           price: itemPrice,
+          updated_at: new Date().toISOString(),
         })
         .select(`
           *,

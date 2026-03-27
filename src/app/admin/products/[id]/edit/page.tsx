@@ -379,7 +379,7 @@ export default function EditProductPage() {
   if (!product) {
     return (
       <div className="text-center py-12">
-        <div className="text-gray-400">Product not found</div>
+        <div className="text-gray-400">Không tìm thấy sản phẩm</div>
       </div>
     );
   }
@@ -388,23 +388,23 @@ export default function EditProductPage() {
     <>
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-gray-900">Edit Product</h1>
-          <p className="text-gray-600">Update product information</p>
+          <h1 className="text-2xl font-semibold text-gray-900">Sản phẩm</h1>
+          <p className="text-gray-600">Cập nhật thông tin sản phẩm</p>
         </div>
 
         <form onSubmit={handleSubmit}>
           <Card className="bg-white">
             <CardHeader>
               <CardTitle className="text-gray-900">
-                Product Information
+                Thông tin sản phẩm
               </CardTitle>
-              <CardDescription>Update the product details</CardDescription>
+              <CardDescription>Cập nhật thông tin sản phẩm</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Title */}
               <div className="space-y-2">
                 <Label htmlFor="title" className="text-gray-900">
-                  Product Title *
+                  Tên sản phẩm *
                 </Label>
                 <Input
                   id="title"
@@ -418,7 +418,7 @@ export default function EditProductPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="description" className="text-gray-900">
-                  Description *
+                  Mô tả *
                 </Label>
                 <Textarea
                   id="description"
@@ -433,7 +433,7 @@ export default function EditProductPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="link" className="text-gray-900">
-                  External Link (optional)
+                  Liên kết ngoài (tùy chọn)
                 </Label>
                 <Input
                   id="link"
@@ -448,27 +448,25 @@ export default function EditProductPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="category_id" className="text-gray-900">
-                    Category
+                    Danh mục
                   </Label>
                   <Select
                     value={formData.category_id}
                     onValueChange={(value) =>
                       setFormData((prev) => ({ ...prev, category_id: value }))
-                    }
-                  >
+                    }>
                     <SelectTrigger className="bg-white text-gray-900">
-                      <SelectValue placeholder="Select a category" />
+                      <SelectValue placeholder="Chọn danh mục" />
                     </SelectTrigger>
                     <SelectContent className="max-h-80 text-gray-900 bg-white">
-                      <SelectItem value="null">Uncategorized</SelectItem>
+                      <SelectItem value="null">Không có</SelectItem>
                       {categoryOptions.map((option) => (
                         <SelectItem
                           key={option.id}
                           value={option.id}
                           className={
                             option.depth > 0 ? "pl-6" : "font-semibold"
-                          }
-                        >
+                          }>
                           {option.title}
                         </SelectItem>
                       ))}
@@ -492,15 +490,14 @@ export default function EditProductPage() {
                     required
                   />
                   <p className="text-xs text-gray-500">
-                    This is the base price; individual sizes have their own
-                    prices.
+                    Đây là giá cơ bản; giá của từng size sẽ được tính riêng.
                   </p>
                 </div>
               </div>
 
               {/* Colors Section */}
               <div className="space-y-4 border rounded-lg p-4">
-                <h3 className="text-lg font-medium text-gray-900">Colors</h3>
+                <h3 className="text-lg font-medium text-gray-900">Màu sắc</h3>
                 <div className="space-y-2">
                   {colors.map((color, index) => (
                     <div key={index} className="flex gap-2 items-center">
@@ -514,8 +511,7 @@ export default function EditProductPage() {
                         type="button"
                         variant="ghost"
                         size="sm"
-                        onClick={() => removeColor(index)}
-                      >
+                        onClick={() => removeColor(index)}>
                         <Trash2 className="h-4 w-4 text-red-500" />
                       </Button>
                     </div>
@@ -525,9 +521,8 @@ export default function EditProductPage() {
                     variant="outline"
                     className="text-gray-900"
                     size="sm"
-                    onClick={addColor}
-                  >
-                    <Plus className="h-4 w-4 mr-2" /> Add Color
+                    onClick={addColor}>
+                    <Plus className="h-4 w-4 mr-2" /> Thêm màu sắc
                   </Button>
                 </div>
               </div>
@@ -535,7 +530,7 @@ export default function EditProductPage() {
               {/* Sizes Section */}
               <div className="space-y-4 border rounded-lg p-4">
                 <h3 className="text-lg font-medium text-gray-900">
-                  Sizes & Prices
+                  Kích cỡ & Giá
                 </h3>
                 <div className="space-y-2">
                   {sizes.map((size, index) => (
@@ -560,8 +555,7 @@ export default function EditProductPage() {
                         type="button"
                         variant="ghost"
                         size="sm"
-                        onClick={() => removeSize(index)}
-                      >
+                        onClick={() => removeSize(index)}>
                         <Trash2 className="h-4 w-4 text-red-500" />
                       </Button>
                     </div>
@@ -571,9 +565,8 @@ export default function EditProductPage() {
                     variant="outline"
                     className="text-gray-900"
                     size="sm"
-                    onClick={addSize}
-                  >
-                    <Plus className="h-4 w-4 mr-2" /> Add Size
+                    onClick={addSize}>
+                    <Plus className="h-4 w-4 mr-2" /> Thêm kích cỡ
                   </Button>
                 </div>
               </div>
@@ -581,12 +574,12 @@ export default function EditProductPage() {
               {/* Images – same as before */}
               <div className="space-y-6">
                 <h3 className="text-lg font-medium text-gray-900">
-                  Product Images
+                  Hình ảnh sản phẩm
                 </h3>
 
                 {/* Main Image */}
                 <div className="space-y-2">
-                  <Label className="text-gray-900">Main Image (first)</Label>
+                  <Label className="text-gray-900">Ảnh chính (đầu tiên)</Label>
                   <div className="flex items-center gap-4">
                     {(mainPreview || mainExisting) && (
                       <div className="relative w-24 h-24 border rounded-md overflow-hidden">
@@ -598,8 +591,7 @@ export default function EditProductPage() {
                         <button
                           type="button"
                           onClick={removeMainImage}
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
-                        >
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1">
                           <X className="h-3 w-3" />
                         </button>
                       </div>
@@ -607,7 +599,7 @@ export default function EditProductPage() {
                     {!mainPreview && !mainExisting && (
                       <label className="w-24 h-24 border-2 border-gray-300 border-dashed rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-[#f73a00]">
                         <Upload className="h-6 w-6 text-gray-400" />
-                        <span className="text-xs text-gray-500">Upload</span>
+                        <span className="text-xs text-gray-500">Tải lên</span>
                         <input
                           type="file"
                           accept="image/*"
@@ -621,9 +613,7 @@ export default function EditProductPage() {
 
                 {/* Secondary Image */}
                 <div className="space-y-2">
-                  <Label className="text-gray-900">
-                    Secondary Image (second)
-                  </Label>
+                  <Label className="text-gray-900">Ảnh phụ (thứ 2)</Label>
                   <div className="flex items-center gap-4">
                     {(secondaryPreview || secondaryExisting) && (
                       <div className="relative w-24 h-24 border rounded-md overflow-hidden">
@@ -635,8 +625,7 @@ export default function EditProductPage() {
                         <button
                           type="button"
                           onClick={removeSecondaryImage}
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
-                        >
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1">
                           <X className="h-3 w-3" />
                         </button>
                       </div>
@@ -644,7 +633,7 @@ export default function EditProductPage() {
                     {!secondaryPreview && !secondaryExisting && (
                       <label className="w-24 h-24 border-2 border-gray-300 border-dashed rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-[#f73a00]">
                         <Upload className="h-6 w-6 text-gray-400" />
-                        <span className="text-xs text-gray-500">Upload</span>
+                        <span className="text-xs text-gray-500">Tải lên</span>
                         <input
                           type="file"
                           accept="image/*"
@@ -658,13 +647,12 @@ export default function EditProductPage() {
 
                 {/* Additional Images */}
                 <div className="space-y-2">
-                  <Label className="text-gray-900">Additional Images</Label>
+                  <Label className="text-gray-900">Ảnh bổ sung</Label>
                   <div className="flex flex-wrap gap-4">
                     {additionalExisting.map((url, idx) => (
                       <div
                         key={`existing-${idx}`}
-                        className="relative w-24 h-24 border rounded-md overflow-hidden"
-                      >
+                        className="relative w-24 h-24 border rounded-md overflow-hidden">
                         <img
                           src={url}
                           alt={`Additional ${idx}`}
@@ -673,8 +661,7 @@ export default function EditProductPage() {
                         <button
                           type="button"
                           onClick={() => removeAdditionalImage(idx)}
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
-                        >
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1">
                           <X className="h-3 w-3" />
                         </button>
                       </div>
@@ -682,8 +669,7 @@ export default function EditProductPage() {
                     {additionalPreviews.map((preview, idx) => (
                       <div
                         key={`new-${idx}`}
-                        className="relative w-24 h-24 border rounded-md overflow-hidden"
-                      >
+                        className="relative w-24 h-24 border rounded-md overflow-hidden">
                         <img
                           src={preview}
                           alt={`New ${idx}`}
@@ -696,15 +682,14 @@ export default function EditProductPage() {
                               additionalExisting.length + idx,
                             )
                           }
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
-                        >
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1">
                           <X className="h-3 w-3" />
                         </button>
                       </div>
                     ))}
                     <label className="w-24 h-24 border-2 border-gray-300 border-dashed rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-[#f73a00]">
                       <Upload className="h-6 w-6 text-gray-400" />
-                      <span className="text-xs text-gray-500">Add more</span>
+                      <span className="text-xs text-gray-500">Tải lên</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -723,25 +708,22 @@ export default function EditProductPage() {
                   type="button"
                   variant="destructive"
                   onClick={() => setShowDeleteDialog(true)}
-                  className="w-full sm:w-auto bg-red-500"
-                >
-                  Delete Product
+                  className="w-full sm:w-auto bg-red-500">
+                  Xóa sản phẩm
                 </Button>
                 <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => router.push("/admin/products")}
-                    className="w-full sm:w-auto"
-                  >
-                    Cancel
+                    className="w-full sm:w-auto">
+                    Hủy
                   </Button>
                   <Button
                     type="submit"
                     disabled={saving}
-                    className="w-full sm:w-auto"
-                  >
-                    {saving ? "Saving..." : "Save Changes"}
+                    className="w-full sm:w-auto">
+                    {saving ? "Đang lưu..." : "Lưu thay đổi"}
                   </Button>
                 </div>
               </div>
@@ -754,20 +736,19 @@ export default function EditProductPage() {
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Product</AlertDialogTitle>
+            <AlertDialogTitle>Xóa sản phẩm</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{product.title}"? This action
-              cannot be undone.
+              Bạn có chắc chắn muốn xóa "{product.title}"? Hành động này không
+              thể hoàn tác.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting}>Hủy</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               disabled={isDeleting}
-              className="bg-red-600 hover:bg-red-700"
-            >
-              {isDeleting ? "Deleting..." : "Delete"}
+              className="bg-red-600 hover:bg-red-700">
+              {isDeleting ? "Đang xóa..." : "Xóa"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

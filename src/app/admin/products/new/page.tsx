@@ -244,24 +244,24 @@ export default function NewProductPage() {
     <div className="max-w-6xl mx-auto">
       <div className="mb-8">
         <h1 className="text-2xl font-semibold text-gray-900">
-          Add New Product
+          Thêm sản phẩm mới
         </h1>
-        <p className="text-gray-600">Create a new product for your store</p>
+        <p className="text-gray-600">Thêm sản phẩm mới cho cửa hàng</p>
       </div>
 
       <form onSubmit={handleSubmit}>
         <Card className="bg-white">
           <CardHeader>
-            <CardTitle className="text-gray-900">Product Information</CardTitle>
+            <CardTitle className="text-gray-900">Thông tin sản phẩm</CardTitle>
             <CardDescription className="text-gray-500">
-              Enter the product details
+              Nhập thông tin sản phẩm
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Title */}
             <div className="space-y-2">
               <Label htmlFor="title" className="text-gray-900">
-                Product Title<span className="text-red-400">*</span>
+                Tên sản phẩm<span className="text-red-400">*</span>
               </Label>
               <Input
                 id="title"
@@ -276,7 +276,7 @@ export default function NewProductPage() {
             {/* Description */}
             <div className="space-y-2">
               <Label htmlFor="description" className="text-gray-900">
-                Description<span className="text-red-400">*</span>
+                Mô tả<span className="text-red-400">*</span>
               </Label>
               <Textarea
                 id="description"
@@ -292,7 +292,7 @@ export default function NewProductPage() {
             {/* Link */}
             <div className="space-y-2">
               <Label htmlFor="link" className="text-gray-900">
-                External Link (optional)
+                Liên kết ngoài (tùy chọn)
               </Label>
               <Input
                 id="link"
@@ -303,7 +303,7 @@ export default function NewProductPage() {
                 placeholder="https://example.com/product"
               />
               <p className="text-xs text-gray-500">
-                An external URL where customers can buy or learn more.
+                Liên kết ngoài nơi khách hàng có thể mua hoặc tìm hiểu thêm.
               </p>
             </div>
 
@@ -311,19 +311,18 @@ export default function NewProductPage() {
               {/* Category */}
               <div className="space-y-2">
                 <Label htmlFor="category_id" className="text-gray-900">
-                  Category
+                  Danh mục
                 </Label>
                 <Select
                   value={formData.category_id}
                   onValueChange={(value) =>
                     setFormData((prev) => ({ ...prev, category_id: value }))
-                  }
-                >
+                  }>
                   <SelectTrigger className="bg-white text-gray-900 focus:ring-gray-500">
-                    <SelectValue placeholder="Select a category" />
+                    <SelectValue placeholder="Chọn danh mục" />
                   </SelectTrigger>
                   <SelectContent className="bg-white text-gray-900">
-                    <SelectItem value="null">Uncategorized</SelectItem>
+                    <SelectItem value="null">Chưa phân loại</SelectItem>
                     {categoryTree.map(({ root, children }) => (
                       <div key={root.id}>
                         <SelectItem value={root.id} className="font-medium">
@@ -332,14 +331,13 @@ export default function NewProductPage() {
                         {children.length > 0 && (
                           <SelectGroup>
                             <SelectLabel className="sr-only">
-                              {root.title} subcategories
+                              {root.title} danh mục con
                             </SelectLabel>
                             {children.map((child) => (
                               <SelectItem
                                 key={child.id}
                                 value={child.id}
-                                className="pl-6"
-                              >
+                                className="pl-6">
                                 {child.title}
                               </SelectItem>
                             ))}
@@ -368,15 +366,14 @@ export default function NewProductPage() {
                   required
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  This is the base price; individual sizes will have their own
-                  prices.
+                  Giá cơ bản; các kích cỡ riêng lẻ sẽ có giá riêng.
                 </p>
               </div>
             </div>
 
             {/* Colors Section */}
             <div className="space-y-4 border rounded-lg p-4">
-              <h3 className="text-lg font-medium text-gray-900">Colors</h3>
+              <h3 className="text-lg font-medium text-gray-900">Màu sắc</h3>
               <div className="space-y-2">
                 {colors.map((color, index) => (
                   <div key={index} className="flex gap-2 items-center">
@@ -390,8 +387,7 @@ export default function NewProductPage() {
                       type="button"
                       variant="ghost"
                       size="sm"
-                      onClick={() => removeColor(index)}
-                    >
+                      onClick={() => removeColor(index)}>
                       <Trash2 className="h-4 w-4 text-red-500" />
                     </Button>
                   </div>
@@ -401,12 +397,11 @@ export default function NewProductPage() {
                   variant="outline"
                   className="text-gray-900"
                   size="sm"
-                  onClick={addColor}
-                >
-                  <Plus className="h-4 w-4 mr-2" /> Add Color
+                  onClick={addColor}>
+                  <Plus className="h-4 w-4 mr-2" /> Thêm màu sắc
                 </Button>
                 <p className="text-xs text-gray-500">
-                  Add each color separately (e.g., Red, Blue, Green)
+                  Thêm từng màu riêng biệt (ví dụ: Đỏ, Xanh, Vàng)
                 </p>
               </div>
             </div>
@@ -414,7 +409,7 @@ export default function NewProductPage() {
             {/* Sizes Section */}
             <div className="space-y-4 border rounded-lg p-4">
               <h3 className="text-lg font-medium text-gray-900">
-                Sizes & Prices
+                Kích cỡ & Giá
               </h3>
               <div className="space-y-2">
                 {sizes.map((size, index) => (
@@ -439,8 +434,7 @@ export default function NewProductPage() {
                       type="button"
                       variant="ghost"
                       size="sm"
-                      onClick={() => removeSize(index)}
-                    >
+                      onClick={() => removeSize(index)}>
                       <Trash2 className="h-4 w-4 text-red-500" />
                     </Button>
                   </div>
@@ -450,12 +444,11 @@ export default function NewProductPage() {
                   variant="outline"
                   size="sm"
                   className="text-gray-900"
-                  onClick={addSize}
-                >
-                  <Plus className="h-4 w-4 mr-2" /> Add Size
+                  onClick={addSize}>
+                  <Plus className="h-4 w-4 mr-2" /> Thêm kích cỡ
                 </Button>
                 <p className="text-xs text-gray-500">
-                  Add each size with its price (e.g., S: 100, M: 150)
+                  Thêm từng kích cỡ với giá của nó (ví dụ: S: 100, M: 150)
                 </p>
               </div>
             </div>
@@ -463,13 +456,13 @@ export default function NewProductPage() {
             {/* Product Images */}
             <div className="space-y-6">
               <h3 className="text-lg font-medium text-gray-900">
-                Product Images
+                Hình ảnh sản phẩm
               </h3>
 
               {/* Main Image */}
               <div className="space-y-2">
                 <Label className="text-gray-900">
-                  Main Image (first)<span className="text-red-400">*</span>
+                  Ảnh chính (đầu tiên)<span className="text-red-400">*</span>
                 </Label>
                 <div className="flex items-center gap-4">
                   {mainPreview ? (
@@ -483,15 +476,14 @@ export default function NewProductPage() {
                       <button
                         type="button"
                         onClick={removeMainImage}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
-                      >
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1">
                         <X className="h-3 w-3" />
                       </button>
                     </div>
                   ) : (
                     <label className="w-24 h-24 border-2 border-gray-300 border-dashed rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-[#f73a00]">
                       <Upload className="h-6 w-6 text-gray-400" />
-                      <span className="text-xs text-gray-500">Upload</span>
+                      <span className="text-xs text-gray-500">Tải lên</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -505,9 +497,7 @@ export default function NewProductPage() {
 
               {/* Secondary Image */}
               <div className="space-y-2">
-                <Label className="text-gray-900">
-                  Secondary Image (second)
-                </Label>
+                <Label className="text-gray-900">Ảnh phụ (thứ hai)</Label>
                 <div className="flex items-center gap-4">
                   {secondaryPreview ? (
                     <div className="relative w-24 h-24 border rounded-md overflow-hidden">
@@ -520,15 +510,14 @@ export default function NewProductPage() {
                       <button
                         type="button"
                         onClick={removeSecondaryImage}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
-                      >
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1">
                         <X className="h-3 w-3" />
                       </button>
                     </div>
                   ) : (
                     <label className="w-24 h-24 border-2 border-gray-300 border-dashed rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-[#f73a00]">
                       <Upload className="h-6 w-6 text-gray-400" />
-                      <span className="text-xs text-gray-500">Upload</span>
+                      <span className="text-xs text-gray-500">Tải lên</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -542,15 +531,12 @@ export default function NewProductPage() {
 
               {/* Additional Images */}
               <div className="space-y-2">
-                <Label className="text-gray-900">
-                  Additional Images (optional)
-                </Label>
+                <Label className="text-gray-900">Ảnh bổ sung (tùy chọn)</Label>
                 <div className="flex flex-wrap gap-4">
                   {additionalPreviews.map((preview, idx) => (
                     <div
                       key={idx}
-                      className="relative w-24 h-24 border rounded-md overflow-hidden"
-                    >
+                      className="relative w-24 h-24 border rounded-md overflow-hidden">
                       <Image
                         src={preview}
                         alt={`Additional ${idx}`}
@@ -560,15 +546,14 @@ export default function NewProductPage() {
                       <button
                         type="button"
                         onClick={() => removeAdditionalImage(idx)}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
-                      >
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1">
                         <X className="h-3 w-3" />
                       </button>
                     </div>
                   ))}
                   <label className="w-24 h-24 border-2 border-gray-300 border-dashed rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-[#f73a00]">
                     <Upload className="h-6 w-6 text-gray-400" />
-                    <span className="text-xs text-gray-500">Upload</span>
+                    <span className="text-xs text-gray-500">Tải lên</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -579,7 +564,7 @@ export default function NewProductPage() {
                   </label>
                 </div>
                 <p className="text-xs text-gray-500">
-                  You can upload multiple additional images.
+                  Bạn có thể tải lên nhiều ảnh bổ sung.
                 </p>
               </div>
             </div>
@@ -590,12 +575,11 @@ export default function NewProductPage() {
                 type="button"
                 variant="outline"
                 className="text-gray-900"
-                onClick={() => router.push("/admin/products")}
-              >
-                Cancel
+                onClick={() => router.push("/admin/products")}>
+                Hủy
               </Button>
               <Button type="submit" disabled={loading}>
-                {loading ? "Creating..." : "Create Product"}
+                {loading ? "Đang tạo..." : "Tạo sản phẩm"}
               </Button>
             </div>
           </CardContent>

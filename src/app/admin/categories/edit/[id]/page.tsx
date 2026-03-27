@@ -235,7 +235,7 @@ export default function EditCategoryPage() {
   if (!category) {
     return (
       <div className="text-center py-12">
-        <div className="text-gray-400">Category not found</div>
+        <div className="text-gray-400">Không tìm thấy danh mục</div>
       </div>
     );
   }
@@ -243,24 +243,24 @@ export default function EditCategoryPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900">Edit Category</h1>
-        <p className="text-gray-600">Update category information</p>
+        <h1 className="text-2xl font-semibold text-gray-900">
+          Chỉnh sửa danh mục
+        </h1>
+        <p className="text-gray-600">Cập nhật thông tin danh mục</p>
       </div>
 
       <form onSubmit={handleSubmit}>
         <Card className="bg-white border border-gray-200 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-gray-900">
-              Category Information
-            </CardTitle>
+            <CardTitle className="text-gray-900">Thông tin danh mục</CardTitle>
             <CardDescription className="text-gray-600">
-              Update category details
+              Cập nhật thông tin danh mục
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 bg-white">
             <div className="space-y-2">
               <Label htmlFor="title" className="text-gray-700">
-                Category Title *
+                Tên danh mục *
               </Label>
               <Input
                 id="title"
@@ -275,7 +275,7 @@ export default function EditCategoryPage() {
 
             <div className="space-y-2">
               <Label htmlFor="description" className="text-gray-700">
-                Description
+                Mô tả
               </Label>
               <Textarea
                 id="description"
@@ -291,23 +291,21 @@ export default function EditCategoryPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="parent_id" className="text-gray-700">
-                  Parent Category
+                  Danh mục cha
                 </Label>
                 <Select
                   value={formData.parent_id}
                   onValueChange={(value) =>
                     setFormData((prev) => ({ ...prev, parent_id: value }))
-                  }
-                >
+                  }>
                   <SelectTrigger className="bg-white border-gray-300 text-gray-900">
                     <SelectValue placeholder="Select parent category" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border-gray-200 shadow-lg">
                     <SelectItem
                       value="null"
-                      className="text-gray-900 hover:bg-gray-100"
-                    >
-                      None (Uncategorized)
+                      className="text-gray-900 hover:bg-gray-100">
+                      Không có (không được phân loại)
                     </SelectItem>
                     {parentOptions.map((option) => (
                       <SelectItem
@@ -317,8 +315,7 @@ export default function EditCategoryPage() {
                           option.depth > 0
                             ? "pl-6 text-gray-900 hover:bg-gray-100"
                             : "text-gray-900 font-bold hover:bg-gray-100"
-                        }
-                      >
+                        }>
                         {option.title}{" "}
                         <span className="font-normal">
                           {option.depth > 0 ? "" : "(main)"}
@@ -332,7 +329,7 @@ export default function EditCategoryPage() {
               {/* Image upload */}
               <div className="space-y-2">
                 <Label htmlFor="image" className="text-gray-700">
-                  Category Image (optional)
+                  Ảnh danh mục (tùy chọn)
                 </Label>
                 <div className="flex items-center gap-4 flex-wrap">
                   {existingImage && !imagePreview && (
@@ -345,8 +342,7 @@ export default function EditCategoryPage() {
                       <button
                         type="button"
                         onClick={removeImage}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                      >
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
                         <X className="h-3 w-3" />
                       </button>
                     </div>
@@ -361,8 +357,7 @@ export default function EditCategoryPage() {
                       <button
                         type="button"
                         onClick={removeImage}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                      >
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
                         <X className="h-3 w-3" />
                       </button>
                     </div>
@@ -370,7 +365,7 @@ export default function EditCategoryPage() {
                   {!existingImage && !imagePreview && (
                     <label className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-[#f73a00] bg-white">
                       <Upload className="h-6 w-6 text-gray-400" />
-                      <span className="text-xs text-gray-500">Upload</span>
+                      <span className="text-xs text-gray-500">Tải lên</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -381,7 +376,7 @@ export default function EditCategoryPage() {
                   )}
                 </div>
                 <p className="text-xs text-gray-500">
-                  Supported formats: JPEG, PNG, GIF
+                  Định dạng hỗ trợ: JPEG, PNG, GIF
                 </p>
               </div>
             </div>
@@ -391,24 +386,21 @@ export default function EditCategoryPage() {
               <Button
                 type="button"
                 onClick={handleDelete}
-                className="bg-red-600 hover:bg-red-700 text-white order-2 sm:order-1"
-              >
-                Delete Category
+                className="bg-red-600 hover:bg-red-700 text-white order-2 sm:order-1">
+                Xóa danh mục
               </Button>
 
               <div className="flex flex-col sm:flex-row gap-3 order-1 sm:order-2">
                 <Button
                   type="button"
                   onClick={() => router.push("/admin/categories")}
-                  className="border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-100 w-full sm:w-auto"
-                >
-                  Cancel
+                  className="border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-100 w-full sm:w-auto">
+                  Hủy
                 </Button>
                 <Button
                   type="submit"
                   disabled={saving}
-                  className="bg-gray-900 hover:bg-gray-900/90 text-white w-full sm:w-auto"
-                >
+                  className="bg-gray-900 hover:bg-gray-900/90 text-white w-full sm:w-auto">
                   {saving ? "Saving..." : "Save Changes"}
                 </Button>
               </div>
@@ -422,26 +414,25 @@ export default function EditCategoryPage() {
         <AlertDialogContent className="bg-white border border-gray-200 shadow-xl max-w-md">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-gray-900 text-lg font-semibold">
-              Delete Category
+              Xóa danh mục
             </AlertDialogTitle>
             <AlertDialogDescription className="text-gray-600 text-sm">
-              Are you sure you want to delete{" "}
+              Bạn có chắc chắn muốn xóa{" "}
               <span className="font-medium text-gray-900">
                 {category?.title}
               </span>
-              ? This action cannot be undone. Products in this category will
-              become uncategorized.
+              ? Hành động này không thể hoàn tác. Sản phẩm trong danh mục này sẽ
+              trở thành không được phân loại.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex flex-col sm:flex-row gap-2">
             <AlertDialogCancel className="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 mt-0">
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
-              className="bg-red-600 hover:bg-red-700 text-white"
-            >
-              Delete
+              className="bg-red-600 hover:bg-red-700 text-white">
+              Xóa
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

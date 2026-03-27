@@ -14,9 +14,11 @@ export default async function AdminUsersPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-semibold text-gray-900">
-          User Management
+          Quản lý người dùng
         </h1>
-        <p className="text-gray-600">Manage all users in the system</p>
+        <p className="text-gray-600">
+          Quản lý tất cả người dùng trong hệ thống
+        </p>
       </div>
 
       <UsersTable users={users || []} />

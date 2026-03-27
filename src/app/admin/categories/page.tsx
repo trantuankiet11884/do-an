@@ -29,15 +29,15 @@ export default async function AdminCategoriesPage() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Categories</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">Danh mục</h1>
           <p className="text-gray-600">
-            Manage product categories and subcategories
+            Quản lý danh mục sản phẩm và danh mục con
           </p>
         </div>
         <Link href="/admin/categories/new">
           <Button>
             <Plus className="h-4 w-4 mr-2" />
-            Add Category
+            Thêm danh mục
           </Button>
         </Link>
       </div>

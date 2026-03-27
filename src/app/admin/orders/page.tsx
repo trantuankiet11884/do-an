@@ -9,8 +9,7 @@ export default async function AdminOrdersPage() {
     .select(
       `
       *,
-      users!orders_user_id_fkey(id, name, email, phone, address),
-      updated_by_user:users!orders_updated_by_fkey(id, name, email),
+      users(id, name, email, phone, address),
       order_items(
         *,
         products(*),
@@ -24,7 +23,7 @@ export default async function AdminOrdersPage() {
     console.error("Failed to fetch orders:", error);
     return (
       <div className="p-8 text-center text-red-600">
-        Error loading orders: {error.message}
+        Lỗi khi tải đơn hàng: {error.message}
       </div>
     );
   }
@@ -33,9 +32,11 @@ export default async function AdminOrdersPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-semibold text-gray-900">
-          Order Management
+          Quản lý đơn hàng
         </h1>
-        <p className="text-gray-600">View and manage all customer orders</p>
+        <p className="text-gray-600">
+          Xem và quản lý tất cả đơn hàng của khách hàng
+        </p>
       </div>
 
       <OrdersTable orders={orders || []} />

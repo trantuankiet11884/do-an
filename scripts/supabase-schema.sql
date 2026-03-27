@@ -84,14 +84,23 @@ CREATE INDEX idx_categories_title ON categories(title);
 CREATE TABLE products (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
+  slug TEXT UNIQUE,
   description TEXT NOT NULL,
   category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
   price DECIMAL(10, 2) NOT NULL,
   images TEXT[] NOT NULL DEFAULT '{}',
+  status VARCHAR(20) DEFAULT 'pending',
+  link TEXT,
+  created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+  updated_by UUID REFERENCES users(id) ON DELETE SET NULL,
   average_rating DECIMAL(3, 2) NOT NULL DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP WITH TIME ZONE
 );
+
+ALTER TABLE products ADD CONSTRAINT products_created_by_fkey FOREIGN KEY (created_by) REFERENCES users(id);
+ALTER TABLE products ADD CONSTRAINT products_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES users(id);
 
 CREATE INDEX idx_products_category_id ON products(category_id);
 CREATE INDEX idx_products_price ON products(price);
@@ -125,9 +134,16 @@ CREATE TABLE orders (
   total_price DECIMAL(12, 2) NOT NULL,
   shipping_info TEXT NOT NULL,
   status order_status NOT NULL DEFAULT 'PENDING',
+  payment_method VARCHAR(20) NOT NULL DEFAULT 'COD',
+  payment_status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+  stripe_session_id TEXT,
+  updated_by UUID REFERENCES users(id) ON DELETE SET NULL,
   created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE orders ADD CONSTRAINT orders_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE orders ADD CONSTRAINT orders_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES users(id);
 
 CREATE INDEX idx_orders_user_id ON orders(user_id);
 CREATE INDEX idx_orders_status ON orders(status);

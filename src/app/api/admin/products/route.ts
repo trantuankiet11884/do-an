@@ -10,12 +10,9 @@ export async function GET() {
       `
       *,
       categories(id, title),
-      product_variants(*),
-      creator:users!products_created_by_fkey(id, name, email),
-      updater:users!products_updated_by_fkey(id, name, email)
+      product_variants(*)
     `,
     )
-    .is("deleted_at", null) 
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -25,8 +22,6 @@ export async function GET() {
   // Transform to match Product interface
   const transformed = products?.map((product) => ({
     ...product,
-    created_by: product.creator,
-    updated_by: product.updater,
   }));
 
   return NextResponse.json({ products: transformed || [] });

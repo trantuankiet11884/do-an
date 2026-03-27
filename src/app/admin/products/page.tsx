@@ -14,9 +14,7 @@ export default async function AdminProductsPage() {
       `
       *,
       categories(id, title),
-      product_variants(*),
-      creator:users!products_created_by_fkey(id, name, email),
-      updater:users!products_updated_by_fkey(id, name, email)
+      product_variants(*)
     `,
     )
     .is("deleted_at", null)
@@ -40,13 +38,13 @@ export default async function AdminProductsPage() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Products</h1>
-          <p className="text-gray-600">Manage your product catalog</p>
+          <h1 className="text-2xl font-semibold text-gray-900">Sản phẩm</h1>
+          <p className="text-gray-600">Quản lý danh mục sản phẩm</p>
         </div>
         <Link href="/admin/products/new">
           <Button variant="default">
             <Plus className="h-4 w-4 mr-2" />
-            Add Product
+            Thêm sản phẩm
           </Button>
         </Link>
       </div>

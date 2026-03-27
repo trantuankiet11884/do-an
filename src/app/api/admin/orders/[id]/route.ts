@@ -48,13 +48,12 @@ export async function PUT(
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
-    // Update with updated_by = admin.id
+    // Update status
     const { data: order, error } = await supabase
       .from("orders")
       .update({
         status,
         updated_at: new Date().toISOString(),
-        updated_by: admin.id,
       })
       .eq("id", id)
       .select()
@@ -67,8 +66,7 @@ export async function PUT(
       .select(
         `
         *,
-        users!orders_user_id_fkey(id, name, email, phone, address),
-        updated_by_user:users!orders_updated_by_fkey(id, name, email),
+        users(id, name, email, phone, address),
         order_items(
           *,
           products(*),

@@ -59,11 +59,6 @@ interface Order {
     phone: string | null;
     address: string | null;
   };
-  updated_by_user?: {
-    id: string;
-    name: string;
-    email: string;
-  } | null;
   order_items: OrderItem[];
 }
 
@@ -156,8 +151,7 @@ export default function OrdersTable({
             .select(
               `
               *,
-              users!orders_user_id_fkey(id, name, email, phone, address),
-              updated_by_user:users!orders_updated_by_fkey(id, name, email),
+              users(id, name, email, phone, address),
               order_items(*, products(*), product_variants(*))
             `,
             )
@@ -176,8 +170,7 @@ export default function OrdersTable({
             .select(
               `
               *,
-              users!orders_user_id_fkey(id, name, email, phone, address),
-              updated_by_user:users!orders_updated_by_fkey(id, name, email),
+              users(id, name, email, phone, address),
               order_items(*, products(*), product_variants(*))
             `,
             )
@@ -522,25 +515,10 @@ export default function OrdersTable({
                                       {formatFullDate(order.updated_at)}
                                     </span>
                                   </div>
-                                  {order.updated_by_user && (
-                                    <div className="flex justify-between items-start">
-                                      <span className="text-gray-600">
-                                        Người cập nhật:
-                                      </span>
-                                      <div className="text-right">
-                                        <div className="text-gray-900 font-medium">
-                                          {order.updated_by_user.name}
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                          {order.updated_by_user.email}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  )}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
                           {/* Order Items */}
                           <div className="md:col-span-2">

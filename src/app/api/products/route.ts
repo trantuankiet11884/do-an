@@ -29,8 +29,7 @@ export async function GET(request: NextRequest) {
       `,
         { count: 'exact' }
       )
-      .is('deleted_at', null)
-      .eq('status', 'approved'); 
+      .is('deleted_at', null);
 
     if (isNew) {
       const twoWeeksAgo = new Date();
@@ -108,18 +107,14 @@ async function createProduct(request: NextRequest) {
     const { data: product, error: productError } = await supabase
       .from('products')
       .insert({
+        id: crypto.randomUUID(),
         title,
         slug,
         description,
         category_id: category_id === 'null' ? null : category_id,
         price,
         images: [],
-        status: 'pending',
-        created_by: user.id,
-        updated_by: user.id,
-        link,
-        colors: colorsJson ? JSON.parse(colorsJson) : [],
-        sizes: sizesJson ? JSON.parse(sizesJson) : [],
+        updated_at: new Date().toISOString(),
       })
       .select()
       .single();
@@ -153,11 +148,13 @@ async function createProduct(request: NextRequest) {
       for (const size of sizes) {
         if (color.trim() && size.name.trim()) {
           variants.push({
+            id: crypto.randomUUID(),
             product_id: product.id,
             color: color.trim(),
             size: size.name.trim(),
             unit: null,
             price: size.price,
+            updated_at: new Date().toISOString(),
           });
         }
       }
@@ -176,9 +173,7 @@ async function createProduct(request: NextRequest) {
         `
         *,
         categories(title),
-        product_variants(*),
-        creator:users!products_created_by_fkey(id, name, email),
-        updater:users!products_updated_by_fkey(id, name, email)
+        product_variants(*)
       `
       )
       .eq('id', product.id)

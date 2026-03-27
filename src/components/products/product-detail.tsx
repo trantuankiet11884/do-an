@@ -776,7 +776,6 @@ export default function ProductDetailClient({
                     <div className="flex">
                       {renderStars(averageRating, false, "lg")}
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">Average rating</p>
                   </div>
                 </div>
                 <div className="flex gap-2 mt-3">

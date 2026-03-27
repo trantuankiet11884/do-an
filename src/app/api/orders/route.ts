@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/supabaseServer'
 import { verifyAuth } from '@/lib/auth/middleware'
+import { createCheckoutSession } from '@/lib/stripe'
 
 // api/orders/route.ts
 
@@ -17,7 +18,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { shippingInfo, totalPrice, updateUserAddress } = body
+    const { shippingInfo, totalPrice, updateUserAddress, paymentMethod = 'COD' } = body
 
     if (!shippingInfo || !totalPrice) {
       return NextResponse.json(
@@ -65,11 +66,15 @@ export async function POST(request: NextRequest) {
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .insert({
+        id: crypto.randomUUID(),
         user_id: user.id,
         total_price: totalPrice,
         shipping_info: shippingInfo,
         status: 'PENDING',
+        payment_method: paymentMethod,
+        payment_status: 'PENDING',
         order_number: null, // Will be generated when confirmed
+        updated_at: new Date().toISOString(),
       })
       .select()
       .single()
@@ -81,6 +86,7 @@ export async function POST(request: NextRequest) {
 
     // Create order items from cart items – use the price already stored in cart (which is the variant price if applicable)
     const orderItems = cartItems.map((item) => ({
+      id: crypto.randomUUID(),
       order_id: order.id,
       product_id: item.product_id,
       variant_id: item.variant_id,
@@ -118,10 +124,37 @@ export async function POST(request: NextRequest) {
       .eq('id', order.id)
       .single()
 
+    // If payment method is Stripe, generate checkout session directly
+    let checkoutUrl = null;
+    if (paymentMethod === 'STRIPE') {
+      try {
+        const session = await createCheckoutSession({
+          order: completeOrder,
+          user,
+          origin: request.nextUrl.origin
+        });
+        
+        checkoutUrl = session.url;
+        
+        // Update order with Stripe session ID for tracking
+        await supabase
+          .from('orders')
+          .update({ stripe_session_id: session.id })
+          .eq('id', order.id);
+      } catch (stripeError) {
+        console.error('Stripe Session Error:', stripeError);
+        // We don't fail the whole order if Stripe session fails, 
+        // the user can still be redirected to order success but with a warning or manual pay link later.
+      }
+    }
+
     return NextResponse.json(
       {
         order: completeOrder,
-        message: 'Order placed successfully. It will be confirmed soon.',
+        checkoutUrl,
+        message: paymentMethod === 'STRIPE' 
+          ? 'Order created. Redirecting to payment...' 
+          : 'Order placed successfully. It will be confirmed soon.',
       },
       { status: 201 }
     )

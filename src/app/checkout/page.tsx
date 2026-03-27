@@ -69,6 +69,7 @@ function CheckoutContent() {
   const [submitting, setSubmitting] = useState(false);
   const [showTermsDialog, setShowTermsDialog] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
   const isLoading = authLoading || cartLoading;
 
@@ -77,6 +78,7 @@ function CheckoutContent() {
     phone: "",
     address: "",
   });
+  const [paymentMethod, setPaymentMethod] = useState<"COD" | "STRIPE">("COD");
 
   // Handle mounting to avoid hydration issues
   useEffect(() => {
@@ -100,6 +102,12 @@ function CheckoutContent() {
       toast.error("Vui lòng đăng nhập để thanh toán");
       const returnUrl = encodeURIComponent(window.location.pathname);
       router.push(`/login?redirectTo=${returnUrl}`);
+    }
+
+    // Handle Stripe cancellation
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("canceled")) {
+      toast.error("Thanh toán đã bị hủy. Vui lòng thử lại.");
     }
   }, [user, isLoading, router, mounted]);
 
@@ -164,6 +172,7 @@ Số điện thoại: ${formData.phone}
           shippingInfo,
           totalPrice: total,
           updateUserAddress: true,
+          paymentMethod,
         }),
       });
 
@@ -173,10 +182,15 @@ Số điện thoại: ${formData.phone}
       setOrderId(data.order.id);
       setOrderNumber(data.order.order_number || "Đang xử lý");
       setOrderTotal(data.order.total_price);
+      setOrderTotal(data.order.total_price);
+      console.log(data);
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+        return;
+      }
+
       setOrderPlaced(true);
-
       await clearCart();
-
       toast.success("Đặt hàng thành công!");
     } catch (error: any) {
       toast.error(error.message || "Không thể đặt hàng");
@@ -279,7 +293,8 @@ Số điện thoại: ${formData.phone}
                       Giao hàng
                     </p>
                     <p className="text-[11px] text-blue-800">
-                      Miễn phí trong khu vực • Có phí EMS cho các tỉnh thành khác
+                      Miễn phí trong khu vực • Có phí EMS cho các tỉnh thành
+                      khác
                     </p>
                   </div>
                 </div>
@@ -299,7 +314,9 @@ Số điện thoại: ${formData.phone}
                       <p className="text-xs font-medium text-gray-900">
                         Xác nhận qua điện thoại
                       </p>
-                      <p className="text-[10px] text-gray-500">Trong vòng 24 giờ</p>
+                      <p className="text-[10px] text-gray-500">
+                        Trong vòng 24 giờ
+                      </p>
                     </div>
                     <ChevronRight className="h-3 w-3 text-gray-400 shrink-0" />
                   </div>
@@ -421,7 +438,8 @@ Số điện thoại: ${formData.phone}
                         <Label
                           htmlFor="phone"
                           className="text-gray-700 text-sm sm:text-base">
-                          Số điện thoại <span className="text-[#f73a00]">*</span>
+                          Số điện thoại{" "}
+                          <span className="text-[#f73a00]">*</span>
                         </Label>
                         <div className="relative">
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -470,7 +488,9 @@ Số điện thoại: ${formData.phone}
                           </p>
                           <ul className="list-disc list-inside space-y-0.5 sm:space-y-1">
                             <li>Giao hàng miễn phí trong khu vực</li>
-                            <li>Có tính phí EMS khi giao đến các tỉnh thành khác</li>
+                            <li>
+                              Có tính phí EMS khi giao đến các tỉnh thành khác
+                            </li>
                             <li>Thời gian nhận hàng: 2-3 tuần</li>
                           </ul>
                         </div>
@@ -548,7 +568,7 @@ Số điện thoại: ${formData.phone}
                           )}
                           <div className="flex justify-between items-center mt-1">
                             <span className="text-[10px] sm:text-xs text-gray-500">
-                                Số lượng: {item.quantity}
+                              Số lượng: {item.quantity}
                             </span>
                             <span className="text-xs sm:text-sm font-semibold text-gray-900">
                               {(item.price * item.quantity).toLocaleString(
@@ -574,7 +594,9 @@ Số điện thoại: ${formData.phone}
                     <div className="flex justify-between text-xs sm:text-sm">
                       <span className="text-gray-600">Giao hàng</span>
                       <div className="text-right">
-                        <span className="font-medium text-green-600">Miễn phí</span>
+                        <span className="font-medium text-green-600">
+                          Miễn phí
+                        </span>
                         <p className="text-[10px] sm:text-xs text-gray-500">
                           Trong khu vực
                         </p>
@@ -593,14 +615,124 @@ Số điện thoại: ${formData.phone}
                     </p>
                   </div>
 
-                  {/* Payment Method Info */}
-                  <div className="bg-blue-50 rounded-xl p-3 sm:p-4 border border-blue-100">
-                    <div className="flex items-start gap-2">
-                      <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mt-0.5 shrink-0" />
-                      <div className="text-[10px] sm:text-xs text-blue-800">
-                        <p className="font-medium mb-0.5">Phương thức thanh toán:</p>
-                        <p>Chúng tôi sẽ liên hệ để trao đổi cách thanh toán.</p>
-                      </div>
+                  {/* Payment Method Selection */}
+                  <div className="space-y-3">
+                    <Label className="text-gray-700 text-sm font-semibold">
+                      Phương thức thanh toán{" "}
+                      <span className="text-[#f73a00]">*</span>
+                    </Label>
+                    <div className="grid grid-cols-1 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setPaymentMethod("COD")}
+                        className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${
+                          paymentMethod === "COD"
+                            ? "border-[#f73a00] bg-orange-50 ring-1 ring-[#f73a00]"
+                            : "border-gray-200 bg-white hover:border-gray-300"
+                        }`}>
+                        <div
+                          className={`mt-0.5 h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${
+                            paymentMethod === "COD"
+                              ? "border-[#f73a00]"
+                              : "border-gray-300"
+                          }`}>
+                          {paymentMethod === "COD" && (
+                            <div className="h-2 w-2 rounded-full bg-[#f73a00]" />
+                          )}
+                        </div>
+                        <div className="text-left">
+                          <p
+                            className={`text-sm font-medium ${paymentMethod === "COD" ? "text-gray-900" : "text-gray-700"}`}>
+                            Thanh toán khi nhận hàng (COD)
+                          </p>
+                          <p className="text-[10px] text-gray-500 mt-0.5">
+                            Bạn sẽ thanh toán một nửa trước khi nhận hàng.
+                          </p>
+                        </div>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setPaymentMethod("STRIPE")}
+                        className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${
+                          paymentMethod === "STRIPE"
+                            ? "border-[#f73a00] bg-orange-50 ring-1 ring-[#f73a00]"
+                            : "border-gray-200 bg-white hover:border-gray-300"
+                        }`}>
+                        <div
+                          className={`mt-0.5 h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${
+                            paymentMethod === "STRIPE"
+                              ? "border-[#f73a00]"
+                              : "border-gray-300"
+                          }`}>
+                          {paymentMethod === "STRIPE" && (
+                            <div className="h-2 w-2 rounded-full bg-[#f73a00]" />
+                          )}
+                        </div>
+                        <div className="text-left flex-1">
+                          <div className="flex justify-between items-center w-full">
+                            <p
+                              className={`text-sm font-medium ${paymentMethod === "STRIPE" ? "text-gray-900" : "text-gray-700"}`}>
+                              Thẻ tín dụng / Ghi nợ
+                            </p>
+                            <div className="flex gap-1">
+                              <img
+                                src="https://img.icons8.com/color/48/visa.png"
+                                className="h-4"
+                                alt="visa"
+                              />
+                              <img
+                                src="https://img.icons8.com/color/48/mastercard.png"
+                                className="h-4"
+                                alt="mastercard"
+                              />
+                            </div>
+                          </div>
+                          <p className="text-[10px] text-gray-500 mt-0.5">
+                            Thanh toán an toàn qua Stripe.
+                          </p>
+                        </div>
+                      </button>
+
+                      {/* Stripe Test Helper - NEW */}
+                      {paymentMethod === "STRIPE" && (
+                        <div className="mt-2 p-3 bg-blue-50 border border-blue-100 rounded-xl animate-in fade-in slide-in-from-top-2 duration-300">
+                          <div className="flex items-start gap-2">
+                            <Shield className="h-4 w-4 text-blue-600 shrink-0 mt-0.5" />
+                            <div>
+                              <p className="text-xs font-semibold text-blue-900">
+                                Chế độ thử nghiệm (Test Mode)
+                              </p>
+                              <p className="text-[10px] text-blue-700 leading-relaxed mt-0.5">
+                                Bạn có thể sử dụng thẻ test của Stripe để hoàn
+                                tất đơn hàng:
+                              </p>
+                              <div className="mt-2 flex items-center gap-2">
+                                <code className="bg-white px-2 py-1 rounded border border-blue-200 text-blue-700 font-mono text-xs">
+                                  4242 4242 4242 4242
+                                </code>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-6 px-2 text-[10px] text-blue-600 hover:text-blue-700 hover:bg-blue-100"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigator.clipboard.writeText(
+                                      "4242 4242 4242 4242",
+                                    );
+                                    toast.success("Đã copy số thẻ test!");
+                                  }}>
+                                  Copy
+                                </Button>
+                              </div>
+                              <p className="text-[9px] text-blue-500 mt-1 italic">
+                                * Thông tin ngày hết hạn và CVC có thể nhập bất
+                                kỳ.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -664,7 +796,8 @@ Số điện thoại: ${formData.phone}
                       Chấp thuận điều khoản
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      Bằng việc sử dụng dịch vụ của KDS, bạn đồng ý tuân thủ các Điều khoản Dịch vụ này.
+                      Bằng việc sử dụng dịch vụ của KDS, bạn đồng ý tuân thủ các
+                      Điều khoản Dịch vụ này.
                     </p>
                   </section>
 
@@ -673,7 +806,9 @@ Số điện thoại: ${formData.phone}
                       Sử dụng dịch vụ
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      Bạn cam kết sử dụng dịch vụ cho các mục đích hợp pháp và theo đúng quy định. Bạn đồng ý không gây hại, làm gián đoạn hoặc quá tải hệ thống của chúng tôi.
+                      Bạn cam kết sử dụng dịch vụ cho các mục đích hợp pháp và
+                      theo đúng quy định. Bạn đồng ý không gây hại, làm gián
+                      đoạn hoặc quá tải hệ thống của chúng tôi.
                     </p>
                   </section>
 
@@ -682,7 +817,9 @@ Số điện thoại: ${formData.phone}
                       Trách nhiệm tài khoản
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      Nếu bạn tạo tài khoản, bạn có trách nhiệm bảo mật tài khoản và chịu trách nhiệm cho mọi hoạt động diễn ra dưới tài khoản đó.
+                      Nếu bạn tạo tài khoản, bạn có trách nhiệm bảo mật tài
+                      khoản và chịu trách nhiệm cho mọi hoạt động diễn ra dưới
+                      tài khoản đó.
                     </p>
                   </section>
 
@@ -691,7 +828,9 @@ Số điện thoại: ${formData.phone}
                       Đơn hàng và Thanh toán
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      Khi đặt hàng, bạn đồng ý thanh toán đúng giá niêm yết. Chúng tôi có quyền từ chối hoặc hủy đơn hàng nếu có sai sót về giá hoặc nghi ngờ gian lận.
+                      Khi đặt hàng, bạn đồng ý thanh toán đúng giá niêm yết.
+                      Chúng tôi có quyền từ chối hoặc hủy đơn hàng nếu có sai
+                      sót về giá hoặc nghi ngờ gian lận.
                     </p>
                   </section>
 
@@ -700,7 +839,8 @@ Số điện thoại: ${formData.phone}
                       Vận chuyển và Đổi trả
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      Chính sách vận chuyển và đổi trả được quy định riêng và là một phần của Điều khoản này.
+                      Chính sách vận chuyển và đổi trả được quy định riêng và là
+                      một phần của Điều khoản này.
                     </p>
                   </section>
 
@@ -709,7 +849,9 @@ Số điện thoại: ${formData.phone}
                       Sở hữu trí tuệ
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      Mọi nội dung trên website bao gồm văn bản, đồ họa, logo và hình ảnh là tài sản của KDS và được bảo vệ bởi luật bản quyền.
+                      Mọi nội dung trên website bao gồm văn bản, đồ họa, logo và
+                      hình ảnh là tài sản của KDS và được bảo vệ bởi luật bản
+                      quyền.
                     </p>
                   </section>
 
@@ -718,7 +860,9 @@ Số điện thoại: ${formData.phone}
                       Giới hạn trách nhiệm
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      KDS không chịu trách nhiệm cho các thiệt hại gián tiếp, ngẫu nhiên hoặc hậu quả phát sinh từ việc bạn sử dụng dịch vụ của chúng tôi.
+                      KDS không chịu trách nhiệm cho các thiệt hại gián tiếp,
+                      ngẫu nhiên hoặc hậu quả phát sinh từ việc bạn sử dụng dịch
+                      vụ của chúng tôi.
                     </p>
                   </section>
 
@@ -727,7 +871,8 @@ Số điện thoại: ${formData.phone}
                       Luật áp dụng
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600">
-                      Các Điều khoản này được điều chỉnh bởi pháp luật hiện hành.
+                      Các Điều khoản này được điều chỉnh bởi pháp luật hiện
+                      hành.
                     </p>
                   </section>
                 </div>

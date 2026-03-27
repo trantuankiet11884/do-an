@@ -145,26 +145,22 @@ export default function NewCategoryPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900">
-          Add New Category
-        </h1>
-        <p className="text-gray-600">Create a new category or subcategory</p>
+        <h1 className="text-2xl font-semibold text-gray-900">Danh mục mới</h1>
+        <p className="text-gray-600">Tạo danh mục mới</p>
       </div>
 
       <form onSubmit={handleSubmit}>
         <Card className="bg-white border border-gray-200 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-gray-900">
-              Category Information
-            </CardTitle>
+            <CardTitle className="text-gray-900">Thông tin danh mục</CardTitle>
             <CardDescription className="text-gray-600">
-              Enter category details
+              Nhập thông tin danh mục
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 bg-white">
             <div className="space-y-2">
               <Label htmlFor="title" className="text-gray-700">
-                Category Title *
+                Tên danh mục *
               </Label>
               <Input
                 id="title"
@@ -179,7 +175,7 @@ export default function NewCategoryPage() {
 
             <div className="space-y-2">
               <Label htmlFor="description" className="text-gray-700">
-                Description
+                Mô tả
               </Label>
               <Textarea
                 id="description"
@@ -195,23 +191,21 @@ export default function NewCategoryPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="parent_id" className="text-gray-700">
-                  Parent Category
+                  Danh mục cha
                 </Label>
                 <Select
                   value={formData.parent_id}
                   onValueChange={(value) =>
                     setFormData((prev) => ({ ...prev, parent_id: value }))
-                  }
-                >
+                  }>
                   <SelectTrigger className="bg-white border-gray-300 text-gray-900">
                     <SelectValue placeholder="Select parent category" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border-gray-200 shadow-lg">
                     <SelectItem
                       value="null"
-                      className="text-gray-900 hover:bg-gray-100"
-                    >
-                      None (Main Category)
+                      className="text-gray-900 hover:bg-gray-100">
+                      Không có (Danh mục chính)
                     </SelectItem>
                     {parentOptions.map((option) => (
                       <SelectItem
@@ -221,8 +215,7 @@ export default function NewCategoryPage() {
                           option.depth > 0
                             ? "pl-6 text-gray-900 hover:bg-gray-100"
                             : "text-gray-900 hover:bg-gray-100"
-                        }
-                      >
+                        }>
                         {option.title}
                       </SelectItem>
                     ))}
@@ -233,7 +226,7 @@ export default function NewCategoryPage() {
               {/* Image upload */}
               <div className="space-y-2">
                 <Label htmlFor="image" className="text-gray-700">
-                  Category Image (optional)
+                  Ảnh danh mục (tùy chọn)
                 </Label>
                 <div className="flex items-center gap-4">
                   {imagePreview ? (
@@ -247,15 +240,14 @@ export default function NewCategoryPage() {
                       <button
                         type="button"
                         onClick={removeImage}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                      >
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
                         <X className="h-3 w-3" />
                       </button>
                     </div>
                   ) : (
                     <label className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-[#f73a00] bg-white">
                       <Upload className="h-6 w-6 text-gray-400" />
-                      <span className="text-xs text-gray-500">Upload</span>
+                      <span className="text-xs text-gray-500">Tải lên</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -266,7 +258,7 @@ export default function NewCategoryPage() {
                   )}
                 </div>
                 <p className="text-xs text-gray-500">
-                  Supported formats: JPEG, PNG, GIF
+                  Định dạng hỗ trợ: JPEG, PNG, GIF
                 </p>
               </div>
             </div>
@@ -276,16 +268,14 @@ export default function NewCategoryPage() {
                 type="button"
                 variant="outline"
                 onClick={() => router.push("/admin/categories")}
-                className="border-gray-300 text-gray-700 hover:bg-gray-100"
-              >
-                Cancel
+                className="border-gray-300 text-gray-700 hover:bg-gray-100">
+                Hủy
               </Button>
               <Button
                 type="submit"
                 disabled={loading}
-                className="bg-[#f73a00] hover:bg-[#f73a00]/90 text-white"
-              >
-                {loading ? "Creating..." : "Create Category"}
+                className="bg-[#f73a00] hover:bg-[#f73a00]/90 text-white">
+                {loading ? "Đang tạo..." : "Tạo danh mục"}
               </Button>
             </div>
           </CardContent>
