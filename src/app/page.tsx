@@ -5,6 +5,7 @@ import HeroSection from "@/components/user/home/hero-section";
 import FeaturedProducts from "@/components/user/home/featured-products";
 import CategoryShowcase from "@/components/user/home/category-showcase";
 import CategorySection from "@/components/user/home/category-section";
+import { ProductRecommendations } from "@/components/ai/product-recommendations";
 import { createClient } from "@/lib/supabase/supabaseClient";
 import { ArrowUp, Loader2 } from "lucide-react";
 
@@ -101,6 +102,7 @@ export default function HomePage() {
     <>
       <main>
         <HeroSection />
+        <ProductRecommendations />
         <FeaturedProducts />
         {rootCategories.map((cat) => (
           <CategorySection

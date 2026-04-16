@@ -1030,7 +1030,7 @@ mailjet APIs goes here
 
 ```bash
 git clone <repository>
-cd amba-ecommerce
+cd KDS-ecommerce
 npm install
 ```
 

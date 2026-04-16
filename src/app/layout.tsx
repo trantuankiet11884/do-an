@@ -12,6 +12,7 @@ import PageTracker from "@/components/tracking/page-tracker";
 import Footer from "@/components/user/footer";
 import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/supabaseServer";
+import { ChatWidget } from "@/components/ai/chat-widget";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -117,6 +118,7 @@ export default async function RootLayout({
                   </Suspense>
                 </div>
                 <Toaster position="bottom-right" duration={2000} />
+                <ChatWidget />
                 <div id="cart-animation-element" />
               </FavoritesProvider>
             </CartProvider>

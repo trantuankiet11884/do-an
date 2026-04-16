@@ -90,7 +90,7 @@ export const OrderConfirmedEmail = ({
               <Column align="center">
                 <div style={logoContainer}>
                   <span style={logoText}>
-                    Amba<span style={logoAccent}>Store</span>
+                    KDS<span style={logoAccent}>Store</span>
                   </span>
                 </div>
               </Column>

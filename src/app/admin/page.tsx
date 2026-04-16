@@ -3,6 +3,7 @@ import AdminStatsClient from "@/components/admin/stats";
 import RecentOrders from "@/components/admin/recent-orders";
 import RecentProducts from "@/components/admin/recent-products";
 import UserActivity from "@/components/admin/user-activity";
+import AIForecast from "@/components/admin/ai-forecast";
 
 export default async function AdminDashboard() {
   const supabase = await createAdminClient();
@@ -73,6 +74,11 @@ export default async function AdminDashboard() {
           <p className="text-gray-600">
             Chào mừng bạn trở lại! Đây là những gì đang diễn ra với cửa hàng của bạn hôm nay.
           </p>
+        </div>
+
+        {/* AI Forecast */}
+        <div className="mb-8">
+          <AIForecast />
         </div>
 
         {/* Stats Cards */}
