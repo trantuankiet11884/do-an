@@ -1,6 +1,5 @@
 "use client";
 
-import { useChat } from '@ai-sdk/react';
 import { useState, useRef, useEffect } from "react";
 import { MessageSquare, X, Send, Bot, User, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,9 +12,17 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 
+interface Message {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+}
+
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({ api: '/api/chat' });
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,6 +30,52 @@ export function ChatWidget() {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: "user",
+      content: input,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [...messages, userMessage],
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to get response");
+
+      const data = await response.json();
+      
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: data.text,
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error("Chat error:", error);
+      // Optional: Add error message to chat
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -35,7 +88,7 @@ export function ChatWidget() {
               </div>
               <div>
                 <CardTitle className="text-md font-semibold">
-                  KDSAI Assistant
+                  KDS Assistant
                 </CardTitle>
                 <p className="text-xs text-muted-foreground">
                   Luôn sẵn sàng hỗ trợ bạn
@@ -74,41 +127,6 @@ export function ChatWidget() {
                       : "bg-background border shadow-sm rounded-tl-sm"
                   }`}>
                   {message.content}
-
-                  {/* Tool Invocations Display */}
-                  {message.toolInvocations?.map((toolInvocation: any) => {
-                    const { toolName, toolCallId, state } = toolInvocation;
-
-                    if (state === "result") {
-                      if (toolName === "searchProducts") {
-                        return (
-                          <div
-                            key={toolCallId}
-                            className="mt-2 text-xs border rounded-md p-2 bg-muted/50">
-                            <strong>🔄 Đã tìm kiếm xong sản phẩm.</strong>
-                          </div>
-                        );
-                      }
-                      if (toolName === "checkOrderStatus") {
-                        return (
-                          <div
-                            key={toolCallId}
-                            className="mt-2 text-xs border rounded-md p-2 bg-muted/50">
-                            <strong>📦 Đã kiểm tra trạng thái đơn hàng.</strong>
-                          </div>
-                        );
-                      }
-                    } else {
-                      return (
-                        <div
-                          key={toolCallId}
-                          className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
-                          <Loader2 className="w-3 h-3 animate-spin" />
-                          <span>Đang thực hiện {toolName}...</span>
-                        </div>
-                      );
-                    }
-                  })}
                 </div>
                 {message.role === "user" && (
                   <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center shrink-0">
@@ -135,12 +153,11 @@ export function ChatWidget() {
           <CardFooter className="p-3 border-t bg-background">
             <form
               onSubmit={handleSubmit}
-              className="flex w-full items-center gap-2 relative"
-            >
+              className="flex w-full items-center gap-2 relative">
               <Input
                 value={input}
                 onChange={handleInputChange}
-                placeholder="Nhắn tin cho KDSAI..."
+                placeholder="Nhắn tin cho KDS..."
                 className="pr-10 rounded-full bg-muted/50 focus-visible:ring-primary/30"
                 disabled={isLoading}
               />

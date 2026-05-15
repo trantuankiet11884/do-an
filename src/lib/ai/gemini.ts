@@ -6,8 +6,8 @@ export const google = createGoogleGenerativeAI({
 });
 
 // Helper for getting the default text model
-export const getChatModel = () => google("gemini-pro-latest");
+export const getChatModel = () => google("gemini-flash-latest");
 
 // Helper for generating embeddings
 export const getEmbeddingModel = () =>
-  google.textEmbeddingModel("gemini-embedding-001");
+  google.textEmbeddingModel("text-embedding-004");

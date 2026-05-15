@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Bot, RefreshCw, TrendingUp } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useEffect, useState } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Bot, RefreshCw, TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function AIForecast() {
-  const [forecast, setForecast] = useState<string>('');
+  const [forecast, setForecast] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchForecast = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/admin/forecast');
+      const res = await fetch("/api/admin/forecast");
       const data = await res.json();
-      setForecast(data.forecast || 'Không thể tạo báo cáo lúc này.');
+      setForecast(data.forecast || "Không thể tạo báo cáo lúc này.");
     } catch (e) {
       console.error(e);
-      setForecast('Lỗi khi phân tích dữ liệu.');
+      setForecast("Lỗi khi phân tích dữ liệu.");
     } finally {
       setIsLoading(false);
     }
@@ -30,10 +30,13 @@ export default function AIForecast() {
   // Simple Markdown Parser for ### and **
   const parseMarkdown = (text: string) => {
     const html = text
-      .replace(/### (.*)/g, '<h3 class="text-lg font-bold text-gray-800 mt-4 mb-2 flex items-center gap-2"><span class="text-primary">•</span> $1</h3>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\n\n/g, '<br/><br/>')
-      .replace(/\n/g, '<br/>');
+      .replace(
+        /### (.*)/g,
+        '<h3 class="text-lg font-bold text-gray-800 mt-4 mb-2 flex items-center gap-2"><span class="text-primary">•</span> $1</h3>',
+      )
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\n\n/g, "<br/><br/>")
+      .replace(/\n/g, "<br/>");
     return { __html: html };
   };
 
@@ -45,17 +48,18 @@ export default function AIForecast() {
             <Bot className="w-5 h-5 text-indigo-700" />
           </div>
           <CardTitle className="text-xl font-bold text-indigo-900">
-            AmbaAI - Phân Tích & Dự Báo Kinh Doanh
+            KDS - Phân Tích & Dự Báo Kinh Doanh
           </CardTitle>
         </div>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={fetchForecast} 
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={fetchForecast}
           disabled={isLoading}
-          className="text-indigo-600 border-indigo-200 hover:bg-indigo-100"
-        >
-          <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+          className="text-indigo-600 border-indigo-200 hover:bg-indigo-100">
+          <RefreshCw
+            className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`}
+          />
           Tải lại
         </Button>
       </CardHeader>
@@ -69,7 +73,7 @@ export default function AIForecast() {
             <div className="h-4 bg-indigo-200/50 rounded w-4/5"></div>
           </div>
         ) : (
-          <div 
+          <div
             className="text-gray-700 leading-relaxed max-w-none text-sm md:text-base space-y-1"
             dangerouslySetInnerHTML={parseMarkdown(forecast)}
           />
