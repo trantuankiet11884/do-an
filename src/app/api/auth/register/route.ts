@@ -1,26 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
-import { hashPassword } from '@/lib/auth/password';
-import { createToken } from '@/lib/auth/jwt';
-import { registerServerSchema } from '@/lib/auth/schemas';
-import { createAdminClient } from '@/lib/supabase/supabaseServer';
-import dns from 'dns/promises';
-import { verifyEmail } from '@/lib/email-verification';
+import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
+import { hashPassword } from "@/lib/auth/password";
+import { createToken } from "@/lib/auth/jwt";
+import { registerServerSchema } from "@/lib/auth/schemas";
+import { createAdminClient } from "@/lib/supabase/supabaseServer";
+import dns from "dns/promises";
+import { verifyEmail } from "@/lib/email-verification";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => {
-      throw new Error('Invalid JSON body');
+      throw new Error("Invalid JSON body");
     });
 
     const validatedData = registerServerSchema.parse(body);
 
     // 1. Extract domain
-    const domain = validatedData.email.split('@')[1];
+    const domain = validatedData.email.split("@")[1];
     if (!domain) {
       return NextResponse.json(
-        { error: 'Invalid email format' },
-        { status: 400 }
+        { error: "Sai định dạng email" },
+        { status: 400 },
       );
     }
 
@@ -29,14 +29,14 @@ export async function POST(request: NextRequest) {
       const mxRecords = await dns.resolveMx(domain);
       if (!mxRecords || mxRecords.length === 0) {
         return NextResponse.json(
-          { error: 'Email domain does not accept emails' },
-          { status: 400 }
+          { error: "Email không được chấp nhận" },
+          { status: 400 },
         );
       }
     } catch (dnsError: any) {
       return NextResponse.json(
-        { error: 'Email domain does not exist' },
-        { status: 400 }
+        { error: "Email không tồn tại" },
+        { status: 400 },
       );
     }
 
@@ -44,16 +44,13 @@ export async function POST(request: NextRequest) {
 
     // 3. Check if email already exists in DB (before calling DeBounce)
     const { data: existing } = await supabase
-      .from('users')
-      .select('id')
-      .eq('email', validatedData.email)
+      .from("users")
+      .select("id")
+      .eq("email", validatedData.email)
       .single();
 
     if (existing) {
-      return NextResponse.json(
-        { error: 'Email already registered' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Email đã tồn tại" }, { status: 400 });
     }
 
     // 4. DeBounce verification (only if email is new)
@@ -62,20 +59,26 @@ export async function POST(request: NextRequest) {
         const verification = await verifyEmail(validatedData.email);
         if (!verification.valid) {
           return NextResponse.json(
-            { error: verification.reason || 'Email is invalid or undeliverable' },
-            { status: 400 }
+            {
+              error:
+                verification.reason || "Email không hợp lệ hoặc không thể gửi",
+            },
+            { status: 400 },
           );
         }
       } catch (verifyError) {
-        console.error('Email verification error:', verifyError);
+        console.error("Email verification error:", verifyError);
         // Fail open – allow registration but log error (or return 503 if you prefer)
         return NextResponse.json(
-          { error: 'Email verification service unavailable. Please try again later.' },
-          { status: 503 }
+          {
+            error:
+              "Dịch vụ kiểm tra email không khả dụng. Vui lòng thử lại sau.",
+          },
+          { status: 503 },
         );
       }
     } else {
-      console.warn('DEBOUNCE_API_KEY not set – skipping email verification');
+      console.warn("DEBOUNCE_API_KEY not set – skipping email verification");
     }
 
     // 5. Create user
@@ -84,7 +87,7 @@ export async function POST(request: NextRequest) {
     const now = new Date().toISOString();
 
     const { data: user, error } = await supabase
-      .from('users')
+      .from("users")
       .insert({
         id: userId,
         email: validatedData.email,
@@ -95,17 +98,19 @@ export async function POST(request: NextRequest) {
         password_changed_at: now,
         created_at: now,
         updated_at: now,
-        role: 'CUSTOMER',
-        status: 'ACTIVE'
+        role: "CUSTOMER",
+        status: "ACTIVE",
       })
-      .select('id, email, name, phone, address, role, status, created_at, updated_at, password_changed_at')
+      .select(
+        "id, email, name, phone, address, role, status, created_at, updated_at, password_changed_at",
+      )
       .single();
 
     if (error) {
-      console.error('Supabase insert error:', error);
+      console.error("Supabase insert error:", error);
       return NextResponse.json(
-        { error: 'Failed to create user. Please try again.' },
-        { status: 500 }
+        { error: "Failed to create user. Please try again." },
+        { status: 500 },
       );
     }
 
@@ -128,37 +133,33 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    response.cookies.set('auth-token', token, {
+    response.cookies.set("auth-token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
       maxAge: 60 * 60 * 24 * 7,
-      path: '/',
+      path: "/",
     });
 
     return response;
-
   } catch (error: any) {
-    console.error('Registration error:', error);
+    console.error("Registration error:", error);
 
-    if (error.name === 'ZodError') {
+    if (error.name === "ZodError") {
       const firstError = error.errors[0];
-      return NextResponse.json(
-        { error: firstError.message },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: firstError.message }, { status: 400 });
     }
 
-    if (error.message === 'Invalid JSON body') {
+    if (error.message === "Invalid JSON body") {
       return NextResponse.json(
-        { error: 'Invalid request body' },
-        { status: 400 }
+        { error: "Invalid request body" },
+        { status: 400 },
       );
     }
 
     return NextResponse.json(
-      { error: 'Internal server error. Please try again later.' },
-      { status: 500 }
+      { error: "Internal server error. Please try again later." },
+      { status: 500 },
     );
   }
 }

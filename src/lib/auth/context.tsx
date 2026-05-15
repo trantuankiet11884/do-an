@@ -141,7 +141,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           password_changed_at: new Date().toISOString(),
         });
       }
-      toast.success("Login successful!");
+      toast.success("Đăng nhập thành công!");
 
       // Redirect based on priority:
       if (redirectTo) {
@@ -202,7 +202,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
       }
 
-      toast.success("Registration successful!");
+      toast.success("Đăng ký thành công!");
 
       // Force redirect and refresh
       router.push("/");
@@ -270,8 +270,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         logout,
         updateUser,
         refreshUser,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );

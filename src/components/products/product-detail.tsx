@@ -288,10 +288,10 @@ export default function ProductDetailClient({
       return;
     }
 
-    if (!selectedVariant) {
-      toast.error("Vui lòng chọn phiên bản sản phẩm");
-      return;
-    }
+    // if (!selectedVariant) {
+    //   toast.error("Vui lòng chọn phiên bản sản phẩm");
+    //   return;
+    // }
 
     try {
       const buttonRect = document

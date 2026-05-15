@@ -168,7 +168,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
       });
 
-      toast.success("Item added to cart!");
+      toast.success("Thêm vào giỏ hàng thành công!");
     } catch (error: any) {
       setItems(previousItems);
       toast.error(error.message);
@@ -277,8 +277,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         removeItem,
         clearCart,
         refreshCart: fetchCart,
-      }}
-    >
+      }}>
       {children}
     </CartContext.Provider>
   );
