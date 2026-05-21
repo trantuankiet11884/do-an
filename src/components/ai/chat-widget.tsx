@@ -11,11 +11,22 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { trackBehavior } from "@/lib/tracking/behavior";
 
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
+}
+
+function getSessionId(): string {
+  if (typeof window === "undefined") return "";
+  let sessionId = sessionStorage.getItem("kds_session_id");
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    sessionStorage.setItem("kds_session_id", sessionId);
+  }
+  return sessionId;
 }
 
 export function ChatWidget() {
@@ -46,8 +57,12 @@ export function ChatWidget() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
     setInput("");
     setIsLoading(true);
+
+    // Track AI_CHAT event
+    trackBehavior("AI_CHAT", { question: currentInput });
 
     try {
       const response = await fetch("/api/chat", {
@@ -55,6 +70,7 @@ export function ChatWidget() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: [...messages, userMessage],
+          sessionId: getSessionId(),
         }),
       });
 
@@ -71,7 +87,6 @@ export function ChatWidget() {
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Chat error:", error);
-      // Optional: Add error message to chat
     } finally {
       setIsLoading(false);
     }

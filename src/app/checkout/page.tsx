@@ -39,6 +39,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { trackBehavior } from "@/lib/tracking/behavior";
 
 // Force dynamic rendering to avoid prerender issues
 export const dynamic = "force-dynamic";
@@ -191,6 +192,13 @@ Số điện thoại: ${formData.phone}
 
       setOrderPlaced(true);
       await clearCart();
+      trackBehavior("CHECKOUT", {
+        orderId: data.order.id,
+        orderNumber: data.order.order_number,
+        total: data.order.total_price,
+        paymentMethod,
+        itemCount: items.length,
+      });
       toast.success("Đặt hàng thành công!");
     } catch (error: any) {
       toast.error(error.message || "Không thể đặt hàng");

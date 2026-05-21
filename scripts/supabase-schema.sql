@@ -599,3 +599,77 @@ CREATE POLICY "Anyone can update order counters"
 ON order_counters FOR UPDATE
 TO anon, authenticated
 USING (true);
+
+-- ============================================
+-- 24. AI CHAT LOGS TABLE
+-- ============================================
+CREATE TABLE ai_chat_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  session_id VARCHAR(255) NOT NULL,
+  user_id UUID REFERENCES users(id) ON DELETE SET NULL,
+  question TEXT NOT NULL,
+  answer TEXT NOT NULL,
+  intent VARCHAR(100),
+  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_ai_chat_logs_user_id ON ai_chat_logs(user_id);
+CREATE INDEX idx_ai_chat_logs_session_id ON ai_chat_logs(session_id);
+CREATE INDEX idx_ai_chat_logs_created_at ON ai_chat_logs(created_at);
+CREATE INDEX idx_ai_chat_logs_intent ON ai_chat_logs(intent);
+
+-- ============================================
+-- 25. USER BEHAVIOR EVENTS TABLE
+-- ============================================
+CREATE TABLE user_behavior_events (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  session_id VARCHAR(255) NOT NULL,
+  user_id UUID REFERENCES users(id) ON DELETE SET NULL,
+  event_type VARCHAR(50) NOT NULL,
+  event_data TEXT NOT NULL DEFAULT '{}',
+  page_url TEXT,
+  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_behavior_events_user_id ON user_behavior_events(user_id);
+CREATE INDEX idx_behavior_events_session_id ON user_behavior_events(session_id);
+CREATE INDEX idx_behavior_events_event_type ON user_behavior_events(event_type);
+CREATE INDEX idx_behavior_events_created_at ON user_behavior_events(created_at);
+
+-- ============================================
+-- 26. RLS POLICIES - AI CHAT LOGS
+-- ============================================
+ALTER TABLE ai_chat_logs ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can insert chat logs"
+ON ai_chat_logs FOR INSERT
+TO anon, authenticated
+WITH CHECK (true);
+
+CREATE POLICY "Only admins can view chat logs"
+ON ai_chat_logs FOR SELECT
+TO authenticated
+USING (
+  EXISTS (
+    SELECT 1 FROM users WHERE id = auth.uid() AND role IN ('ADMIN', 'SUPERADMIN')
+  )
+);
+
+-- ============================================
+-- 27. RLS POLICIES - USER BEHAVIOR EVENTS
+-- ============================================
+ALTER TABLE user_behavior_events ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can insert behavior events"
+ON user_behavior_events FOR INSERT
+TO anon, authenticated
+WITH CHECK (true);
+
+CREATE POLICY "Only admins can view behavior events"
+ON user_behavior_events FOR SELECT
+TO authenticated
+USING (
+  EXISTS (
+    SELECT 1 FROM users WHERE id = auth.uid() AND role IN ('ADMIN', 'SUPERADMIN')
+  )
+);

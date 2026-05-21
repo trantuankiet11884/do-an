@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { createClient } from "@/lib/supabase/supabaseServer";
 import ProductDetailClient from "@/components/products/product-detail";
+import ProductViewTracker from "@/components/tracking/product-view-tracker";
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 
@@ -93,5 +94,10 @@ export default async function ProductSlugPage({
     average_rating: product.average_rating || 0,
   };
 
-  return <ProductDetailClient product={productWithAvgRating} />;
+  return (
+    <>
+      <ProductViewTracker slug={slug} title={product.title} />
+      <ProductDetailClient product={productWithAvgRating} />
+    </>
+  );
 }

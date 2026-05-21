@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/supabaseServer";
 import ProductCard from "@/components/products/product-card";
 import CategoryMenu from "@/components/products/category-menu";
+import SearchTracker from "@/components/tracking/search-tracker";
 import { Suspense } from "react";
 
 function getAllDescendantIds(
@@ -138,6 +139,9 @@ export default async function ProductsPage({
 
   return (
     <div className="container bg-white mx-auto px-4 py-8">
+      <Suspense fallback={null}>
+        <SearchTracker />
+      </Suspense>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Sản phẩm của chúng tôi</h1>
         <p className="text-gray-600">

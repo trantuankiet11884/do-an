@@ -13,6 +13,7 @@ import {
   Eye,
   LayoutGrid,
   Star,
+  Brain,
   X,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/context";
@@ -29,6 +30,7 @@ const navigation = [
   { name: "Danh mục", href: "/admin/categories", icon: LayoutGrid },
   { name: "Người dùng", href: "/admin/users", icon: Users },
   { name: "Phân tích", href: "/admin/analytics", icon: BarChart3 },
+  { name: "Phân tích hành vi", href: "/admin/behavior-analytics", icon: Brain },
   { name: "Đánh giá", href: "/admin/ratings", icon: Star },
 ];
 

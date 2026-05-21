@@ -1,19 +1,33 @@
 import { generateText } from "ai";
 import { getChatModel } from "@/lib/ai/gemini";
-import { createClient } from "@/lib/supabase/supabaseServer";
+import { createClient, createAdminClient } from "@/lib/supabase/supabaseServer";
 
 export const maxDuration = 30;
 
+function classifyIntent(question: string): string {
+  const q = question.toLowerCase();
+  if (q.match(/(?:giá|bao nhiêu|chi phí|price|cost)/)) return "price_inquiry";
+  if (q.match(/(?:đơn hàng|order|giao hàng|ship|vận chuyển|theo dõi)/))
+    return "order_inquiry";
+  if (q.match(/(?:tìm|search|kiếm|mua|sản phẩm|product|quần|áo|giày|túi)/))
+    return "product_search";
+  if (q.match(/(?:tài khoản|account|đăng ký|đăng nhập|login|register|mật khẩu)/))
+    return "account_support";
+  if (q.match(/(?:thanh toán|payment|stripe|cod|thẻ)/))
+    return "payment_inquiry";
+  if (q.match(/(?:đổi|trả|hoàn|refund|return|khiếu nại)/))
+    return "return_refund";
+  return "general";
+}
+
 export async function POST(req: Request) {
   try {
-    const { prompt, messages } = await req.json();
+    const { prompt, messages, sessionId } = await req.json();
     const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
-    // The user's sample uses 'prompt' but messages array is standard for streamText
-    // We'll use messages if available, otherwise fallback to prompt
     const chatMessages = messages || [
       {
         role: "user",
@@ -90,9 +104,30 @@ Luôn xưng mình là **KDS**.
       ],
     });
 
+    // Save chat log (fire-and-forget)
+    const lastUserMessage =
+      chatMessages.filter((m: { role: string }) => m.role === "user").pop()
+        ?.content || prompt || "";
+    const intent = classifyIntent(lastUserMessage);
+
+    const adminSupabase = await createAdminClient();
+    adminSupabase
+      .from("ai_chat_logs")
+      .insert({
+        session_id: sessionId || "unknown",
+        user_id: user?.id || null,
+        question: lastUserMessage,
+        answer: text,
+        intent,
+      })
+      .then(({ error }) => {
+        if (error) console.error("Failed to save chat log:", error);
+      });
+
     return Response.json({ text });
   } catch (error) {
     console.error("Lỗi trong API route:", error);
     return Response.json({ error: "Đã xảy ra lỗi server" }, { status: 500 });
   }
 }
+
