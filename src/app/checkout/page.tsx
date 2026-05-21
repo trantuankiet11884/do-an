@@ -72,6 +72,10 @@ function CheckoutContent() {
   const [mounted, setMounted] = useState(false);
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
+  const [voucherCode, setVoucherCode] = useState("");
+  const [appliedVoucher, setAppliedVoucher] = useState<any>(null);
+  const [voucherError, setVoucherError] = useState("");
+  const [applyingVoucher, setApplyingVoucher] = useState(false);
   const isLoading = authLoading || cartLoading;
 
   const [formData, setFormData] = useState({
@@ -144,6 +148,31 @@ function CheckoutContent() {
     );
   }
 
+  const handleApplyVoucher = async () => {
+    if (!voucherCode.trim()) {
+      setVoucherError("Vui lòng nhập mã giảm giá");
+      return;
+    }
+    setApplyingVoucher(true);
+    setVoucherError("");
+    try {
+      const res = await fetch("/api/vouchers/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: voucherCode, orderTotal: total }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Mã không hợp lệ");
+      setAppliedVoucher(data.voucher);
+      toast.success("Áp dụng mã giảm giá thành công");
+    } catch (error: any) {
+      setVoucherError(error.message);
+      setAppliedVoucher(null);
+    } finally {
+      setApplyingVoucher(false);
+    }
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -174,6 +203,8 @@ Số điện thoại: ${formData.phone}
           totalPrice: total,
           updateUserAddress: true,
           paymentMethod,
+          voucherCode: appliedVoucher?.code,
+          discountAmount: appliedVoucher?.discountAmount,
         }),
       });
 
@@ -591,6 +622,56 @@ Số điện thoại: ${formData.phone}
 
                   <Separator className="bg-gray-200" />
 
+                  {/* Voucher Input */}
+                  <div className="space-y-2">
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Nhập mã giảm giá"
+                        value={voucherCode}
+                        onChange={(e) => setVoucherCode(e.target.value)}
+                        className="h-9 sm:h-10 text-xs sm:text-sm"
+                        disabled={!!appliedVoucher || applyingVoucher}
+                      />
+                      {appliedVoucher ? (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="h-9 sm:h-10 px-3 shrink-0 text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600"
+                          onClick={() => {
+                            setAppliedVoucher(null);
+                            setVoucherCode("");
+                          }}>
+                          Hủy
+                        </Button>
+                      ) : (
+                        <Button
+                          type="button"
+                          className="h-9 sm:h-10 px-3 shrink-0 bg-[#f73a00] hover:bg-[#f73a00]/90 text-white"
+                          onClick={handleApplyVoucher}
+                          disabled={!voucherCode.trim() || applyingVoucher}>
+                          {applyingVoucher ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            "Áp dụng"
+                          )}
+                        </Button>
+                      )}
+                    </div>
+                    {voucherError && (
+                      <p className="text-xs text-red-500 font-medium">
+                        {voucherError}
+                      </p>
+                    )}
+                    {appliedVoucher && (
+                      <p className="text-xs text-green-600 font-medium flex items-center gap-1">
+                        <CheckCircle className="w-3 h-3" />
+                        Đã áp dụng mã {appliedVoucher.code}
+                      </p>
+                    )}
+                  </div>
+
+                  <Separator className="bg-gray-200" />
+
                   {/* Price Breakdown */}
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs sm:text-sm">
@@ -599,28 +680,43 @@ Số điện thoại: ${formData.phone}
                         {total.toLocaleString("vi-VN")}
                       </span>
                     </div>
-                    <div className="flex justify-between text-xs sm:text-sm">
-                      <span className="text-gray-600">Giao hàng</span>
-                      <div className="text-right">
-                        <span className="font-medium text-green-600">
-                          Miễn phí
+                    {appliedVoucher && (
+                      <div className="flex justify-between text-xs sm:text-sm text-green-600 font-medium">
+                        <span>Giảm giá</span>
+                        <span>
+                          -
+                          {appliedVoucher.discountAmount.toLocaleString(
+                            "vi-VN",
+                          )}
                         </span>
-                        <p className="text-[10px] sm:text-xs text-gray-500">
-                          Trong khu vực
-                        </p>
                       </div>
+                    )}
+                    <div className="flex justify-between text-xs sm:text-sm">
+                      <span className="text-gray-600">Phí giao hàng</span>
+                      <span className="text-gray-500">Miễn phí</span>
                     </div>
-                    <div className="flex justify-between border-t border-gray-200 pt-2 sm:pt-3">
-                      <span className="text-sm sm:text-base font-semibold text-gray-900">
+                  </div>
+
+                  <Separator className="bg-gray-200" />
+
+                  {/* Total */}
+                  <div className="flex justify-between items-end">
+                    <div className="space-y-0.5">
+                      <span className="text-sm font-semibold text-gray-900">
                         Tổng cộng
                       </span>
+                      <p className="text-[10px] text-gray-500">
+                        Đã bao gồm VAT
+                      </p>
+                    </div>
+                    <div className="text-right">
                       <span className="text-lg sm:text-2xl font-bold text-[#f73a00]">
-                        {total.toLocaleString("vi-VN")}
+                        {(total - (appliedVoucher?.discountAmount || 0) > 0
+                          ? total - (appliedVoucher?.discountAmount || 0)
+                          : 0
+                        ).toLocaleString("vi-VN")}
                       </span>
                     </div>
-                    <p className="text-gray-600 text-sm text-right">
-                      Bạn thanh toán: {half.toLocaleString("vi-VN")} (50%)
-                    </p>
                   </div>
 
                   {/* Payment Method Selection */}

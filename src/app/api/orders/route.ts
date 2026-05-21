@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { shippingInfo, totalPrice, updateUserAddress, paymentMethod = 'COD' } = body
+    const { shippingInfo, totalPrice, updateUserAddress, paymentMethod = 'COD', voucherCode, discountAmount } = body
 
     if (!shippingInfo || !totalPrice) {
       return NextResponse.json(
@@ -28,6 +28,43 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = await createAdminClient()
+
+    // Validate and apply voucher if provided
+    let finalPrice = totalPrice
+    let appliedDiscount = 0
+    if (voucherCode) {
+      const { data: voucher } = await supabase
+        .from('vouchers')
+        .select('*')
+        .eq('code', voucherCode.toUpperCase().trim())
+        .eq('is_active', true)
+        .single()
+
+      if (voucher) {
+        const now = new Date()
+        const validDate = new Date(voucher.start_date) <= now && new Date(voucher.end_date) >= now
+        const validUsage = !voucher.usage_limit || voucher.used_count < voucher.usage_limit
+
+        if (validDate && validUsage) {
+          if (voucher.discount_type === 'PERCENT') {
+            appliedDiscount = (totalPrice * parseFloat(voucher.discount_value)) / 100
+            if (voucher.max_discount) {
+              appliedDiscount = Math.min(appliedDiscount, parseFloat(voucher.max_discount))
+            }
+          } else {
+            appliedDiscount = parseFloat(voucher.discount_value)
+          }
+          appliedDiscount = Math.min(appliedDiscount, totalPrice)
+          finalPrice = totalPrice - appliedDiscount
+
+          // Increment used_count
+          await supabase
+            .from('vouchers')
+            .update({ used_count: voucher.used_count + 1, updated_at: new Date().toISOString() })
+            .eq('id', voucher.id)
+        }
+      }
+    }
 
     // Get user's cart items
     const { data: cartItems, error: cartError } = await supabase
@@ -62,18 +99,20 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create order WITHOUT order_number (it will be generated later)
+    // Create order with voucher info
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .insert({
         id: crypto.randomUUID(),
         user_id: user.id,
-        total_price: totalPrice,
+        total_price: finalPrice,
         shipping_info: shippingInfo,
         status: 'PENDING',
         payment_method: paymentMethod,
         payment_status: 'PENDING',
-        order_number: null, // Will be generated when confirmed
+        order_number: null,
+        voucher_code: voucherCode ? voucherCode.toUpperCase().trim() : null,
+        discount_amount: appliedDiscount > 0 ? appliedDiscount : null,
         updated_at: new Date().toISOString(),
       })
       .select()
@@ -83,6 +122,18 @@ export async function POST(request: NextRequest) {
       console.error('Order creation error:', orderError)
       throw orderError
     }
+
+    // Create payment transaction record
+    await supabase
+      .from('payment_transactions')
+      .insert({
+        order_id: order.id,
+        user_id: user.id,
+        amount: finalPrice,
+        payment_method: paymentMethod,
+        payment_status: 'pending',
+        updated_at: new Date().toISOString(),
+      })
 
     // Create order items from cart items – use the price already stored in cart (which is the variant price if applicable)
     const orderItems = cartItems.map((item) => ({

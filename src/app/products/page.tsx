@@ -3,6 +3,7 @@ import ProductCard from "@/components/products/product-card";
 import CategoryMenu from "@/components/products/category-menu";
 import SearchTracker from "@/components/tracking/search-tracker";
 import { Suspense } from "react";
+import { Brain } from "lucide-react";
 
 function getAllDescendantIds(
   categoryId: string,
@@ -95,8 +96,8 @@ export default async function ProductsPage({
     .select(
       `
       *,
-      categories(id, title),
-      product_variants(*),
+      category:categories(title),
+      variants:product_variants(id, color, size, stock, price, sku),
       ratings(*)
     `,
       { count: "exact" },
@@ -109,9 +110,23 @@ export default async function ProductsPage({
     twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
     query = query.gte("created_at", twoWeeksAgo.toISOString());
   }
+  
+  let isSemantic = false;
   if (params.search) {
-    query = query.ilike("title", `%${params.search}%`);
+    // Perform semantic search to get matching product IDs
+    const { findSimilarProducts } = await import("@/lib/ai/embeddings");
+    const semanticResults = await findSimilarProducts(params.search, 20);
+    
+    if (semanticResults && semanticResults.length > 0) {
+      const ids = semanticResults.map((r: any) => r.id);
+      query = query.in("id", ids);
+      isSemantic = true;
+    } else {
+      // Fallback to text search
+      query = query.ilike("title", `%${params.search}%`);
+    }
   }
+  
   if (categoryIdsToFilter.length > 0) {
     query = query.in("category_id", categoryIdsToFilter);
   }
@@ -143,8 +158,16 @@ export default async function ProductsPage({
         <SearchTracker />
       </Suspense>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Sản phẩm của chúng tôi</h1>
-        <p className="text-gray-600">
+        <div className="flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-gray-900">Sản phẩm của chúng tôi</h1>
+          {isSemantic && (
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-sm font-medium border border-purple-200">
+              <Brain className="w-4 h-4" />
+              Gợi ý AI
+            </div>
+          )}
+        </div>
+        <p className="text-gray-600 mt-2">
           Khám phá những sản phẩm tuyệt vời cho mọi nhu cầu
         </p>
       </div>

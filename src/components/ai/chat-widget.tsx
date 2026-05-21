@@ -17,6 +17,8 @@ interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
+  chatLogId?: string;
+  rating?: number;
 }
 
 function getSessionId(): string {
@@ -46,6 +48,21 @@ export function ChatWidget() {
     setInput(e.target.value);
   };
 
+  const handleRating = async (messageId: string, chatLogId: string, rating: number) => {
+    try {
+      setMessages((prev) =>
+        prev.map((m) => (m.id === messageId ? { ...m, rating } : m))
+      );
+      await fetch("/api/chat/rate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chatLogId, rating }),
+      });
+    } catch (error) {
+      console.error("Failed to submit rating:", error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -69,7 +86,7 @@ export function ChatWidget() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: [...messages, userMessage],
+          messages: [...messages, userMessage].map(({ role, content }) => ({ role, content })),
           sessionId: getSessionId(),
         }),
       });
@@ -82,6 +99,7 @@ export function ChatWidget() {
         id: (Date.now() + 1).toString(),
         role: "assistant",
         content: data.text,
+        chatLogId: data.chatLogId,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -124,7 +142,7 @@ export function ChatWidget() {
                 <p>Chào bạn! Tôi có thể giúp gì cho bạn hôm nay?</p>
               </div>
             )}
-            {messages.map((message: any) => (
+            {messages.map((message: Message) => (
               <div
                 key={message.id}
                 className={`flex gap-3 ${
@@ -135,13 +153,27 @@ export function ChatWidget() {
                     <Bot className="w-4 h-4 text-primary" />
                   </div>
                 )}
-                <div
-                  className={`px-4 py-2 rounded-2xl max-w-[80%] whitespace-pre-wrap ${
-                    message.role === "user"
-                      ? "bg-primary text-primary-foreground rounded-tr-sm"
-                      : "bg-background border shadow-sm rounded-tl-sm"
-                  }`}>
-                  {message.content}
+                <div className="flex flex-col gap-1 max-w-[80%]">
+                  <div
+                    className={`px-4 py-2 rounded-2xl whitespace-pre-wrap ${
+                      message.role === "user"
+                        ? "bg-primary text-primary-foreground rounded-tr-sm"
+                        : "bg-background border shadow-sm rounded-tl-sm"
+                    }`}>
+                    {message.content}
+                  </div>
+                  {message.role === "assistant" && message.chatLogId && !message.rating && (
+                    <div className="flex items-center gap-2 mt-1 px-1">
+                      <span className="text-[10px] text-muted-foreground">Đánh giá câu trả lời:</span>
+                      <button onClick={() => handleRating(message.id, message.chatLogId!, 5)} className="text-xs hover:scale-125 transition-transform" title="Tốt">👍</button>
+                      <button onClick={() => handleRating(message.id, message.chatLogId!, 1)} className="text-xs hover:scale-125 transition-transform" title="Kém">👎</button>
+                    </div>
+                  )}
+                  {message.role === "assistant" && message.rating && (
+                    <div className="flex items-center mt-1 px-1">
+                      <span className="text-[10px] text-muted-foreground">Đã đánh giá: {message.rating === 5 ? '👍' : '👎'}</span>
+                    </div>
+                  )}
                 </div>
                 {message.role === "user" && (
                   <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center shrink-0">

@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       .from('orders')
       .update({
         payment_status: 'PAID',
-        status: 'PROCESSING', // Move to processing once paid
+        status: 'PROCESSING',
         updated_at: new Date().toISOString(),
       })
       .eq('id', orderId);
@@ -40,6 +40,17 @@ export async function POST(request: NextRequest) {
       console.error('Error updating order after successful payment:', error);
       return NextResponse.json({ error: 'Failed to update order' }, { status: 500 });
     }
+
+    // Update payment transaction
+    await supabase
+      .from('payment_transactions')
+      .update({
+        payment_status: 'success',
+        stripe_session_id: session.id,
+        transaction_id: session.payment_intent,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('order_id', orderId);
 
     console.log(`Order ${orderId} marked as PAID`);
   }

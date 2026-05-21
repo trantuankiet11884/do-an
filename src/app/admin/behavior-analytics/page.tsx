@@ -1,8 +1,9 @@
 import BehaviorAnalyticsDashboard from "@/components/admin/behavior-analytics-dashboard";
+import AiEvaluationCard from "@/components/admin/ai-evaluation-card";
 
 export default function BehaviorAnalyticsPage() {
   return (
-    <div>
+    <div className="space-y-6">
       <div className="mb-8">
         <h1 className="text-2xl font-semibold text-gray-900">
           Phân tích hành vi người dùng
@@ -12,6 +13,7 @@ export default function BehaviorAnalyticsPage() {
           dùng
         </p>
       </div>
+      <AiEvaluationCard />
       <BehaviorAnalyticsDashboard />
     </div>
   );

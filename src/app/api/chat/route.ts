@@ -11,7 +11,9 @@ function classifyIntent(question: string): string {
     return "order_inquiry";
   if (q.match(/(?:tìm|search|kiếm|mua|sản phẩm|product|quần|áo|giày|túi)/))
     return "product_search";
-  if (q.match(/(?:tài khoản|account|đăng ký|đăng nhập|login|register|mật khẩu)/))
+  if (
+    q.match(/(?:tài khoản|account|đăng ký|đăng nhập|login|register|mật khẩu)/)
+  )
     return "account_support";
   if (q.match(/(?:thanh toán|payment|stripe|cod|thẻ)/))
     return "payment_inquiry";
@@ -35,6 +37,7 @@ export async function POST(req: Request) {
       },
     ];
 
+    const startTime = Date.now();
     const { text } = await generateText({
       model: getChatModel(),
       messages: [
@@ -58,9 +61,6 @@ KDS được xây dựng bằng các công nghệ web hiện đại, đảm bả
 - Sản phẩm giả để trình diễn học thuật  
 - Hệ thống thanh toán mô phỏng  
 - Bộ tính năng đầy đủ cho đào tạo thực tế và các trường hợp sử dụng
-
-📝 KDS © 2025 — Dự án học thuật thực hiện bởi sinh viên **Master 1 Kỹ thuật Phần mềm**, Đại học Béjaïa.  
-Thực hiện trong khuôn khổ môn **"Ứng dụng máy tính có hướng dẫn"**.
 
 ---
 
@@ -103,31 +103,36 @@ Luôn xưng mình là **KDS**.
         ...chatMessages,
       ],
     });
+    const responseTimeMs = Date.now() - startTime;
 
-    // Save chat log (fire-and-forget)
+    // Save chat log with response time (fire-and-forget)
     const lastUserMessage =
       chatMessages.filter((m: { role: string }) => m.role === "user").pop()
-        ?.content || prompt || "";
+        ?.content ||
+      prompt ||
+      "";
     const intent = classifyIntent(lastUserMessage);
+    const chatLogId = crypto.randomUUID();
 
     const adminSupabase = await createAdminClient();
     adminSupabase
       .from("ai_chat_logs")
       .insert({
+        id: chatLogId,
         session_id: sessionId || "unknown",
         user_id: user?.id || null,
         question: lastUserMessage,
         answer: text,
         intent,
+        response_time_ms: responseTimeMs,
       })
       .then(({ error }) => {
         if (error) console.error("Failed to save chat log:", error);
       });
 
-    return Response.json({ text });
+    return Response.json({ text, chatLogId, responseTimeMs });
   } catch (error) {
     console.error("Lỗi trong API route:", error);
     return Response.json({ error: "Đã xảy ra lỗi server" }, { status: 500 });
   }
 }
-

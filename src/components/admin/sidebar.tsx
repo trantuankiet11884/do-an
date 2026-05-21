@@ -15,6 +15,8 @@ import {
   Star,
   Brain,
   X,
+  Ticket,
+  CreditCard,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/context";
 
@@ -28,6 +30,8 @@ const navigation = [
   { name: "Sản phẩm", href: "/admin/products", icon: Package },
   { name: "Đơn hàng", href: "/admin/orders", icon: ShoppingCart },
   { name: "Danh mục", href: "/admin/categories", icon: LayoutGrid },
+  { name: "Mã giảm giá", href: "/admin/vouchers", icon: Ticket },
+  { name: "Giao dịch", href: "/admin/payment-transactions", icon: CreditCard },
   { name: "Người dùng", href: "/admin/users", icon: Users },
   { name: "Phân tích", href: "/admin/analytics", icon: BarChart3 },
   { name: "Phân tích hành vi", href: "/admin/behavior-analytics", icon: Brain },

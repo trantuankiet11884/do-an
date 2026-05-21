@@ -13,6 +13,7 @@ import {
   Eye,
   ShoppingCart,
   Star,
+  Download,
 } from "lucide-react";
 import {
   Chart as ChartJS,
@@ -50,6 +51,19 @@ interface AnalyticsDashboardProps {
 
 export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
   const [timeRange, setTimeRange] = useState("30d");
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExportOrders = async () => {
+    try {
+      setIsExporting(true);
+      const url = `/api/admin/export/orders?format=csv`;
+      window.open(url, "_blank");
+    } catch (error) {
+      console.error("Export error:", error);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   // Helper to get date range based on timeRange
   const getDateRange = (range: string) => {
@@ -311,8 +325,17 @@ export default function AnalyticsDashboard({ data }: AnalyticsDashboardProps) {
 
   return (
     <div className="space-y-6 mb-10">
-      {/* Time Range Selector */}
-      <div className="flex justify-end">
+      {/* Header Actions */}
+      <div className="flex justify-between items-center">
+        <button
+          onClick={handleExportOrders}
+          disabled={isExporting}
+          className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors"
+        >
+          <Download className="w-4 h-4 mr-2" />
+          Xuất báo cáo (CSV)
+        </button>
+
         <div className="inline-flex rounded-lg border border-gray-200 p-1">
           {["7d", "30d", "90d"].map((range) => (
             <button

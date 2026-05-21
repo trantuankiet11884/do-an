@@ -673,3 +673,89 @@ USING (
     SELECT 1 FROM users WHERE id = auth.uid() AND role IN ('ADMIN', 'SUPERADMIN')
   )
 );
+
+-- ============================================
+-- 28. PAYMENT TRANSACTIONS TABLE
+-- ============================================
+CREATE TABLE payment_transactions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  order_id UUID NOT NULL REFERENCES orders(id),
+  user_id UUID NOT NULL REFERENCES users(id),
+  amount DECIMAL(12,2) NOT NULL,
+  payment_method VARCHAR(50) NOT NULL,
+  payment_status VARCHAR(50) NOT NULL DEFAULT 'pending',
+  stripe_session_id VARCHAR(255),
+  transaction_id VARCHAR(255),
+  error_message TEXT,
+  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_payment_tx_order_id ON payment_transactions(order_id);
+CREATE INDEX idx_payment_tx_user_id ON payment_transactions(user_id);
+CREATE INDEX idx_payment_tx_status ON payment_transactions(payment_status);
+
+ALTER TABLE payment_transactions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view own payment transactions"
+ON payment_transactions FOR SELECT
+TO authenticated
+USING (user_id = auth.uid() OR EXISTS (
+  SELECT 1 FROM users WHERE id = auth.uid() AND role IN ('ADMIN', 'SUPERADMIN')
+));
+
+CREATE POLICY "System can insert payment transactions"
+ON payment_transactions FOR INSERT
+TO anon, authenticated
+WITH CHECK (true);
+
+CREATE POLICY "System can update payment transactions"
+ON payment_transactions FOR UPDATE
+TO anon, authenticated
+USING (true);
+
+-- ============================================
+-- 29. VOUCHERS TABLE
+-- ============================================
+CREATE TABLE vouchers (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  code VARCHAR(50) UNIQUE NOT NULL,
+  discount_type VARCHAR(20) NOT NULL,
+  discount_value DECIMAL(12,2) NOT NULL,
+  min_order_value DECIMAL(12,2),
+  max_discount DECIMAL(12,2),
+  usage_limit INT,
+  used_count INT NOT NULL DEFAULT 0,
+  start_date TIMESTAMP WITH TIME ZONE NOT NULL,
+  end_date TIMESTAMP WITH TIME ZONE NOT NULL,
+  is_active BOOLEAN NOT NULL DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE vouchers ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can read active vouchers"
+ON vouchers FOR SELECT
+TO anon, authenticated
+USING (true);
+
+CREATE POLICY "Only admins can manage vouchers"
+ON vouchers FOR ALL
+TO authenticated
+USING (EXISTS (
+  SELECT 1 FROM users WHERE id = auth.uid() AND role IN ('ADMIN', 'SUPERADMIN')
+));
+
+-- ============================================
+-- 30. ALTER ORDERS - Add voucher fields
+-- ============================================
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS voucher_code VARCHAR(50);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS discount_amount DECIMAL(12,2);
+
+-- ============================================
+-- 31. ALTER AI_CHAT_LOGS - Add evaluation fields
+-- ============================================
+ALTER TABLE ai_chat_logs ADD COLUMN IF NOT EXISTS response_time_ms INT;
+ALTER TABLE ai_chat_logs ADD COLUMN IF NOT EXISTS user_rating INT;
+ALTER TABLE ai_chat_logs ADD COLUMN IF NOT EXISTS relevance_score FLOAT;
