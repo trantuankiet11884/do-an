@@ -97,7 +97,7 @@ export default async function ProductsPage({
       `
       *,
       category:categories(title),
-      variants:product_variants(id, color, size, stock, price, sku),
+      variants:product_variants(id, color, size, price),
       ratings(*)
     `,
       { count: "exact" },
@@ -110,13 +110,13 @@ export default async function ProductsPage({
     twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
     query = query.gte("created_at", twoWeeksAgo.toISOString());
   }
-  
+
   let isSemantic = false;
   if (params.search) {
     // Perform semantic search to get matching product IDs
     const { findSimilarProducts } = await import("@/lib/ai/embeddings");
     const semanticResults = await findSimilarProducts(params.search, 20);
-    
+
     if (semanticResults && semanticResults.length > 0) {
       const ids = semanticResults.map((r: any) => r.id);
       query = query.in("id", ids);
@@ -126,7 +126,7 @@ export default async function ProductsPage({
       query = query.ilike("title", `%${params.search}%`);
     }
   }
-  
+
   if (categoryIdsToFilter.length > 0) {
     query = query.in("category_id", categoryIdsToFilter);
   }
@@ -159,7 +159,9 @@ export default async function ProductsPage({
       </Suspense>
       <div className="mb-8">
         <div className="flex items-center gap-3">
-          <h1 className="text-3xl font-bold text-gray-900">Sản phẩm của chúng tôi</h1>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Sản phẩm của chúng tôi
+          </h1>
           {isSemantic && (
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-sm font-medium border border-purple-200">
               <Brain className="w-4 h-4" />
@@ -202,7 +204,9 @@ export default async function ProductsPage({
               </>
             ) : (
               <div className="text-center py-12">
-                <div className="text-gray-500 text-lg">Không tìm thấy sản phẩm</div>
+                <div className="text-gray-500 text-lg">
+                  Không tìm thấy sản phẩm
+                </div>
                 <p className="text-gray-500 mt-2">
                   {params.category || params.search || params.new
                     ? "Hãy thử thay đổi bộ lọc của bạn"
